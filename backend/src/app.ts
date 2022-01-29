@@ -1,7 +1,9 @@
 
 import * as path from "path";
 import express from "express";
-import userRoutes from './routes/user';
+import userRoutes from './routes/user.js';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
 
@@ -13,6 +15,7 @@ app.use((req, res, next) => {
     next();
 });
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 // Demande a node de servir les fichiers react
 app.use(express.static(path.resolve(__dirname, '../../frontend/acence/build')));
 
