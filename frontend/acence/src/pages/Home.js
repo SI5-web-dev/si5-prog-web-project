@@ -1,10 +1,15 @@
+
 import Navigation from "../components/Navigation";
+import Button from 'react-bootstrap/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 function Home(){
     return (
         <div className="Home">
             <Navigation />
             <h1>Trouver une station essence</h1>
-
+            <Button variant="primary">Primary</Button>
+            <FontAwesomeIcon icon={faCoffee} />
             <input placeholder="Dans quelle ville voulez-vous trouver votre station essence ?"/>
             <div>
                 <input type="radio" id="Gazole" name="essence" value="Gazole" checked />
@@ -35,8 +40,6 @@ function Home(){
             
         </div>
 
-        
-       
     )
 }
 
