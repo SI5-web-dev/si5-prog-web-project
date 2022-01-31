@@ -49,7 +49,7 @@ function Home(){
         if(document.getElementById("GPLc").checked){GPLc = true;}
         if(document.getElementById("E85").checked){E85 = true;}
         let request = JSON.stringify({'location':location,'Gazole':Gazole,'SP95E10':SP95E10,'SP98':SP98,'SP95':SP95,'GPLc':GPLc,'E85':E85})
-        console.log(request)
+
         Utils.default.sendRequest('POST','/querys/cheapest',request,createSettings)
 
     }
@@ -108,7 +108,6 @@ function Home(){
             </Form>
             </div>
             <div>
-
                 <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
                 <ToggleButton id="Gazole" value="Gazole">
                     Gazole
@@ -129,7 +128,6 @@ function Home(){
                     E85
                 </ToggleButton>
                 </ToggleButtonGroup>
-     
             </div>
             <div>
                 <Button variant="secondary" className="m-2" id="buttonProximity" onClick={requestProximity} disabled>Rechercher la plus proche</Button>
@@ -139,7 +137,8 @@ function Home(){
                 <div id="researchSettings">
                     <input type="checkbox" id="ouverte" name="ouverte" defaultChecked />
                     <label htmlFor="ouverte">Ouverte</label>
-                    <input type='range' id="prix" min="0" max="10"></input>
+                    <br/>
+                    Prix<br/><input type='range' id="prix" min="0" max="10"></input>
                     <div id="services">
 
                     </div>
