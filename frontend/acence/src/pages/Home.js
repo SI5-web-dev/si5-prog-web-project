@@ -1,6 +1,9 @@
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
 import {Button ,ToggleButton, Form, FormControl} from 'react-bootstrap';
+import {Container, Row} from "reactstrap";
+import Map from "../components/Map";
+import ListEssence from "../components/ListEssence";
 
 function Home(){
 
@@ -47,8 +50,10 @@ function Home(){
     return (
         <div className="Home">
             <div>
+                <Container>
+                <Row className="justify-content-center text-center">
             <h3>Trouver une station essence</h3>
-            <Form >
+            <Form>
                 <FormControl
                     type="search"
                     placeholder="Dans quelle ville voulez-vous trouver votre station essence?"
@@ -60,6 +65,8 @@ function Home(){
                 <Button variant="secondary" className="m-2" onClick={createSettings}>Rechercher la moins chère</Button>
                 </div>
             </Form>
+                    </Row>
+                </Container>
             </div>
             <div>
                 {radiosEssence.map((radio, idx) => (
@@ -87,6 +94,8 @@ function Home(){
 
                     </div>
                 </div>
+        <Map/>
+            <ListEssence/>
         </div>
 
     )
