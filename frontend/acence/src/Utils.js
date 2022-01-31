@@ -12,7 +12,7 @@ class Utils {
      * @param url ex: '/user/login'
      * @param data ex: {'password':'gfdgfqhq', 'mail':'teest@user.com'}
      */
-    static async sendRequestWithToken(methode , url , data , callback) {
+    static async sendRequest(methode , url , data , callback) {
 
         var xhr = new XMLHttpRequest()
         xhr.open(methode, hostname+url, true);
