@@ -2,13 +2,15 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
 import * as Utils from "./../Utils"
 import {Button ,ToggleButton,ToggleButtonGroup, Form, FormControl, ButtonGroup} from 'react-bootstrap';
+import {Container, Row} from "reactstrap";
+import Map from "../components/Map";
+import ListEssence from "../components/ListEssence";
 
 function Home(){
 
     const [checked, setChecked] = useState(false);
     const [value, setValue] = useState();
     const handleChange = (val) => setValue(val);
-    let essencePicked = "";
 
 
 
@@ -94,8 +96,10 @@ function Home(){
     return (
         <div className="Home">
             <div>
+                <Container>
+                <Row className="justify-content-center text-center">
             <h3>Trouver une station essence</h3>
-            <Form >
+            <Form>
                 <FormControl
                     type="search"
                     placeholder="Dans quelle ville voulez-vous trouver votre station essence?"
@@ -106,6 +110,8 @@ function Home(){
                 />
                 
             </Form>
+                    </Row>
+                </Container>
             </div>
             <div>
                 <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
@@ -143,6 +149,8 @@ function Home(){
 
                     </div>
                 </div>
+        <Map/>
+            <ListEssence/>
         </div>
 
     )
