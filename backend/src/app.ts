@@ -1,9 +1,10 @@
-
 import * as path from "path";
 import express from "express";
 import userRoutes from './routes/user.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import mongoose from "mongoose";
+import "dotenv/config";
 
 const app = express();
 
@@ -20,5 +21,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, '../../frontend/acence/build')));
 
 app.use('/user', userRoutes);
+
+// Connexion avec la base de donnée Mongo
+mongoose.connect(`${process.env.DB_CONN_STRING}`)
+    .then(() => console.log('Connexion à MongoDB réussie !'))
+    .catch((err) => console.log('Connexion à MongoDB échouée !' + err));
 
 export default app;
