@@ -1,26 +1,61 @@
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
-import {Button ,ToggleButton, Form, FormControl} from 'react-bootstrap';
+import * as Utils from "./../Utils"
+import {Button ,ToggleButton,ToggleButtonGroup, Form, FormControl, ButtonGroup} from 'react-bootstrap';
 
 function Home(){
 
     const [checked, setChecked] = useState(false);
-    const [radioValue, setRadioValue] = useState('1');
-
-    const radiosEssence = [
-        { name: 'Gazole', value: 'Gazole' },
-        { name: 'SP95-E10', value: 'SP95-E10' },
-        { name: 'SP98', value: 'SP98' },
-        { name: 'SP95', value: 'SP95' },
-        { name: 'GPLc', value: 'GPLc' },
-        { name: 'E85', value: 'E85' },
-      ];
+    const [value, setValue] = useState();
+    const handleChange = (val) => setValue(val);
+    let essencePicked = "";
 
 
 
+    function requestProximity(){
+        let location = document.getElementById("location").value;
+        let Gazole=false;
+        let SP95E10=false;
+        let SP98=false;
+        let SP95=false;
+        let GPLc=false;
+        let E85=false;
 
+        if(document.getElementById("Gazole").checked){Gazole = true;}
+        if(document.getElementById("SP95-E10").checked){SP95E10 = true;}
+        if(document.getElementById("SP98").checked){SP98 = true;}
+        if(document.getElementById("SP95").checked){SP95 = true;}
+        if(document.getElementById("GPLc").checked){GPLc = true;}
+        if(document.getElementById("E85").checked){E85 = true;}
+        let request = JSON.stringify({'location':location,'Gazole':Gazole,'SP95E10':SP95E10,'SP98':SP98,'SP95':SP95,'GPLc':GPLc,'E85':E85})
+        console.log(request)
+        Utils.default.sendRequest('POST','/querys/proximity',request,createSettings)
 
-    function createSettings(){
+    }
+
+    function requestCheapest(){
+        let location = document.getElementById("location").value;
+        let Gazole=false;
+        let SP95E10=false;
+        let SP98=false;
+        let SP95=false;
+        let GPLc=false;
+        let E85=false;
+
+        if(document.getElementById("Gazole").checked){Gazole = true;}
+        if(document.getElementById("SP95-E10").checked){SP95E10 = true;}
+        if(document.getElementById("SP98").checked){SP98 = true;}
+        if(document.getElementById("SP95").checked){SP95 = true;}
+        if(document.getElementById("GPLc").checked){GPLc = true;}
+        if(document.getElementById("E85").checked){E85 = true;}
+        let request = JSON.stringify({'location':location,'Gazole':Gazole,'SP95E10':SP95E10,'SP98':SP98,'SP95':SP95,'GPLc':GPLc,'E85':E85})
+        console.log(request)
+        Utils.default.sendRequest('POST','/querys/cheapest',request,createSettings)
+
+    }
+
+    function createSettings(response){
+        console.log(response)
         //tranche de prix
         let prix = document.getElementById('prix')
         prix.min = 0;
@@ -43,6 +78,18 @@ function Home(){
         }
     }
 
+    function enableButtons(){
+        if(document.getElementById("location").value!=="" ){
+            document.getElementById('buttonProximity').disabled = false;
+            document.getElementById('buttonProximity').onclick=requestProximity;
+            document.getElementById('buttonCheapest').disabled = false;
+            document.getElementById('buttonCheapest').onclick=requestCheapest;
+        }else{
+            document.getElementById('buttonProximity').disabled = true;
+            document.getElementById('buttonCheapest').disabled = true;
+        }
+    }
+    
 
     return (
         <div className="Home">
@@ -54,29 +101,39 @@ function Home(){
                     placeholder="Dans quelle ville voulez-vous trouver votre station essence?"
                     className="me-2"
                     aria-label="Search"
+                    id="location"
+                    onChange={enableButtons}
                 />
-                <div>
-                <Button variant="secondary" className="m-2" onClick={createSettings}>Rechercher la plus proche</Button>
-                <Button variant="secondary" className="m-2" onClick={createSettings}>Rechercher la moins chère</Button>
-                </div>
+                
             </Form>
             </div>
             <div>
-                {radiosEssence.map((radio, idx) => (
-                    <ToggleButton
-                        key={idx}
-                        id={`radio-${idx}`}
-                        type="radio"
-                        className="m-2"
-                        size="lg"
-                        variant={'secondary' }
-                        name="radio"
-                        value={radio.value}
-                        checked={radioValue === radio.value}
-                        onChange={(e) => setRadioValue(e.currentTarget.value)}>
-                        {radio.name}
-                    </ToggleButton>
-                ))}
+
+                <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
+                <ToggleButton id="Gazole" value="Gazole">
+                    Gazole
+                </ToggleButton>
+                <ToggleButton id="SP95-E10" value="SP95-E10">
+                    SP95-E10
+                </ToggleButton>
+                <ToggleButton id="SP98" value="SP98">
+                    SP98
+                </ToggleButton>
+                <ToggleButton id="SP95" value="SP95">
+                    SP95
+                </ToggleButton>
+                <ToggleButton id="GPLc" value="GPLc">
+                    GPLc
+                </ToggleButton>
+                <ToggleButton id="E85" value="E85">
+                    E85
+                </ToggleButton>
+                </ToggleButtonGroup>
+     
+            </div>
+            <div>
+                <Button variant="secondary" className="m-2" id="buttonProximity" onClick={requestProximity} disabled>Rechercher la plus proche</Button>
+                <Button variant="secondary" className="m-2" id="buttonCheapest" onClick={requestCheapest} disabled>Rechercher la moins chère</Button>
             </div>
 
                 <div id="researchSettings">

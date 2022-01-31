@@ -1,6 +1,7 @@
 
 import * as path from "path";
 import express from "express";
+import querysRoutes from './routes/querys.js';
 import userRoutes from './routes/user.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -20,5 +21,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, '../../frontend/acence/build')));
 
 app.use('/user', userRoutes);
+
+app.use('/querys', querysRoutes);
 
 export default app;

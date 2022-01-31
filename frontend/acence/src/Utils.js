@@ -15,6 +15,7 @@ class Utils {
     static async sendRequest(methode , url , data , callback) {
 
         var xhr = new XMLHttpRequest()
+        console.log(hostname+url)
         xhr.open(methode, hostname+url, true);
         xhr.setRequestHeader("Content-Type", "application/json");
       
