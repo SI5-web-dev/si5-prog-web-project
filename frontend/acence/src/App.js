@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -7,10 +8,13 @@ import {
 } from "react-router-dom";
 
 import Home from "./pages/Home";
+import Navigation from "./components/Navigation";
 
 function App() {
   return (
+
     <Router>
+      <Navigation />
       {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
       <Routes>
