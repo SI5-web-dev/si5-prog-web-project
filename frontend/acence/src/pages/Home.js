@@ -91,7 +91,7 @@ function Home(){
             document.getElementById('buttonCheapest').disabled = true;
         }
     }
-    
+
 
     return (
         <div className="Home">
@@ -108,38 +108,37 @@ function Home(){
                     id="location"
                     onChange={enableButtons}
                 />
-                
+
             </Form>
+                    <div>
+                        <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
+                            <ToggleButton id="Gazole" value="Gazole">
+                                Gazole
+                            </ToggleButton>
+                            <ToggleButton id="SP95-E10" value="SP95-E10">
+                                SP95-E10
+                            </ToggleButton>
+                            <ToggleButton id="SP98" value="SP98">
+                                SP98
+                            </ToggleButton>
+                            <ToggleButton id="SP95" value="SP95">
+                                SP95
+                            </ToggleButton>
+                            <ToggleButton id="GPLc" value="GPLc">
+                                GPLc
+                            </ToggleButton>
+                            <ToggleButton id="E85" value="E85">
+                                E85
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </div>
+                    <div>
+                        <Button variant="secondary" className="m-2" id="buttonProximity" onClick={requestProximity} disabled>Rechercher la plus proche</Button>
+                        <Button variant="secondary" className="m-2" id="buttonCheapest" onClick={requestCheapest} disabled>Rechercher la moins chère</Button>
+                    </div>
                     </Row>
                 </Container>
             </div>
-            <div>
-                <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
-                <ToggleButton id="Gazole" value="Gazole">
-                    Gazole
-                </ToggleButton>
-                <ToggleButton id="SP95-E10" value="SP95-E10">
-                    SP95-E10
-                </ToggleButton>
-                <ToggleButton id="SP98" value="SP98">
-                    SP98
-                </ToggleButton>
-                <ToggleButton id="SP95" value="SP95">
-                    SP95
-                </ToggleButton>
-                <ToggleButton id="GPLc" value="GPLc">
-                    GPLc
-                </ToggleButton>
-                <ToggleButton id="E85" value="E85">
-                    E85
-                </ToggleButton>
-                </ToggleButtonGroup>
-            </div>
-            <div>
-                <Button variant="secondary" className="m-2" id="buttonProximity" onClick={requestProximity} disabled>Rechercher la plus proche</Button>
-                <Button variant="secondary" className="m-2" id="buttonCheapest" onClick={requestCheapest} disabled>Rechercher la moins chère</Button>
-            </div>
-
                 <div id="researchSettings">
                     <input type="checkbox" id="ouverte" name="ouverte" defaultChecked />
                     <label htmlFor="ouverte">Ouverte</label>

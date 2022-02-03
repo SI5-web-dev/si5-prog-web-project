@@ -27,9 +27,12 @@ const Navigation = () => {
 
 
     return (
-            <Navbar bg="dark" variant="dark">
+            <Navbar bg="dark" variant="dark" expand="lg">
                     <Navbar.Brand href="/" className="m-1">ACEnce.com</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
                     <Tab/>
+                </Navbar.Collapse>
             </Navbar>
     );
 };
