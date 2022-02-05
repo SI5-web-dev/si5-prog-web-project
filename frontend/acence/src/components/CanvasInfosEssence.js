@@ -1,7 +1,7 @@
 import {Offcanvas} from "react-bootstrap";
 import React, { useImperativeHandle, useState} from "react";
 
-import "../styles/CanvasInfosEssence.css"
+import "../styles/components/_canvasInfosEssence.scss"
 
 
 const CanvasInfosEssence = React.forwardRef((props, ref) => {

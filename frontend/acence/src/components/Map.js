@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import '../styles/pages/_Map.css';
+import '../styles/components/_map.scss';
 import 'leaflet/dist/leaflet.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -14,7 +14,7 @@ const Map = () => {
     const position = [43.6961, 7.27178]
 
     return (
-        <MapContainer id="map" center={position} zoom={13} scrollWheelZoom={false}>
+        <MapContainer id="map" className='map' center={position} zoom={13} scrollWheelZoom={false}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

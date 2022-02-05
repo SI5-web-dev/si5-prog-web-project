@@ -1,3 +1,10 @@
 @import "./settings";
 @import "./pages/home";
+@import "./pages/signup";
+@import "./pages/login";
 @import "./pages/NotFoundPage";
+
+@import "./components/listEssence";
+@import "./components/map";
+@import "./components/navigation";
+@import "./components/canvasInfosEssence";

@@ -41,35 +41,37 @@ function NotFoundPage() {
     window.onload = animate ;
 
     return (
-        <div id="container404">
-            <h1 id="first-four">4</h1>
-            <div id="cog-wheel1">
-                <div id="cog1">
-                    <div id="top"></div>
-                    <div id="down"></div>
-                    <div id="left-top"></div>
-                    <div id="left-down"></div>
-                    <div id="right-top"></div>
-                    <div id="right-down"></div>
-                    <div id="left"></div>
-                    <div id="right"></div>
+        <div className="notFoundPage">
+            <div id="container404">
+                <h1 id="first-four">4</h1>
+                <div id="cog-wheel1">
+                    <div id="cog1">
+                        <div id="top"></div>
+                        <div id="down"></div>
+                        <div id="left-top"></div>
+                        <div id="left-down"></div>
+                        <div id="right-top"></div>
+                        <div id="right-down"></div>
+                        <div id="left"></div>
+                        <div id="right"></div>
+                    </div>
                 </div>
-            </div>
 
-            <div id="cog-wheel2">
-                <div id="cog2">
-                    <div id="top"></div>
-                    <div id="down"></div>
-                    <div id="left-top"></div>
-                    <div id="left-down"></div>
-                    <div id="right-top"></div>
-                    <div id="right-down"></div>
-                    <div id="left"></div>
-                    <div id="right"></div>
+                <div id="cog-wheel2">
+                    <div id="cog2">
+                        <div id="top"></div>
+                        <div id="down"></div>
+                        <div id="left-top"></div>
+                        <div id="left-down"></div>
+                        <div id="right-top"></div>
+                        <div id="right-down"></div>
+                        <div id="left"></div>
+                        <div id="right"></div>
+                    </div>
                 </div>
+                <h1 id="second-four">4</h1>
+                <p id="wrong-para">Uh Oh! Page non trouvée!</p>
             </div>
-            <h1 id="second-four">4</h1>
-            <p id="wrong-para">Uh Oh! Page non trouvée!</p>
         </div>
     )
 }

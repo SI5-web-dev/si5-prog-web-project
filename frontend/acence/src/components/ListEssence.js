@@ -17,7 +17,7 @@ const ListEssence = () => {
     }
 
     return (
-        <>
+        <div className="listEssence">
         <Table responsive="sm">
         <tbody>
         <tr>
@@ -111,7 +111,7 @@ const ListEssence = () => {
         </tbody>
         </Table>
             <CanvasInfosEssence ref={childRef} nameStation={nameStation}/>
-        </>
+        </div>
     );
 };
 
