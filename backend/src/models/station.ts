@@ -9,9 +9,9 @@ const stationSchema = new mongoose.Schema({
     "@cp" : {type: Number , required :true},
     "@pop" : {type : String ,required:true},
     "@adresse" : {type : String ,required:true},
-    "@ville" : {type : String ,required:true},
+    "ville" : {type : String ,required:true},
     "horaires" : {type: Object , required:true},
-    "services" : {type: Object , required:true},
+    "services" : {type: {service:Array} , required:true},
     "prix" : {type: Array , required:true},
 
 });
