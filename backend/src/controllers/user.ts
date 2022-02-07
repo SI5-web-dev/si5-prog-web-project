@@ -62,7 +62,7 @@ export const login : RequestHandler = async (req : Request, res : Response, next
             res.send({ "message":  "Nom d'utilisateur ou mot de passe incorrect !"});
             return
         }
-        res.send({ "message":  "Vous êtes connecté !"});
+        res.send({ "message":  "Vous êtes connecté !", 'uid':user._id});
         return
     }
     catch (err) {

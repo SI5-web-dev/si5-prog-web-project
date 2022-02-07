@@ -5,7 +5,7 @@ const Navigation = () => {
         return <Nav className="me-auto">
             <Nav.Link href="/">Accueil</Nav.Link>
             <Nav.Link href="/favoris">Favoris</Nav.Link>
-            <Nav.Link href="/">Deconnexion</Nav.Link>
+            <Nav.Link onClick={deleteToken} href="/">Deconnexion</Nav.Link>
         </Nav>
       }
 
@@ -18,12 +18,17 @@ const Navigation = () => {
     }
 
     function Tab() {
-        if(localStorage.getItem("xsrfToken") && localStorage.getItem("accessTokenExpires") && localStorage.getItem("refreshTokenExpires")){
+        if(localStorage.getItem("token")){
           return <UserNav />;
         }
         return <GuestNav />;
     }
 
+    function deleteToken(){
+        localStorage.removeItem("token");
+        
+        window.location.href = "/";
+    }
 
 
     return (

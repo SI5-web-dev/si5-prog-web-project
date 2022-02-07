@@ -25,6 +25,7 @@ const Login = () => {
     function callbackLogIn(response){
         let res = JSON.parse(response).message
         if(res==="Vous êtes connecté !"){
+            localStorage.setItem("token",JSON.parse(response).uid);
             alert(res);
             window.location="/"
         }else{
