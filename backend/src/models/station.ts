@@ -8,7 +8,7 @@ const stationSchema = new mongoose.Schema({
     "@longitude" : {type: Number , required :true},
     "@cp" : {type: Number , required :true},
     "@pop" : {type : String ,required:true},
-    "@adresse" : {type : String ,required:true},
+    "adresse" : {type : String ,required:true},
     "ville" : {type : String ,required:true},
     "horaires" : {type: Object , required:true},
     "services" : {type: {service:Array} , required:true},
