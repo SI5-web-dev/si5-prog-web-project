@@ -34,9 +34,10 @@ export const proximity : RequestHandler = async (req : Request, res : Response, 
             
         });
         console.log(list)
+        
     });
     
-    res.send("ok");
+    res.send({"list":list});
     
 }
 

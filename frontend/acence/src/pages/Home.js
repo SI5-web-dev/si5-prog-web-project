@@ -10,8 +10,8 @@ function Home(){
 
     const [checked, setChecked] = useState(false);
     const [value, setValue] = useState();
+    const [listPoint, setListPoint] = useState([]);
     const handleChange = (val) => setValue(val);
-
 
 
     function requestProximity(){
@@ -57,7 +57,12 @@ function Home(){
     }
 
     function createSettings(response){
-        console.log(response)
+        response = JSON.parse(response).list
+        let listPoints = []
+        response.forEach(station => {
+            listPoints.push([parseFloat(station["@latitude"])/100000,parseFloat(station["@longitude"])/100000])
+        });
+        setListPoint(listPoints);
         //tranche de prix
         let prix = document.getElementById('prix')
         prix.min = 0;
@@ -148,7 +153,7 @@ function Home(){
 
                     </div>
                 </div>
-        <Map/>
+        <Map list={listPoint}/>
             <ListEssence/>
         </div>
 
