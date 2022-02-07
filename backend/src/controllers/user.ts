@@ -8,15 +8,18 @@ export const signup : RequestHandler = async (req : Request, res : Response, nex
     try {
         if (!req.body.email || !req.body.password || !req.body.name || !req.body.surname) {
             res.send({ "message": "Il manque des informations.."});
+            return
             
         }
 
         if (!checkMailAvailable(req.body.email)) {
             res.send({ "message":  "Veuillez entrer une adresse mail valide."});
+            return
         }
 
         if (!checkPassword(req.body.password)) {
             res.send({ "message": "Le mot de passe n'est pas assez complexe."});
+            return
         }
 
 
@@ -33,10 +36,12 @@ export const signup : RequestHandler = async (req : Request, res : Response, nex
             //let jwtTokenEmailVerify = jwt.sign({ email: req.body.email }, `${process.env.TOKEN_SECRET}`);
 
             res.send({ "message": "Votre compte a bien été créé !" });
+            return
         })
         .catch(() => {
             console.log("pas bon")
             res.send({"message" : "Cette adresse e-mail est déjà utilisée."})
+            return
         });
     }
     catch (err) {
@@ -50,12 +55,15 @@ export const login : RequestHandler = async (req : Request, res : Response, next
         const user : any = await User.findOne({ email: req.body.email }).lean();
         if (!user) {
             res.send({ "message":  "Nom d'utilisateur ou mot de passe incorrect !"});
+            return
         }
 
         if (!(user.password === req.body.password)) {
             res.send({ "message":  "Nom d'utilisateur ou mot de passe incorrect !"});
+            return
         }
         res.send({ "message":  "Vous êtes connecté !"});
+        return
     }
     catch (err) {
         next(err);

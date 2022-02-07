@@ -19,7 +19,7 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
     }));
 
     return (
-        <div id="canvasInfos">
+        <div className="canvasInfos">
             <Offcanvas show={show} onHide={handleClose} placement="bottom">
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>{props.nameStation}</Offcanvas.Title>
