@@ -45,7 +45,6 @@ const Login = () => {
                 <input type="password" id="mdp" className="ph" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"></input>
             </div> 
             <button className="signin" onClick={login}>Log in</button>
-            <span className="msg" id="msg"></span>
             <div className="or">Or</div>
             <NavLink to="/signup"><button className="signup">Sign up</button></NavLink>
             </div>
