@@ -140,7 +140,6 @@ function Home(){
                 </Container>
             </div>
                 <div className="researchSettings"id="researchSettings">
-                    
                     <input type="checkbox" id="ouverte" name="ouverte" defaultChecked />
                     <label htmlFor="ouverte">Ouverte</label>
                     <br/>
