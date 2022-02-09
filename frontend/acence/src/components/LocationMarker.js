@@ -34,7 +34,7 @@ function LocationMarker() {
     return position === null ? null : (
         <Marker position={position} icon={defaultIcon}>
             <Popup>
-                You are here. <br />
+                Vous êtes ici. <br />
                 Map bbox: <br />
                 <b>Southwest lng</b>: {bbox[0]} <br />
                 <b>Southwest lat</b>: {bbox[1]} <br />

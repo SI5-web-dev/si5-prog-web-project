@@ -1,23 +1,25 @@
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import React, { useState } from 'react';
+import ReactDOMServer from 'react-dom/server';
 import '../styles/components/_map.scss';
 import 'leaflet/dist/leaflet.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import * as L from "leaflet";
-import LocationMarker from './LocationMarker';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import LocationMarker from './LocationMarker'; 
 
 
 const Map = (props) => {
   console.log("mapppp :", props);
   let defaultIcon = L.icon({
-    iconUrl: icon,
-    shadowUrl: iconShadow,
+    iconUrl: require("../assets/gas-station.png"),
     iconAnchor: [25, 41],
-    popupAnchor: [-12, -35]
+    popupAnchor: [-12, -35],
+    iconSize: new L.Point(25, 25)
   });
 
-  const position = [43.6961, 7.27178]
+  const position = [43.6961, 7.27178];
 
   function PutMarkers() {
     let services = [];
@@ -45,7 +47,7 @@ const Map = (props) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <LocationMarker/>
+      <LocationMarker />
       <PutMarkers />
     </MapContainer>
   );
