@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import * as L from "leaflet";
+import LocationMarker from './LocationMarker';
 
 
 const Map = (props) => {
@@ -39,11 +40,12 @@ const Map = (props) => {
   }
 
   return (
-    <MapContainer id="map" className='map' center={position} zoom={13} scrollWheelZoom={false}>
+    <MapContainer id="map" className='map' center={position} zoom={13} scrollWheelZoom={true}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <LocationMarker/>
       <PutMarkers />
     </MapContainer>
   );
