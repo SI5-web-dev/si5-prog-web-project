@@ -64,7 +64,7 @@ function Home() {
             const adresse = station["adresse"];
             const ville = station["ville"];
             const codePostal = station["@cp"];
-            const services = station["services"];
+            const services = station["services"] || {service : ["Aucun service"]};
             const horaires = station["horaires"];
             listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires]);
         });
