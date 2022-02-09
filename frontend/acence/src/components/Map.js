@@ -1,4 +1,5 @@
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+import React, { useState } from 'react';
 import '../styles/components/_map.scss';
 import 'leaflet/dist/leaflet.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -7,44 +8,45 @@ import * as L from "leaflet";
 
 
 const Map = (props) => {
-    let defaultIcon = L.icon({
-        iconUrl: icon,
-        shadowUrl: iconShadow,
-        iconAnchor:   [22, 94]
-    });
-    
-    const position = [43.6961, 7.27178]
-    let map = document.getElementById("map");
-    /*
-    props.list.forEach(element => {
-        const MyPopupMarker =({ element }) => (
-            <Marker position={element}>
-             <Popup>{"bla"}</Popup>
-            </Marker>
-           )
-        let marker = new Marker();
-        marker.position = element;
-        marker.icon = defaultIcon;
-        let popup = document.createElement("Popup");
-        popup.innerHTML = "c'est un putain de point";
-        marker.appendChild(popup)
-        map.appendChild(MyPopupMarker);
-    });*/
-        
-    
+  console.log("mapppp :", props);
+  let defaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow,
+    iconAnchor: [25, 41],
+    popupAnchor: [-12, -35]
+  });
+
+  const position = [43.6961, 7.27178]
+
+  function PutMarkers() {
+    let services = [];
     return (
-        <MapContainer id="map" className='map' center={position} zoom={13} scrollWheelZoom={false}>
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker position={position} icon={defaultIcon}>
-                <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
-                </Popup>
-            </Marker>
-        </MapContainer>
-    );
+      props.list.map(station =>
+        <Marker position={[station[0], station[1]]} icon={defaultIcon} key={Math.random().toString(36).substring(2, 11)}>
+          {services = []}
+          {Array.prototype.forEach.call(station[5].service, service => {
+            services.push(service);
+          })}
+
+          <Popup maxHeight="170">
+            {station[2] + " " + station[3] + " " + station[4]}
+            {<div>Services :</div>}
+            <ul> {services.map(service => <li key={Math.random().toString(36).substring(2, 11)}>{service}</li>)} </ul>
+          </Popup>
+        </Marker>
+      )
+    )
+  }
+
+  return (
+    <MapContainer id="map" className='map' center={position} zoom={13} scrollWheelZoom={false}>
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <PutMarkers />
+    </MapContainer>
+  );
 };
 
 export default Map;

@@ -38,20 +38,20 @@ mongoose.connect(`${process.env.DB_CONN_STRING}`)
 console.log("test")
 
 
-https.get('https://donnees.roulez-eco.fr/opendata/instantane', function(response) {
-    response.on('data', function(data) {
-        fs.appendFileSync('./test.zip', data);
-    });
-    response.on('end', async function() {
-        console.log('hello');
-         var inStream = fs.createReadStream("test.zip");
-         var outStream = fs.createWriteStream("input.txt");
-         var unzip = zlib.createGunzip();
-
-         //inStream.pipe(unzip).pipe(outStream);
-
-        //fs.createReadStream('test.zip').pipe(unzip.Extract({ path: '.' }));
-    });
-});
+// https.get('https://donnees.roulez-eco.fr/opendata/instantane', function(response) {
+//     response.on('data', function(data) {
+//         fs.appendFileSync('./test.zip', data);
+//     });
+//     response.on('end', async function() {
+//         console.log('hello');
+//          var inStream = fs.createReadStream("test.zip");
+//          var outStream = fs.createWriteStream("input.txt");
+//          var unzip = zlib.createGunzip();
+//
+//          //inStream.pipe(unzip).pipe(outStream);
+//
+//         //fs.createReadStream('test.zip').pipe(unzip.Extract({ path: '.' }));
+//     });
+// });
 
 export default app;
