@@ -4,6 +4,12 @@ import * as unzipper from "unzipper";
 
     export function loadEssenceStations ()
 {
+    if(fs.existsSync("./stations.xml")){
+        fs.unlinkSync("./stations.xml")
+    }
+    if(fs.existsSync("./stations.zip")){
+        fs.unlinkSync("./stations.zip")
+    }
     https.get('https://donnees.roulez-eco.fr/opendata/instantane', function (response) {
         response.on('data', function (data) {
             fs.appendFileSync('./stations.zip', data);
@@ -34,7 +40,8 @@ import * as unzipper from "unzipper";
     });
 }
 
-    export function updateEssenceStationsAutomatically () {
-        setTimeout(loadEssenceStations, 900000); //every 15minutes
+    export function loadAndUpdateEssenceStationsAutomatically () {
+        loadEssenceStations();
+        setTimeout(loadAndUpdateEssenceStationsAutomatically, 900000); //every 15minutes
 }
 

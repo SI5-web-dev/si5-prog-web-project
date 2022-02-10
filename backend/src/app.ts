@@ -6,7 +6,9 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from "mongoose";
 import "dotenv/config";
-import {loadEssenceStations, updateEssenceStationsAutomatically} from "./loadStations.js";
+import {
+    loadAndUpdateEssenceStationsAutomatically
+} from "./loadStations.js";
 
 
 const app = express();
@@ -35,8 +37,7 @@ mongoose.connect(`${process.env.DB_CONN_STRING}`)
     .catch((err) => console.log('Connexion à MongoDB échouée !' + err));
 
 
-loadEssenceStations();
-updateEssenceStationsAutomatically();
+loadAndUpdateEssenceStationsAutomatically();
 
 
 export default app;
