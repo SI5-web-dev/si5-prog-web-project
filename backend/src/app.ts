@@ -57,9 +57,10 @@ https.get('https://donnees.roulez-eco.fr/opendata/instantane', function(response
                 console.log('[FILE]', fileName, type);
 
                 entry.pipe(fs.createWriteStream('./stations.xml'))
-                    .on('finish', function () { console.log("fichier ./stations.xml pret");});
-
-
+                    .on('finish', function () {
+                        console.log("fichier ./stations.xml pret");
+                        fs.unlinkSync("./stations.zip")
+                    });
             });
     });
 });
