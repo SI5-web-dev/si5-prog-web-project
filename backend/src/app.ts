@@ -8,7 +8,8 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import * as fs from "fs";
 import * as https from "https";
-import * as zlib from "zlib";
+import * as unzipper from 'unzipper';
+
 
 const app = express();
 
@@ -35,23 +36,33 @@ mongoose.connect(`${process.env.DB_CONN_STRING}`)
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch((err) => console.log('Connexion à MongoDB échouée !' + err));
 
-console.log("test")
 
 
 https.get('https://donnees.roulez-eco.fr/opendata/instantane', function(response) {
     response.on('data', function(data) {
-        fs.appendFileSync('./test.zip', data);
+        fs.appendFileSync('./stations.zip', data);
     });
     response.on('end', async function() {
-        console.log('hello');
-         var inStream = fs.createReadStream("test.zip");
-         var outStream = fs.createWriteStream("input.txt");
-         var unzip = zlib.createGunzip();
+        fs.createReadStream('./stations.zip')
+            .pipe(unzipper.Parse())
+            .on('entry', function (entry:any) {
+                var fileName = entry.path;
+                var type = entry.type; // 'Directory' or 'File'
 
-         //inStream.pipe(unzip).pipe(outStream);
+                if (/\/$/.test(fileName)) {
+                    console.log('[DIR]', fileName, type);
+                    return;
+                }
 
-        //fs.createReadStream('test.zip').pipe(unzip.Extract({ path: '.' }));
+                console.log('[FILE]', fileName, type);
+
+                entry.pipe(fs.createWriteStream('./stations.xml'))
+                    .on('finish', function () { console.log("fichier ./stations.xml pret");});
+
+
+            });
     });
 });
+
 
 export default app;
