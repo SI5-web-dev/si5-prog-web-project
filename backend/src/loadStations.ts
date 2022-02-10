@@ -25,6 +25,7 @@ import * as unzipper from "unzipper";
                     entry.pipe(fs.createWriteStream('./stations.xml'))
                         .on('finish', function () {
                             console.log("fichier ./stations.xml pret");
+                            fs.unlinkSync("./stations.zip")
                         });
 
 
