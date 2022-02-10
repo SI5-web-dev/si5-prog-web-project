@@ -6,9 +6,7 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from "mongoose";
 import "dotenv/config";
-import * as fs from "fs";
-import * as https from "https";
-import * as unzipper from 'unzipper';
+import {loadEssenceStations, updateEssenceStationsAutomatically} from "./loadStations.js";
 
 
 const app = express();
@@ -36,33 +34,8 @@ mongoose.connect(`${process.env.DB_CONN_STRING}`)
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch((err) => console.log('Connexion à MongoDB échouée !' + err));
 
-
-
-https.get('https://donnees.roulez-eco.fr/opendata/instantane', function(response) {
-    response.on('data', function(data) {
-        fs.appendFileSync('./stations.zip', data);
-    });
-    response.on('end', async function() {
-        fs.createReadStream('./stations.zip')
-            .pipe(unzipper.Parse())
-            .on('entry', function (entry:any) {
-                var fileName = entry.path;
-                var type = entry.type; // 'Directory' or 'File'
-
-                if (/\/$/.test(fileName)) {
-                    console.log('[DIR]', fileName, type);
-                    return;
-                }
-
-                console.log('[FILE]', fileName, type);
-
-                entry.pipe(fs.createWriteStream('./stations.xml'))
-                    .on('finish', function () { console.log("fichier ./stations.xml pret");});
-
-
-            });
-    });
-});
+loadEssenceStations();
+updateEssenceStationsAutomatically();
 
 
 export default app;
