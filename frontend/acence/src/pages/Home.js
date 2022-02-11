@@ -14,8 +14,8 @@ function Home() {
     const handleChange = (val) => setValue(val);
     let listService = [];
     let servicesOcurrence = [];
-    let stationMap =[];
-    let servicesChecked =[];
+    let stationMap = [];
+    let servicesChecked = [];
 
     function requestProximity() {
         let location = document.getElementById("location").value;
@@ -33,7 +33,7 @@ function Home() {
         if (document.getElementById("GPLc").checked) { GPLc = true; }
         if (document.getElementById("E85").checked) { E85 = true; }
         let request = JSON.stringify({ 'location': location, 'Gazole': Gazole, 'SP95E10': SP95E10, 'SP98': SP98, 'SP95': SP95, 'GPLc': GPLc, 'E85': E85 })
-  
+
         Utils.default.sendRequest('POST', '/querys/proximity', request, createSettings)
 
     }
@@ -61,17 +61,17 @@ function Home() {
     // callback de la requete au serveur
     function createSettings(response) {
         response = JSON.parse(response).list
-        stationMap=response;
+        stationMap = response;
         createServicesList();
         //tranche de prix
         let prix = document.getElementById('prix');
-        
+
         prix.min = 0;
         prix.max = 20;
         prix.value = 10;
         //services
         let services = document.getElementById('services');
-        services.innerHTML="";
+        services.innerHTML = "";
         for (let i = 0; i < listService.length; i++) {
             let service = listService[i];
             let nbOfThis = servicesOcurrence[i];
@@ -83,7 +83,7 @@ function Home() {
             checkbox.name = service;
             checkbox.onchange = getServicesChecked;
             label.htmlFor = service;
-            label.innerHTML = '&nbsp;&nbsp;&nbsp;'+service+' ('+nbOfThis+')';
+            label.innerHTML = '&nbsp;&nbsp;&nbsp;' + service + ' (' + nbOfThis + ')';
             services.appendChild(checkbox)
             services.appendChild(label)
             let br = document.createElement('br');
@@ -96,86 +96,89 @@ function Home() {
     }
 
     // creer la liste de points a afficher sur la map en fonction des services checkés
-    function createListPoint(){
+    function createListPoint() {
         let listPoints = [];
         stationMap.forEach(station => {
-            if("object" === typeof station.services.service){
-                for(let i = 0; i< station.services.service.length;i++){
+            if ("object" === typeof station.services.service) {
+                for (let i = 0; i < station.services.service.length; i++) {
                     let service = station.services.service[i];
-                    if(servicesChecked.includes(service)){
+                    if (servicesChecked.includes(service)) {
                         const latitude = parseFloat(station["@latitude"]) / 100000;
                         const longitude = parseFloat(station["@longitude"]) / 100000;
                         const adresse = station["adresse"];
                         const ville = station["ville"];
                         const codePostal = station["@cp"];
-                        const services = station["services"] || {service : ["Aucun service"]};
+                        const services = station["services"];
                         const horaires = station["horaires"];
                         listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires]);
                         break;
                     }
                 }
-            }else{
-                if(servicesChecked.includes(station.services.service)){
+            } else {
+                if (servicesChecked.includes(station.services.service)) {
                     const latitude = parseFloat(station["@latitude"]) / 100000;
                     const longitude = parseFloat(station["@longitude"]) / 100000;
                     const adresse = station["adresse"];
                     const ville = station["ville"];
                     const codePostal = station["@cp"];
-                    const services = station["services"] || {service : ["Aucun service"]};
+                    const services = station["services"];
                     const horaires = station["horaires"];
                     listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires]);
                 }
-            } 
+            }
         });
         setListPoint(listPoints);
     }
 
     // creer la liste des services et leurs occurences 
-    function createServicesList(){
+    function createServicesList() {
         let services = [];
         listService = [];
         servicesOcurrence = [];
-        stationMap.forEach(station =>{
-            if("object" === typeof station.services.service){
-                station.services.service.forEach(service=>{
+        stationMap.forEach(station => {
+            if (station.services === null) {
+                station.services = { service: ["Aucun service"] } ;
+            }
+            if ("object" === typeof station.services.service) {
+                station.services.service.forEach(service => {
                     services.push(service);
-                    if(!listService.includes(service)){
+                    if (!listService.includes(service)) {
                         listService.push(service)
                         servicesOcurrence.push(0);
                     }
                 })
-            }else{
+            } else {
                 services.push(station.services.service);
-                if(!listService.includes(station.services.service)){
+                if (!listService.includes(station.services.service)) {
                     listService.push(station.services.service)
                     servicesOcurrence.push(0);
                 }
             }
         })
-        services.forEach(service =>{
+        services.forEach(service => {
             servicesOcurrence[listService.indexOf(service)]++;
         })
     }
 
     // recupère la liste des services checkés
-    function getServicesChecked(){
+    function getServicesChecked() {
         servicesChecked = []
-        listService.forEach(service =>{
-            if(document.getElementById(service).checked){
+        listService.forEach(service => {
+            if (document.getElementById(service).checked) {
                 servicesChecked.push(service);
             }
         })
         createListPoint();
     }
-    function checkAll(){
-        listService.forEach(service =>{
+    function checkAll() {
+        listService.forEach(service => {
             document.getElementById(service).checked = true;
         })
         getServicesChecked();
     }
 
-    function unCheckAll(){
-        listService.forEach(service =>{
+    function unCheckAll() {
+        listService.forEach(service => {
             document.getElementById(service).checked = false;
         })
         getServicesChecked();
