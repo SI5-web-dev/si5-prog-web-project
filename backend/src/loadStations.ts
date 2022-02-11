@@ -28,16 +28,17 @@ export function loadEssenceStations() {
                     entry.pipe(fs.createWriteStream(xmlFile))
                         .on('finish', function () {
                             console.log("fichier ./stations.xml prêt");
-                            fs.unlinkSync(zip)
+                            fs.unlinkSync(zip);
+                            xmLToJSON(xmlFile, jsonFile);//jsonFile contient le json à mettre sur MongoDB (une étape préliminaire est d'éliminer pdv
+
+                            fs.unlinkSync(xmlFile);//Suppression du fichier xml car il nous a servie à créer le fichier json et ne sert donc plus à rien
                         });
                 });
         });
-        xmLToJSON(xmlFile , jsonFile);//jsonFile contient le json à mettre sur MongoDB (une étape préliminaire est d'éliminer pdv
     });
 }
 
 export function loadAndUpdateEssenceStationsAutomatically() {
     loadEssenceStations();
-    setTimeout(loadAndUpdateEssenceStationsAutomatically, 900000); //every 15minutes
+    setInterval(loadEssenceStations, 900000);
 }
-

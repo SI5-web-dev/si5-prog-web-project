@@ -4,8 +4,8 @@ import * as util from "util";
 
 let parser = new xml2js.Parser();
 
-function convertXMLToJSON(xmlFile:string, jsonFile:string){
-    fs.readFile(xmlFile, function(err, data) {
+function convertXMLToJSON(xmlFile: string, jsonFile: string) {
+    fs.readFile(xmlFile, function (err, data) {
         parser.parseString(data, function (err: any, result: any) {
             if (err) {
                 throw err;
