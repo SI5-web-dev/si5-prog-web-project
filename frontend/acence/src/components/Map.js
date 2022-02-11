@@ -11,7 +11,6 @@ import LocationMarker from './LocationMarker';
 
 
 const Map = (props) => {
-  console.log("mapppp :", props);
   let defaultIcon = L.icon({
     iconUrl: require("../assets/gas-station.png"),
     iconAnchor: [25, 41],
