@@ -26,12 +26,18 @@ export function loadEssenceStations() {
                     console.log('[FILE]', fileName, type);
 
                     entry.pipe(fs.createWriteStream(xmlFile))
-                        .on('finish', function () {
+                        .on('finish', async function () {
                             console.log("fichier ./stations.xml prêt");
                             fs.unlinkSync(zip);
-                            xmLToJSON(xmlFile, jsonFile);//jsonFile contient le json à mettre sur MongoDB (une étape préliminaire est d'éliminer pdv
+
+                            let json = await xmLToJSON(xmlFile);
+                            if (typeof json === "string") {
+                                json = JSON.parse(json);
+                            }
+                            console.log(typeof json);//object
 
                             fs.unlinkSync(xmlFile);//Suppression du fichier xml car il nous a servie à créer le fichier json et ne sert donc plus à rien
+
                         });
                 });
         });

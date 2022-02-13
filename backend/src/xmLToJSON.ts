@@ -6,7 +6,7 @@ function convertXMLToJSON(xmlFile: string) {
 
         pythonProcess.stdout.on('data', (data) => {
             // Do something with the data returned from python script
-            console.log("bammmmmmmmmmm")
+            //console.log("bammmmmmmmmmm")
             //console.log(data.toString());
             let json = data.toString();
             json = json.slice(22);
