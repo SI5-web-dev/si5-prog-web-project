@@ -1,31 +1,32 @@
-import * as fs from 'fs' ;
-import xml2js from "xml2js";
-import * as util from "util";
-
-let parser = new xml2js.Parser();
+import  {spawn} from "child_process"//.spawn;
 
 function convertXMLToJSON(xmlFile: string) {
     return new Promise((resolve) => {
-        fs.readFile(xmlFile,"utf8", function (err, data) {
-            parser.parseString(data, function (err: any, result: any) {
-                if (err) {
-                    throw err;
-                }
-                console.log('Done');
+        const pythonProcess = spawn('python',["./xml_to_json.py" , xmlFile]);
 
-                let json = util.inspect(result, false, null);
-                console.log(`Type : ${typeof json}`);
+        pythonProcess.stdout.on('data', (data) => {
+            // Do something with the data returned from python script
+            console.log("bammmmmmmmmmm")
+            //console.log(data.toString());
+            let json = data.toString();
+            json = json.slice(22);
+            json = json.slice(0 , json.length - 2 );
+            //console.log("typee : " + typeof json)
+            json = JSON.parse(JSON.stringify(json));
+            //console.log("typooo : "  + typeof json)
+            //fs.createWriteStream("./mido.json").write(json);
 
-                json = json.slice(26);
-                json = json.slice(0 , json.length -6 );
-                json = JSON.parse(JSON.stringify(json));
+            resolve(json);
+        });
 
-                //JSON.stringify(result);
-                //fs.createWriteStream("./ossaZ.json").write(json);
-                //console.log(json);
+        pythonProcess.on('close', (code) => {
+            // Do something with the data returned from python script
+            console.log(`Python script exited with code ${code}`)
+        });
 
-                resolve(json);
-            });
+        pythonProcess.stderr.on('data', (data) => {
+            // Do something with the data returned from python script
+            console.error(`stderr: ${data}`)
         });
     })
 }
