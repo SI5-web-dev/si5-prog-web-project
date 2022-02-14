@@ -36,7 +36,7 @@ export function loadEssenceStations() {
                             }
                             await fs.promises.unlink(xmlFile);
 
-                            try{
+                           /* try{
                                 await Station.deleteMany({});
                                 console.log("Old documents deleted successfully");
                             }
@@ -50,7 +50,7 @@ export function loadEssenceStations() {
                             }
                             catch (error){
                                 console.log(error);
-                            }
+                            }*/
                         });
                 });
         });

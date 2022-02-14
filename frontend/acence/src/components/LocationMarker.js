@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents ,useMap } from 'react-leaflet';
+import { Marker, Popup ,useMap } from 'react-leaflet';
 import React, { useState , useEffect } from 'react';
 import '../styles/components/_map.scss';
 import 'leaflet/dist/leaflet.css';
@@ -14,15 +14,15 @@ let defaultIcon = L.icon({
     shadowUrl: iconShadow
   });
 
-function LocationMarker() {
-    const [position, setPosition] = useState(null);
+function LocationMarker(props) {
     const [bbox, setBbox] = useState([]);
 
     const map = useMap();
 
+
     useEffect(() => {
         map.locate().on("locationfound", function (e) {
-            setPosition(e.latlng);
+            props.setCurrentPosition(e.latlng);
             map.flyTo(e.latlng, map.getZoom());
             // const radius = e.accuracy;
             // const circle = L.circle(e.latlng, radius);
@@ -31,8 +31,8 @@ function LocationMarker() {
         });
     }, [map]);
 
-    return position === null ? null : (
-        <Marker position={position} icon={defaultIcon}>
+    return props.currentPosition === null ? null : (
+        <Marker position={props.currentPosition} icon={defaultIcon}>
             <Popup>
                 Vous êtes ici. <br />
                 Map bbox: <br />
