@@ -42,7 +42,7 @@ const Map = (props) => {
 
   return (
     <div>
-    <h1>{`${props.location} ${props.list.length} stations d'essence trouvées`}</h1>
+    <h3>{ props.location ? `${props.location} ${props.list.length} stations d'essence trouvées` : "Effectuez une recherche pour trouver des stations d'essence" }</h3>
     <MapContainer id="map" className='map' center={position} zoom={13} scrollWheelZoom={true}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
