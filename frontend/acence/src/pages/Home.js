@@ -17,8 +17,11 @@ function Home() {
     let stationMap = [];
     let servicesChecked = [];
 
+    const [location,setLocation] = useState("");
+
     function requestProximity() {
         let location = document.getElementById("location").value;
+        setLocation(location);
         let Gazole = false;
         let SP95E10 = false;
         let SP98 = false;
@@ -40,6 +43,7 @@ function Home() {
 
     function requestCheapest() {
         let location = document.getElementById("location").value;
+        setLocation(location);
         let Gazole = false;
         let SP95E10 = false;
         let SP98 = false;
@@ -254,8 +258,8 @@ function Home() {
 
                 </div>
             </div>
-            <Map list={listPoint} />
-            <ListEssence />
+            <Map list={listPoint} location={location}/>
+            <ListEssence list={listPoint} />
         </div>
 
     )
