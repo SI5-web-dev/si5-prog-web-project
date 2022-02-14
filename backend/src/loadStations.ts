@@ -34,30 +34,7 @@ export function loadEssenceStations() {
                             if (typeof json === "string") {
                                 json = JSON.parse(json);
                             }
-                            //console.log(typeof json);//object
-
-                            //fs.unlinkSync(xmlFile);//Suppression du fichier xml car il nous a servie à créer le fichier json et ne sert donc plus à rien
-                            //console.log(json[0]["@id"])
-                            // for (let i = 0; i < json.length; i++) {
-                            //     const station = new Station({
-                            //         "id" : json[i]["@id"],
-                            //         "@latitude" : json[i]["@latitude"],
-                            //         "@longitude" : json[i]["@longitude"],
-                            //         "@cp" : json[i]["@cp"],
-                            //         "@pop" : json[i]["@pop"],
-                            //         "adresse" : json[i]["adresse"],
-                            //         "ville" : json[i]["ville"],
-                            //         "horaires" : json[i]["horaires"],
-                            //         "services" : json[i]["services"],
-                            //         "prix" : json[i]["prix"],
-                            //     })
-                            //
-                            //     // await station.save();
-                            //     // console.log("insertedddddddddddddddddddddddddd")
-                            //     Station.insertMany(json).then( () => {
-                            //         console.log("Data inserted")
-                            //     })
-                            // }
+                            await fs.promises.unlink(xmlFile);
 
                             try{
                                 await Station.deleteMany({});
