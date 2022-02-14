@@ -2,10 +2,10 @@ import https from "https";
 import fs from "fs";
 import * as unzipper from "unzipper";
 import xmLToJSON from "./xmLToJSON.js";
+import Station from "./models/station.js";
 
 let zip = "./stations.zip";
 let xmlFile = "./stations.xml";
-let jsonFile = "./stations.json";
 
 export function loadEssenceStations() {
     https.get('https://donnees.roulez-eco.fr/opendata/instantane', function (response) {
@@ -30,14 +30,50 @@ export function loadEssenceStations() {
                             console.log("fichier ./stations.xml prêt");
                             fs.unlinkSync(zip);
 
-                            let json = await xmLToJSON(xmlFile);
+                            let json:any = await xmLToJSON(xmlFile);
                             if (typeof json === "string") {
                                 json = JSON.parse(json);
                             }
-                            console.log(typeof json);//object
+                            //console.log(typeof json);//object
 
-                            fs.unlinkSync(xmlFile);//Suppression du fichier xml car il nous a servie à créer le fichier json et ne sert donc plus à rien
+                            //fs.unlinkSync(xmlFile);//Suppression du fichier xml car il nous a servie à créer le fichier json et ne sert donc plus à rien
+                            //console.log(json[0]["@id"])
+                            // for (let i = 0; i < json.length; i++) {
+                            //     const station = new Station({
+                            //         "id" : json[i]["@id"],
+                            //         "@latitude" : json[i]["@latitude"],
+                            //         "@longitude" : json[i]["@longitude"],
+                            //         "@cp" : json[i]["@cp"],
+                            //         "@pop" : json[i]["@pop"],
+                            //         "adresse" : json[i]["adresse"],
+                            //         "ville" : json[i]["ville"],
+                            //         "horaires" : json[i]["horaires"],
+                            //         "services" : json[i]["services"],
+                            //         "prix" : json[i]["prix"],
+                            //     })
+                            //
+                            //     // await station.save();
+                            //     // console.log("insertedddddddddddddddddddddddddd")
+                            //     Station.insertMany(json).then( () => {
+                            //         console.log("Data inserted")
+                            //     })
+                            // }
 
+                            try{
+                                await Station.deleteMany({});
+                                console.log("Old documents deleted successfully");
+                            }
+                            catch (error){
+                                console.log(error);
+                            }
+
+                            try {
+                                await Station.insertMany(json);
+                                console.log("Data inserted");
+                            }
+                            catch (error){
+                                console.log(error);
+                            }
                         });
                 });
         });
