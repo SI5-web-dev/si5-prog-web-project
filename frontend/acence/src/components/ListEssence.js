@@ -20,7 +20,7 @@ const ListEssence = (props) => {
         return (
             props.list.map(station => {
                 return (
-                    <tr>
+                    <tr key={Math.random().toString(36).substring(2, 11)}>
                         <td>{station[2]}</td>
                         <td>{station[3]}</td>
                         <td>{station[4]}</td>
