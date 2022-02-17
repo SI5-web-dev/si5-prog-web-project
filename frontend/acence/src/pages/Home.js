@@ -118,7 +118,8 @@ function Home() {
                         const codePostal = station["@cp"];
                         const services = station["services"];
                         const horaires = station["horaires"];
-                        listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires]);
+                        const prix = station["prix"];
+                        listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix]);
                         break;
                     }
                 }
@@ -131,7 +132,8 @@ function Home() {
                     const codePostal = station["@cp"];
                     const services = station["services"];
                     const horaires = station["horaires"];
-                    listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires]);
+                    const prix = station["prix"];
+                    listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix]);
                 }
             }
         });
