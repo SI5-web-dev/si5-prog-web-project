@@ -4,13 +4,8 @@ import Station from '../models/station.js';
 
 export const proximity : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
     console.log(req.body);
-    if(!checkParameter(req.body)){
-        res.send({"status" : "401","message" : "Des informations sont manquantes"});
-        return
-    }
     let list : JSON[] = []
     const stations : any = await Station.find({ville: req.body.location }).lean();
-    var breakException = "";
     stations.forEach((station:any) => {
         let added = false;
         if(station.prix) {
@@ -36,15 +31,15 @@ export const proximity : RequestHandler = async (req : Request, res : Response, 
                         added = true;
                     }
                 }
-
             });
         }
         //console.log(list)
-        
     });
-    
+    if(!checkParameter(req.body)){
+        res.send({"status" : "401","message" : "Des informations sont manquantes" , "list":list});
+        return
+    }
     res.send({"status":"200","list":list});
-    
 }
 
 function checkParameter(body : any){
