@@ -10,12 +10,12 @@ describe('POST /querys/proximity', () => {
             .set('Accept', 'application/json')
             .send({
             "location":"Nice",
-            "Gazole":"true",
-            "SP95E10":"false",
-            "SP98":"true",
-            "SP95":"true",
-            "GPLc":"true",
-            "E85":"true"});
+            "Gazole":true,
+            "SP95E10":false,
+            "SP98":true,
+            "SP95":true,
+            "GPLc":true,
+            "E85":true});
         
         expect(res.type).toBe('application/json');
         expect(res.body.status).toBe("200");
