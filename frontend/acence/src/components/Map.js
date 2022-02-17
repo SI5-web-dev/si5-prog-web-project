@@ -45,20 +45,33 @@ const Map = (props) => {
     });
   }
 
+  function showPrices(station) {
+    let gasPrices = [];
+    let stationName = station[2] + " " + station[3] + " " + station[4];
+    if (station[7]) {
+      Array.prototype.forEach.call(station[7], gas => {
+        gasPrices.push(gas["@nom"] + " :   " + gas["@valeur"] + " (Dernière mise à jour : " + gas["@maj"] + ")");
+      })
+    }
+
+    return (
+      <>
+        <b>{stationName}</b>
+        <br></br>
+        <b>Essence disponible :</b>
+        <ul> {gasPrices.map(essence => <li key={Math.random().toString(36).substring(2, 11)}>{essence}</li>)} </ul>
+      </>
+    )
+
+  }
+
   function PutMarkers() {
-    let services = [];
     return (
       props.list.map(station =>
         <Marker position={[station[0], station[1]]} icon={defaultIcon} key={Math.random().toString(36).substring(2, 11)}>
-          {services = []}
-          {Array.prototype.forEach.call(station[5].service, service => {
-            services.push(service);
-          })}
 
-          <Popup maxHeight="170">
-            {station[2] + " " + station[3] + " " + station[4]}
-            {<div>Services :</div>}
-            <ul> {services.map(service => <li key={Math.random().toString(36).substring(2, 11)}>{service}</li>)} </ul>
+          <Popup maxHeight="190">
+            {showPrices(station)}
             <Button onClick={() => displayPath(station)}>Voir le chemin</Button>
           </Popup>
         </Marker>
