@@ -43,15 +43,15 @@ export const proximity : RequestHandler = async (req : Request, res : Response, 
 }
 
 function checkParameter(body : any){
-    console.log(body.location)
+    console.log(typeof body.Gazole)
     
     if(typeof body.location !== "string") return false;
-    if(typeof body.Gazole !== "string" || (body.Gazole!=="true" && body.Gazole!=="false")) return false;
-    if(typeof body.SP95E10 !== "string" || (body.SP95E10!=="true" && body.SP95E10!=="false")) return false;
-    if(typeof body.SP98 !== "string" || (body.SP98!=="true" && body.SP98!=="false")) return false;
-    if(typeof body.SP95 !== "string" || (body.SP95!=="true" && body.SP95!=="false")) return false;
-    if(typeof body.GPLc !== "string" || (body.GPLc!=="true" && body.GPLc!=="false")) return false;
-    if(typeof body.E85 !== "string"  || (body.E85!=="true" && body.E85!=="false")) return false;
+    if(typeof body.Gazole !== "boolean" ) return false;
+    if(typeof body.SP95E10 !== "boolean" ) return false;
+    if(typeof body.SP98 !== "boolean" ) return false;
+    if(typeof body.SP95 !== "boolean" ) return false;
+    if(typeof body.GPLc !== "boolean" ) return false;
+    if(typeof body.E85 !== "boolean"  ) return false;
     return true;
 
 }
