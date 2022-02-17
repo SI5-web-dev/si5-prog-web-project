@@ -4,6 +4,10 @@ import Station from '../models/station.js';
 
 export const proximity : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
     console.log(req.body);
+    if(!checkParameter(req.body)){
+        res.send({"status" : "401","message" : "Des informations sont manquantes"});
+        return
+    }
     let list : JSON[] = []
     const stations : any = await Station.find({ville: req.body.location }).lean();
     var breakException = "";
@@ -35,12 +39,26 @@ export const proximity : RequestHandler = async (req : Request, res : Response, 
 
             });
         }
-        console.log(list)
+        //console.log(list)
         
     });
     
-    res.send({"list":list});
+    res.send({"status":"200","list":list});
     
+}
+
+function checkParameter(body : any){
+    console.log(body.location)
+    
+    if(typeof body.location !== "string") return false;
+    if(typeof body.Gazole !== "string" || (body.Gazole!=="true" && body.Gazole!=="false")) return false;
+    if(typeof body.SP95E10 !== "string" || (body.SP95E10!=="true" && body.SP95E10!=="false")) return false;
+    if(typeof body.SP98 !== "string" || (body.SP98!=="true" && body.SP98!=="false")) return false;
+    if(typeof body.SP95 !== "string" || (body.SP95!=="true" && body.SP95!=="false")) return false;
+    if(typeof body.GPLc !== "string" || (body.GPLc!=="true" && body.GPLc!=="false")) return false;
+    if(typeof body.E85 !== "string"  || (body.E85!=="true" && body.E85!=="false")) return false;
+    return true;
+
 }
 
 export const cheapest : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {

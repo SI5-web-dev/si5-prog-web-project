@@ -20,9 +20,9 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __Dirname = dirname(fileURLToPath(import.meta.url));
 // Demande a node de servir les fichiers react
-app.use(express.static(path.resolve(__dirname, '../../frontend/acence/build')));
+app.use(express.static(path.resolve(__Dirname, '../../frontend/acence/build')));
 
 app.use('/user', userRoutes);
 

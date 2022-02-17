@@ -8,6 +8,12 @@ let zip = "./stations.zip";
 let xmlFile = "./stations.xml";
 
 export function loadEssenceStations() {
+    fs.readdirSync("./").forEach(file =>{
+        if(file === "stations.zip" || file === "stations.xml"){
+            fs.unlinkSync(file);
+            console.log('Old file removed')
+        }
+    });
     https.get('https://donnees.roulez-eco.fr/opendata/instantane', function (response) {
         response.on('data', function (data) {
             fs.appendFileSync(zip, data);
