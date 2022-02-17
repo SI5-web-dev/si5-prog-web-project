@@ -1,7 +1,5 @@
-import { Table, Badge, Button } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import React, { useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faStar } from '@fortawesome/free-solid-svg-icons'
 import { useRef } from "react";
 import CanvasInfosEssence from "./CanvasInfosEssence";
 
@@ -24,7 +22,7 @@ const ListEssence = (props) => {
                         <td>{station[2]}</td>
                         <td>{station[3]}</td>
                         <td>{station[4]}</td>
-                        <td><Button variant="secondary" size="sm" onClick={()=>{displayInfosStation("Station de Carrefour")}}>Plus d'infos</Button></td>
+                        <td><Button variant="secondary" size="sm" onClick={()=>{displayInfosStation(station[2])}}>Plus d'infos</Button></td>
                     </tr>)
             })
         )
@@ -37,7 +35,7 @@ const ListEssence = (props) => {
                     <CreateList />
                 </tbody>
             </Table>
-            <CanvasInfosEssence ref={childRef} nameStation={nameStation} />
+            <CanvasInfosEssence ref={childRef} nameStation={nameStation} list={props.list}/>
         </div>
     );
 };
