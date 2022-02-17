@@ -64,6 +64,10 @@ function Home() {
     }
     // callback de la requete au serveur
     function createSettings(response) {
+        if(JSON.parse(response).status !== "200"){
+            alert(JSON.parse(response).message)
+            return
+        }
         response = JSON.parse(response).list
         stationMap = response;
         createServicesList();
