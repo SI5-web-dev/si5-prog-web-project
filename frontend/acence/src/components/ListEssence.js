@@ -24,8 +24,6 @@ const ListEssence = (props) => {
                 return (
                     <tr key={Math.random().toString(36).substring(2, 11)}>
                         <td><b>{station[2]} , {station[4]} {station[3]}</b></td>
-                        {/* <td>{station[3]}</td>
-                        <td>{station[4]}</td> */}
                         <td><Button variant="secondary" size="sm" onClick={()=>{displayInfosStation(station[2] , station[3] , station[4])}}>Plus d'infos</Button></td>
                     </tr>)
             })
