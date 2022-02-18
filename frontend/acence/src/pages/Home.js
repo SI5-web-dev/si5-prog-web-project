@@ -80,6 +80,7 @@ function Home() {
         //services
         let services = document.getElementById('services');
         services.innerHTML = "";
+        document.getElementById('ouverte').onchange = getServicesChecked;
         for (let i = 0; i < listService.length; i++) {
             let service = listService[i];
             let nbOfThis = servicesOcurrence[i];
@@ -106,11 +107,29 @@ function Home() {
     // creer la liste de points a afficher sur la map en fonction des services checkés
     function createListPoint() {
         let listPoints = [];
+        let thisDay = getDay();
+        let thisHour = getHour();
+        let thisMinute = getMinutes();
         stationMap.forEach(station => {
-            if ("object" === typeof station.services.service) {
-                for (let i = 0; i < station.services.service.length; i++) {
-                    let service = station.services.service[i];
-                    if (servicesChecked.includes(service)) {
+            if((document.getElementById('ouverte').checked && stationOuverte(station.horaires,thisDay,thisHour,thisMinute))|| !document.getElementById('ouverte').checked){
+                if ("object" === typeof station.services.service) {
+                    for (let i = 0; i < station.services.service.length; i++) {
+                        let service = station.services.service[i];
+                        if (servicesChecked.includes(service)) {
+                            const latitude = parseFloat(station["@latitude"]) / 100000;
+                            const longitude = parseFloat(station["@longitude"]) / 100000;
+                            const adresse = station["adresse"];
+                            const ville = station["ville"];
+                            const codePostal = station["@cp"];
+                            const services = station["services"];
+                            const horaires = station["horaires"];
+                            const prix = station["prix"];
+                            listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix]);
+                            break;
+                        }
+                    }
+                } else {
+                    if (servicesChecked.includes(station.services.service)) {
                         const latitude = parseFloat(station["@latitude"]) / 100000;
                         const longitude = parseFloat(station["@longitude"]) / 100000;
                         const adresse = station["adresse"];
@@ -120,26 +139,60 @@ function Home() {
                         const horaires = station["horaires"];
                         const prix = station["prix"];
                         listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix]);
-                        break;
                     }
                 }
-            } else {
-                if (servicesChecked.includes(station.services.service)) {
-                    const latitude = parseFloat(station["@latitude"]) / 100000;
-                    const longitude = parseFloat(station["@longitude"]) / 100000;
-                    const adresse = station["adresse"];
-                    const ville = station["ville"];
-                    const codePostal = station["@cp"];
-                    const services = station["services"];
-                    const horaires = station["horaires"];
-                    const prix = station["prix"];
-                    listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix]);
-                }
-            }
+            }                
         });
         setListPoint(listPoints);
     }
+    // vérifie si la station est ouverte selon les horaires
+    function stationOuverte(horaires,day,hour,minute){
+        console.log("ouverte0")
+        if(horaires!==undefined){
+            console.log("ouverte1")
+            for(let i = 0; i<horaires.jour.length;i++){
+                console.log("ouverte2")
+                if(horaires.jour[i]["@id"]===day.toString()){
+                    console.log("ouverte3")
+                    //if(horaires.jour[i]["@ferme"]!=="1"){
+                        if(typeof horaires.jour[i]["horaire"] === "object"){
+                            console.log("ouverte4")
+                            let ouverture = horaires.jour[i]["horaire"]["@ouverture"];
+                            let fermeture = horaires.jour[i]["horaire"]["@fermeture"];
+                            if(ouverture!==fermeture){
+                                console.log("ouverte5")
+                                if(hour>=parseInt(ouverture.split(".")[0]) && hour<parseInt(fermeture.split(".")[0])){
+                                    console.log("ouverte6")
+                                    return true;
+                                }else{
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }
+                        return false;
+                    //}
+                    //return false;
+                }
+            }
+        }
+        return false;
+    }
 
+    function getMinutes(){
+        let minuteActuelle = new Date();
+        return minuteActuelle.getMinutes();
+    }
+
+    function getHour(){
+        let heureActuelle = new Date();
+        return heureActuelle.getHours();
+    }
+
+    function getDay(){
+        let jourActuel = new Date();
+        return jourActuel.getDay()
+    }
     // creer la liste des services et leurs occurences 
     function createServicesList() {
         let services = [];
@@ -254,7 +307,7 @@ function Home() {
                 </Container>
             </div>
             <div className="researchSettings" id="researchSettings">
-                <input type="checkbox" id="ouverte" name="ouverte" defaultChecked />
+                <input type="checkbox" id="ouverte" name="ouverte"  />
                 <label htmlFor="ouverte">Ouverte</label>
                 <br />
                 Prix<br /><input type='range' id="prix" min="0" max="10"></input>

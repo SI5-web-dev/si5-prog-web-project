@@ -22,10 +22,6 @@ describe('POST /querys/proximity', () => {
        
 
     })
-});
-
-
-describe('POST /querys/proximity', () => {
     
     test('reponse avec code 401 car il manque des informations', async ()  => {
         const res = await request(app)
@@ -44,10 +40,6 @@ describe('POST /querys/proximity', () => {
         expect(res.body.message).toBe("Des informations sont manquantes");
 
     })
-});
-
-
-describe('POST /querys/proximity', () => {
     
     test('reponse avec code 401 car il manque des informations', async ()  => {
         const res = await request(app)
@@ -66,9 +58,6 @@ describe('POST /querys/proximity', () => {
         expect(res.body.message).toBe("Des informations sont manquantes");
 
     })
-});
-
-describe('POST /querys/proximity', () => {
     
     test('reponse avec code 401 car SP95 true !== "true"', async ()  => {
         const res = await request(app)
@@ -87,9 +76,6 @@ describe('POST /querys/proximity', () => {
         expect(res.body.message).toBe("Des informations sont manquantes");
 
     })
-});
-
-describe('POST /querys/proximity', () => {
     
     test('reponse avec code 401 car location pas string', async ()  => {
         const res = await request(app)
@@ -108,9 +94,6 @@ describe('POST /querys/proximity', () => {
         expect(res.body.message).toBe("Des informations sont manquantes");
 
     })
-});
-
-describe('POST /querys/proximity', () => {
     
     test('reponse avec code 401 car oui !== true', async ()  => {
         const res = await request(app)

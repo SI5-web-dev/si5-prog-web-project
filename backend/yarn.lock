@@ -4275,6 +4275,11 @@
   dependencies:
     "minimist" "^1.2.5"
 
+"mock@^0.1.1":
+  "integrity" "sha1-5+NYnH5rM3bWn1o+RwtWYEQXxjM="
+  "resolved" "https://registry.npmjs.org/mock/-/mock-0.1.1.tgz"
+  "version" "0.1.1"
+
 "modulator@x":
   "integrity" "sha1-z9UVhD+R1nPxVWHZeZ33gErQMmY="
   "resolved" "https://registry.npmjs.org/modulator/-/modulator-0.1.0.tgz"
