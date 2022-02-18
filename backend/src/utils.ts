@@ -1,17 +1,22 @@
-export default class HttpException extends Error {
+import mongoose from 'mongoose';
+import Station from './models/station.js';
 
-    status : number;
-    fileName : string;
-    message : string;
 
-    constructor(status : number, fileName : string, message : string) {
-        super(message);
-        this.status = status;
-        this.fileName = fileName;
-        this.message = message;
-    }
+class Utils {
+    
+    static async getVilles() {
+        let listVille:any[]=[];
+        const stationsVille : any = await Station.find().lean();
+        stationsVille.forEach((station:any) => {
+            if(!listVille.includes(station.ville)){
+                listVille.push(station.ville.toString().toLowerCase())
+            }
+        });
+        //console.log(listVille)
+        // A finir
 
-    toString() {
-        return "Error " + this.status + " at file " + this.fileName + " : " + this.message;
     }
 }
+
+
+export default Utils;

@@ -8,7 +8,8 @@ export const proximity : RequestHandler = async (req : Request, res : Response, 
         res.send({"status" : "401","message" : "Des informations sont manquantes"});
         return
     }
-    let list : JSON[] = []
+    let list : JSON[] = [];
+
     const stations : any = await Station.find({ville: req.body.location }).lean();
     stations.forEach((station:any) => {
         let added = false;

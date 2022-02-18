@@ -1,6 +1,6 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import User from '../models/user.js';
-import HttpException from '../utils.js';
+import HttpException from '../httpExeption';
 
 import jwt from 'jsonwebtoken';
 

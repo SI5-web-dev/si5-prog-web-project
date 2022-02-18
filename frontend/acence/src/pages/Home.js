@@ -1,7 +1,7 @@
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
 import * as Utils from "./../Utils"
-import { Button, ToggleButton, ToggleButtonGroup, Form, FormControl, ButtonGroup } from 'react-bootstrap';
+import { Button, ToggleButton, ToggleButtonGroup, Form, FormControl } from 'react-bootstrap';
 import { Container, Row } from "reactstrap";
 import Map from "../components/Map";
 import ListEssence from "../components/ListEssence";
@@ -71,12 +71,6 @@ function Home() {
         response = JSON.parse(response).list
         stationMap = response;
         createServicesList();
-        //tranche de prix
-        let prix = document.getElementById('prix');
-
-        prix.min = 0;
-        prix.max = 20;
-        prix.value = 10;
         //services
         let services = document.getElementById('services');
         services.innerHTML = "";
@@ -308,9 +302,8 @@ function Home() {
             </div>
             <div className="researchSettings" id="researchSettings">
                 <input type="checkbox" id="ouverte" name="ouverte"  />
-                <label htmlFor="ouverte">Ouverte</label>
+                <label htmlFor="ouverte">&nbsp;&nbsp;&nbsp;Ouverte</label>
                 <br />
-                Prix<br /><input type='range' id="prix" min="0" max="10"></input>
                 <button className="m-2" id="checkAll" >Tout cocher</button>
                 <button className="m-2" id="unCheckAll" >Tout décocher</button>
                 <div id="services">
