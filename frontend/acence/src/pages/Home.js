@@ -1,17 +1,18 @@
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
-import * as Utils from "./../Utils"
+import * as Utils from "./../Utils";
+
 import { Button, ToggleButton, ToggleButtonGroup, Form, FormControl } from 'react-bootstrap';
 import { Container, Row } from "reactstrap";
 import Map from "../components/Map";
 import ListEssence from "../components/ListEssence";
-
 function Home() {
 
     const [checked, setChecked] = useState(false);
     const [value, setValue] = useState();
     const [listPoint, setListPoint] = useState([]);
     const handleChange = (val) => setValue(val);
+    
     let listService = [];
     let servicesOcurrence = [];
     let stationMap = [];
@@ -20,7 +21,9 @@ function Home() {
     const [location,setLocation] = useState("");
 
     function requestProximity() {
+        
         let location = document.getElementById("location").value;
+
         setLocation(location);
         let Gazole = false;
         let SP95E10 = false;
