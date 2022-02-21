@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import Station from './models/station.js';
-import fetch from 'node-fetch';
 import { exec, spawn } from "child_process";
 class Utils {
     
