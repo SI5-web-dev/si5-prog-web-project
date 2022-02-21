@@ -1,7 +1,7 @@
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
 import * as Utils from "./../Utils";
-
+import axios from 'axios';
 import { Button, ToggleButton, ToggleButtonGroup, Form, FormControl } from 'react-bootstrap';
 import { Container, Row } from "reactstrap";
 import Map from "../components/Map";
@@ -17,13 +17,30 @@ function Home() {
     let servicesOcurrence = [];
     let stationMap = [];
     let servicesChecked = [];
+    
+    
 
     const [location,setLocation] = useState("");
 
-    function requestProximity() {
-        
-        let location = document.getElementById("location").value;
+    function getPostionForInput(){
+        const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
+        navigator.geolocation.getCurrentPosition((ta)=>{
+            
+            const url = `http://nominatim.openstreetmap.org/reverse?format=json&lat=${ta.coords.latitude}&lon=${ta.coords.longitude}&api_key=${apiKey}`;
+            axios.get(url).then((res) => {
+            console.log(JSON.parse(res.request.response))
+            let resultat = JSON.parse(res.request.response).address
+            document.getElementById("location").value = resultat.road +" "+resultat.quarter+" "+resultat.postcode+" "+resultat.city;
+        });
+       
 
+        
+        });
+    }
+
+    function requestProximity() {
+        let location = document.getElementById("location").value;
+        
         setLocation(location);
         let Gazole = false;
         let SP95E10 = false;
@@ -230,6 +247,8 @@ function Home() {
         })
         createListPoint();
     }
+
+    
     function checkAll() {
         listService.forEach(service => {
             document.getElementById(service).checked = true;
@@ -263,6 +282,7 @@ function Home() {
                 <Container>
                     <Row className="justify-content-center text-center">
                         <h3>Trouver une station essence</h3>
+                        
                         <Form>
                             <FormControl
                                 type="search"
@@ -270,10 +290,10 @@ function Home() {
                                 className="me-2"
                                 aria-label="Search"
                                 id="location"
-                                onChange={enableButtons}
-                            />
-
+                            /><img className="target" alt="" src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-target-interface-kiranshastry-lineal-kiranshastry.png" onClick={getPostionForInput}/>
+                            
                         </Form>
+                        
                         <div>
                             <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
                                 <ToggleButton id="Gazole" value="Gazole">
@@ -297,8 +317,9 @@ function Home() {
                             </ToggleButtonGroup>
                         </div>
                         <div>
-                            <Button variant="secondary" className="m-2" id="buttonProximity" onClick={requestProximity} disabled>Rechercher la plus proche</Button>
-                            <Button variant="secondary" className="m-2" id="buttonCheapest" onClick={requestCheapest} disabled>Rechercher la moins chère</Button>
+                            <Button variant="secondary" className="m-2" id="buttonProximity" onClick={requestProximity}>Rechercher la plus proche</Button>
+                            
+                            <Button variant="secondary" className="m-2" id="buttonCheapest" onClick={requestCheapest}>Rechercher la moins chère</Button>
                         </div>
                     </Row>
                 </Container>
