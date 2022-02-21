@@ -28,6 +28,7 @@
     "@types/express-serve-static-core": "^4.16.2",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/mongoose-unique-validator": "^1.0.5",
+    "@types/node-fetch": "^2.6.1",
     "@types/supertest": "^2.0.11",
     "@types/unzip": "^0.1.1",
     "@types/unzipper": "^0.10.5",
