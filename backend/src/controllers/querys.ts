@@ -28,8 +28,8 @@ export const proximity : RequestHandler = async (req : Request, res : Response, 
 
         const stations : any = await Station.find({$and:[
                                                     {$and:[
-                                                        {'@latitude': {$lt : latitiude +10000}} , 
-                                                        {'@latitude': {$gt : latitiude-10000}}
+                                                        {'@latitude': {$lt : latitiude +7000}} , 
+                                                        {'@latitude': {$gt : latitiude-7000}}
                                                     ]},
                                                     {$and:[
                                                         {'@longitude': {$lt : longitude +10000}} , 
