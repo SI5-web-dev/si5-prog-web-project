@@ -30,7 +30,9 @@ const ListEssence = (props) => {
                     }
                     else {
                         const d = new Date();
-                        const currentTime = d.getHours() + ":" + d.getMinutes(); //HH:MM
+                        const currentHours = ("0" + d.getHours()).slice(-2);
+                        const currentMinutes = ("0" + d.getMinutes()).slice(-2);
+                        const currentTime = currentHours + ":" + currentMinutes; //HH:MM
                         if (currentTime >= heureOuverture && currentTime <= heurefermeture) {
                             ouvertFerme = "Ouvert";
                         }
@@ -54,7 +56,7 @@ const ListEssence = (props) => {
                     <tr key={Math.random().toString(36).substring(2, 11)}>
                         <td><b>{station[2]} , {station[4]} {station[3]}</b></td>
                         {showOuvertFerme(station)}
-                        <td><img  width="60" alt="" src="https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-star-icon-png-image_1577370.jpg"/></td>
+                        <td><img width="60" alt="" src="https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-star-icon-png-image_1577370.jpg" /></td>
                         <td><Button variant="secondary" size="sm" onClick={() => { displayInfosStation(station[2], station[3], station[4]) }}>Plus d'infos</Button></td>
                     </tr>)
             })
