@@ -46,7 +46,8 @@ const ListEssence = (props) => {
         }
         return (
             ouvertFerme === "Ouvert" || ouvertFerme === "Ouvert 24h/24" ? <td id="ouvert"><b>{ouvertFerme}</b></td> :
-                <td id="ferme"><b>{ouvertFerme}</b></td>
+                ouvertFerme === "Fermé" ?
+                    <td id="ferme"><b>{ouvertFerme}</b></td> : <td id="indisponible"><b>Information indisponible</b></td>
         )
     }
 
@@ -68,26 +69,38 @@ const ListEssence = (props) => {
                 return (
                     <tr key={Math.random().toString(36).substring(2, 11)}>
                         <td>
-                            <b>{station[2]} , {station[4]} {station[3]}</b>
+                            <b>{station[2]} - {station[4]} {station[3]}</b>
                             <br />
                             {showPrices(station)}
                         </td>
                         {showOuvertFerme(station)}
-                        <td><img width="60" alt="" src="https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-star-icon-png-image_1577370.jpg" /></td>
+                        <td><img width="50" alt="" src="https://allfreepng.com/storage/images/star%20png%2012-thumbnail.png" /></td>
                         <td><Button variant="secondary" size="sm" onClick={() => { displayInfosStation(station[2], station[3], station[4]) }}>Plus d'infos</Button></td>
                         {/* <td><Button variant="primary" onClick={() => { props.bam(station) }}>Voir sur la map</Button></td> */}
-                    </tr>)
-            })
+                    </tr>
+                )
+            },
+            )
         )
     }
 
     return (
         <div className="listEssence">
-            <Table responsive="sm">
-                <tbody>
-                    <CreateList />
-                </tbody>
-            </Table>
+            <div id="table">
+                <Table className="styled-table" responsive="sm">
+                    <thead >
+                        <tr>
+                            <td colSpan="1"><b>Stations d'essence</b></td>
+                            <td colSpan="1"><b>Ouvert/fermé</b></td>
+                            <td colSpan="1"><b>Ajout en favoris</b></td>
+                            <td colSpan="1"><b>Plus d'info</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <CreateList />
+                    </tbody>
+                </Table>
+            </div>
             <CanvasInfosEssence
                 ref={childRef}
                 nameStation={nameStation}

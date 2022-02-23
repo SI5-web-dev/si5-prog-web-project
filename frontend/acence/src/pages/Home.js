@@ -116,6 +116,10 @@ function Home() {
         document.getElementById("unCheckAll").onclick = unCheckAll;
         getServicesChecked();
         createListPoint();
+
+        //Displaying the hidden table
+        let header = document.querySelector("#table");
+        header.style.display = "block";
     }
 
     // creer la liste de points a afficher sur la map en fonction des services checkés
