@@ -1,4 +1,5 @@
 import { Table, Button } from "react-bootstrap";
+import { useMap } from 'react-leaflet';
 import React, { useState } from "react";
 import { useRef } from "react";
 import CanvasInfosEssence from "./CanvasInfosEssence";
@@ -49,15 +50,32 @@ const ListEssence = (props) => {
         )
     }
 
+    function showPrices(station) {
+        let essence = ""
+        if (station[7]) {
+            Array.prototype.forEach.call(station[7], gas => {
+                essence += gas["@nom"] + " :   " + gas["@valeur"] + " ";
+            })
+        }
+        return (
+            essence
+        )
+    }
+
     function CreateList() {
         return (
             props.list.map(station => {
                 return (
                     <tr key={Math.random().toString(36).substring(2, 11)}>
-                        <td><b>{station[2]} , {station[4]} {station[3]}</b></td>
+                        <td>
+                            <b>{station[2]} , {station[4]} {station[3]}</b>
+                            <br />
+                            {showPrices(station)}
+                        </td>
                         {showOuvertFerme(station)}
                         <td><img width="60" alt="" src="https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-star-icon-png-image_1577370.jpg" /></td>
                         <td><Button variant="secondary" size="sm" onClick={() => { displayInfosStation(station[2], station[3], station[4]) }}>Plus d'infos</Button></td>
+                        {/* <td><Button variant="primary" onClick={() => { props.bam(station) }}>Voir sur la map</Button></td> */}
                     </tr>)
             })
         )
