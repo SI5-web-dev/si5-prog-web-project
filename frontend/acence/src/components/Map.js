@@ -50,7 +50,7 @@ const Map = (props) => {
     let stationName = station[2] + " " + station[4] + " " + station[3];
     if (station[7]) {
       Array.prototype.forEach.call(station[7], gas => {
-        gasPrices.push(gas["@nom"] + " :   " + gas["@valeur"] + " (Dernière mise à jour : " + gas["@maj"] + ")");
+        gasPrices.push(gas["@nom"] + " :   " + gas["@valeur"] );
       })
     }
 
