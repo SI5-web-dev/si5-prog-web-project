@@ -64,7 +64,23 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
                     <b>Automates 24/24 : </b> {automate ? "Disponible" : "Non disponible"}
                     <br></br>
                     <b>Horaires :</b>
-                    <ul> {horaires.map(horaire => <li key={Math.random().toString(36).substring(2, 11)}>{horaire}</li>)} </ul>
+                    <table className="tableHoraires">
+                        <thead>
+                            <tr>
+                                <td colSpan={1}>Jour</td>
+                                <td colSpan={1}>Horaires</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {horaires.map(horaire =>
+                                <tr>
+                                    <td key={Math.random().toString(36).substring(2, 11)}>{horaire.split(":")[0]}</td>
+                                    <td key={Math.random().toString(36).substring(2, 11)}>{horaire.split(":")[1]}</td>
+                                </tr>)
+                            }
+                        </tbody>
+                    </table>
+                    {/* <ul> {horaires.map(horaire => <li key={Math.random().toString(36).substring(2, 11)}>{horaire}</li>)} </ul> */}
                 </div>
             </>
         )

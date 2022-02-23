@@ -1,3 +1,29 @@
 .offcanvas{
         height: 85%;
 }
+
+#tableHoraires{
+        border: 1;
+}
+.tableHoraires thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+}
+
+.tableHoraires th,
+.tableHoraires td {
+        padding: 12px 15px;
+}
+
+.tableHoraires tbody tr {
+        border-bottom: 1px solid #dddddd;
+}
+    
+.tableHoraires tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+}
+
+table, tr, td {
+        border: 1px solid black;
+}
