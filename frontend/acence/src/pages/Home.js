@@ -8,7 +8,7 @@ import Map from "../components/Map";
 import ListEssence from "../components/ListEssence";
 function Home() {
 
-    const [checked, setChecked] = useState(false);
+    const [proximity, setProximity] = useState(true);
     const [value, setValue] = useState();
     const [listPoint, setListPoint] = useState([]);
     const handleChange = (val) => setValue(val);
@@ -22,7 +22,6 @@ function Home() {
     let essenceChoosed="Gazole";
     let prixMin = 10000;
     let prixMax = 0;
-    let proximity=true;
 
     const [location,setLocation] = useState("");
 
@@ -44,7 +43,7 @@ function Home() {
     }
 
     function requestProximity() {
-        proximity=true;
+        setProximity(true);
         let location = document.getElementById("location").value;
         const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
         const url = `http://nominatim.openstreetmap.org/search?q=${location}&format=json&polygon=1&addressdetails=1&api_key=${apiKey}`;
@@ -83,7 +82,7 @@ function Home() {
     }
 
     function requestCheapest() {
-        proximity=false;
+        setProximity(false);
         let location = document.getElementById("location").value;
         const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
         const url = `http://nominatim.openstreetmap.org/search?q=${location}&format=json&polygon=1&addressdetails=1&api_key=${apiKey}`;
