@@ -52,8 +52,12 @@ function Home() {
             let resultat = JSON.parse(res.request.response)[0]
             let long = resultat.lon;
             let lat = resultat.lat;
-            latitudeClient= lat;
-            longitudeClient=long;
+            //latitudeClient= lat;
+            //longitudeClient=long;
+            navigator.geolocation.getCurrentPosition((ta)=>{
+                latitudeClient = ta.coords.latitude;
+                longitudeClient = ta.coords.longitude;
+            });
             setLocation(location);
             let Gazole = false;
             let SP95E10 = false;
