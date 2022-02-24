@@ -470,8 +470,8 @@ function Home() {
 
                 </div>
             </div>
-            <Map list={listPoint} location={location}/>
-            <ListEssence list={listPoint} />
+            <Map list={listPoint} location={location} />
+            <ListEssence list={listPoint} search={proximity}/>
         </div>
 
     )
