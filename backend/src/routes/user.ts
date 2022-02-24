@@ -24,4 +24,9 @@ router.post("/addFavorite", userCtrl.addFavorite);
  */
 router.post("/removeFavorite", userCtrl.removeFavorite);
 
+/**
+ * Route getFavoritesStation
+ */
+router.post("/listStationFav", userCtrl.getListStationFav);
+
  export default router;

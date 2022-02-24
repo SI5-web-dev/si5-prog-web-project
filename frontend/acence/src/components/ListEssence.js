@@ -117,7 +117,7 @@ const ListEssence = (props) => {
                     icon={faStarSolid}/></div>;
             }
         }
-        return <div id="favoriStar" onClick={()=> {addToFavoris(idStation)}}><FontAwesomeIcon icon={faStarRegular} /></div>;
+        return <div id="favoriStar" onClick={()=> {addToFavoris(idStation)}}><FontAwesomeIcon icon={faStarRegular}/></div>;
     }
 
 

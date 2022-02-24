@@ -1,6 +1,6 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import User from '../models/user.js';
-import {UserInfo} from "os";
+import Station from '../models/station.js';
 
 export const signup : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
     try {
@@ -75,7 +75,6 @@ export const addFavorite : RequestHandler = async (req : Request, res : Response
     try {
         const user : any = await User.findOne({_id: req.body.user
         }).lean();
-        console.log(user)
         if (!user) {
             res.send({ "message":  "Nom d'utilisateur ou mot de passe incorrect !"});
             return
@@ -129,6 +128,31 @@ export const removeFavorite : RequestHandler = async (req : Request, res : Respo
                 res.send({"status":"200"});
             }
         }
+    }
+    catch (err) {
+        res.send({"status":"500"});
+        next(err);
+    }
+};
+
+export const getListStationFav : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
+    try {
+        const user : any = await User.findOne({_id: req.body.user
+        }).lean();
+        const listStationsString = user.favoriteStations;
+        let listStations = [];
+        for(let i = 0 ; i< listStationsString.length ; i++){
+            let geocode : any;
+            geocode = listStationsString[i].replace("(","").replace(")","").replace(/\r\n/g,"");
+            geocode = geocode.split(",")
+            let latitude = parseFloat(geocode[0])*100000;
+            let longitude = parseFloat(geocode[1])*100000;
+            const station : any = await Station.findOne({"@latitude": latitude,
+                "@longitude": longitude
+            }).lean();
+            listStations.push(station)
+        }
+        res.send({"status":"200","listStations":listStations});
     }
     catch (err) {
         res.send({"status":"500"});

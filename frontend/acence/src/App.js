@@ -13,6 +13,7 @@ import Navigation from "./components/Navigation";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFoundPage from './pages/NotFoundPage';
+import Favoris from './pages/Favoris';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/home" element={<Home/>}></Route>
         <Route path="/login" element={<Login/>}></Route>
         <Route path="/signup" element={<Signup/>}></Route>
+        <Route path="/favoris" element={<Favoris/>}></Route>
         <Route path="*" element={<NotFoundPage/>}></Route>
       </Routes>
         <div id="loading"><Spinner id="spinner" animation="border" /></div>
