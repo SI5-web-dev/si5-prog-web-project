@@ -81,6 +81,7 @@ const ListEssence = (props) => {
                             <br />
                             {showPrices(station)}
                         </td>
+                        <td>{station[8]}</td>
                         {showOuvertFerme(station)}
                         <td><img width="50" alt="" src="https://allfreepng.com/storage/images/star%20png%2012-thumbnail.png" /></td>
                         <td><Button variant="secondary" size="sm" onClick={() => { displayInfosStation(station[2], station[3], station[4]) }}>Plus d'infos</Button></td>
@@ -99,6 +100,7 @@ const ListEssence = (props) => {
                     <thead >
                         <tr>
                             <td colSpan="1"><b>Stations d'essence</b></td>
+                            <td colSpan="1"><b>Distance</b></td>
                             <td colSpan="1"><b>Ouvert/fermé</b></td>
                             <td colSpan="1"><b>Ajout en favoris</b></td>
                             <td colSpan="1"><b>Plus d'info</b></td>

@@ -17,7 +17,8 @@ function Home() {
     let servicesOcurrence = [];
     let stationMap = [];
     let servicesChecked = [];
-    
+    let latitudeClient;
+    let longitudeClient;
     
 
     const [location,setLocation] = useState("");
@@ -25,14 +26,14 @@ function Home() {
     function getPostionForInput(){
         const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
         navigator.geolocation.getCurrentPosition((ta)=>{
-            
+            latitudeClient = ta.coords.latitude;
+            longitudeClient = ta.coords.longitude;
             const url = `http://nominatim.openstreetmap.org/reverse?format=json&lat=${ta.coords.latitude}&lon=${ta.coords.longitude}&api_key=${apiKey}`;
             axios.get(url).then((res) => {
-            console.log(JSON.parse(res.request.response))
             let resultat = JSON.parse(res.request.response).address
             document.getElementById("location").value = resultat.road +" "+resultat.quarter+" "+resultat.postcode+" "+resultat.city;
         });
-       
+        
 
         
         });
@@ -40,24 +41,34 @@ function Home() {
 
     function requestProximity() {
         let location = document.getElementById("location").value;
+        const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
+        const url = `http://nominatim.openstreetmap.org/search?q=${location}&format=json&polygon=1&addressdetails=1&api_key=${apiKey}`;
+        axios.get(url).then((res) => {
+            let resultat = JSON.parse(res.request.response)[0]
+            let long = resultat.lon;
+            let lat = resultat.lat;
+            latitudeClient= lat;
+            longitudeClient=long;
+            setLocation(location);
+            let Gazole = false;
+            let SP95E10 = false;
+            let SP98 = false;
+            let SP95 = false;
+            let GPLc = false;
+            let E85 = false;
+
+            if (document.getElementById("Gazole").checked) { Gazole = true; }
+            if (document.getElementById("SP95-E10").checked) { SP95E10 = true; }
+            if (document.getElementById("SP98").checked) { SP98 = true; }
+            if (document.getElementById("SP95").checked) { SP95 = true; }
+            if (document.getElementById("GPLc").checked) { GPLc = true; }
+            if (document.getElementById("E85").checked) { E85 = true; }
+            let request = JSON.stringify({ 'latitude': lat,'longitude':long, 'Gazole': Gazole, 'SP95E10': SP95E10, 'SP98': SP98, 'SP95': SP95, 'GPLc': GPLc, 'E85': E85 })
+            
+            Utils.default.sendRequest('POST', '/querys/proximity', request, createSettings)
+        });
+            
         
-        setLocation(location);
-        let Gazole = false;
-        let SP95E10 = false;
-        let SP98 = false;
-        let SP95 = false;
-        let GPLc = false;
-        let E85 = false;
-
-        if (document.getElementById("Gazole").checked) { Gazole = true; }
-        if (document.getElementById("SP95-E10").checked) { SP95E10 = true; }
-        if (document.getElementById("SP98").checked) { SP98 = true; }
-        if (document.getElementById("SP95").checked) { SP95 = true; }
-        if (document.getElementById("GPLc").checked) { GPLc = true; }
-        if (document.getElementById("E85").checked) { E85 = true; }
-        let request = JSON.stringify({ 'location': location, 'Gazole': Gazole, 'SP95E10': SP95E10, 'SP98': SP98, 'SP95': SP95, 'GPLc': GPLc, 'E85': E85 })
-
-        Utils.default.sendRequest('POST', '/querys/proximity', request, createSettings)
 
     }
 
@@ -82,6 +93,30 @@ function Home() {
         Utils.default.sendRequest('POST', '/querys/cheapest', request, createSettings)
 
     }
+
+    function getDistance(lat1,lon1,lat2,lon2){
+        lat1 = parseFloat(lat1);
+        lon1 = parseFloat(lon1);
+        lat2 = parseFloat(lat2);
+        lon2 = parseFloat(lon2);
+
+        const R = 6371e3; // metres
+        const φ1 = lat1 * Math.PI/180; // φ, λ in radians
+        
+        const φ2 = lat2 * Math.PI/180;
+        const Δφ = (lat2-lat1) * Math.PI/180;
+        const Δλ = (lon2-lon1) * Math.PI/180;
+
+        const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        const d = R * c; // in metres
+        return d/1000;
+    }
+
+
     // callback de la requete au serveur
     function createSettings(response) {
         if(JSON.parse(response).status !== "200"){
@@ -134,6 +169,7 @@ function Home() {
                     for (let i = 0; i < station.services.service.length; i++) {
                         let service = station.services.service[i];
                         if (servicesChecked.includes(service)) {
+                            const distance = getDistance(parseFloat(station["@latitude"]) / 100000,parseFloat(station["@longitude"]) / 100000,latitudeClient,longitudeClient);
                             const latitude = parseFloat(station["@latitude"]) / 100000;
                             const longitude = parseFloat(station["@longitude"]) / 100000;
                             const adresse = station["adresse"];
@@ -142,12 +178,13 @@ function Home() {
                             const services = station["services"];
                             const horaires = station["horaires"];
                             const prix = station["prix"];
-                            listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix]);
+                            listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix,distance]);
                             break;
                         }
                     }
                 } else {
                     if (servicesChecked.includes(station.services.service)) {
+                        const distance = getDistance(parseFloat(station["@latitude"]) / 100000,parseFloat(station["@longitude"]) / 100000,latitudeClient,longitudeClient);
                         const latitude = parseFloat(station["@latitude"]) / 100000;
                         const longitude = parseFloat(station["@longitude"]) / 100000;
                         const adresse = station["adresse"];
@@ -156,7 +193,7 @@ function Home() {
                         const services = station["services"];
                         const horaires = station["horaires"];
                         const prix = station["prix"];
-                        listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix]);
+                        listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix,distance]);
                     }
                 }
             }                
@@ -165,22 +202,15 @@ function Home() {
     }
     // vérifie si la station est ouverte selon les horaires
     function stationOuverte(horaires,day,hour,minute){
-        console.log("ouverte0")
         if(horaires!==undefined){
-            console.log("ouverte1")
             for(let i = 0; i<horaires.jour.length;i++){
-                console.log("ouverte2")
                 if(horaires.jour[i]["@id"]===day.toString()){
-                    console.log("ouverte3")
                     //if(horaires.jour[i]["@ferme"]!=="1"){
                         if(typeof horaires.jour[i]["horaire"] === "object"){
-                            console.log("ouverte4")
                             let ouverture = horaires.jour[i]["horaire"]["@ouverture"];
                             let fermeture = horaires.jour[i]["horaire"]["@fermeture"];
                             if(ouverture!==fermeture){
-                                console.log("ouverte5")
                                 if(hour>=parseInt(ouverture.split(".")[0]) && hour<parseInt(fermeture.split(".")[0])){
-                                    console.log("ouverte6")
                                     return true;
                                 }else{
                                     return false;
