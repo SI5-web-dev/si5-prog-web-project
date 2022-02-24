@@ -86,6 +86,41 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
             </>
         )
     }
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+    
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+    
+        return [year, month, day].join('-');
+    }
+
+    function getMaj(date){
+        let maintenant = new Date();
+        let jour = date.split(" ")[0].split("-");
+        let heure = date.split(" ")[1].split(":");
+        let jourMTN = formatDate(Date()).split("-");
+        let heureMTN = [maintenant.getHours(), maintenant.getMinutes(),maintenant.getSeconds()]
+        if((parseInt(jourMTN[0]) - parseInt(jour[0]))>0){
+            return (parseInt(jourMTN[0]) - parseInt(jour[0]))+ 'an(s)'
+        }else if((parseInt(jourMTN[1]) - parseInt(jour[1]))>0){
+            return (parseInt(jourMTN[1]) - parseInt(jour[1]))+ 'mois'
+        }else if((parseInt(jourMTN[2]) - parseInt(jour[2]))>0){
+            return (parseInt(jourMTN[2]) - parseInt(jour[2]))+ 'jour(s)'
+        }else if((parseInt(heureMTN[0]) - parseInt(heure[0]))>0){
+            return (parseInt(heureMTN[0]) - parseInt(heure[0]))+ 'heure(s)'
+        }else if((parseInt(heureMTN[1]) - parseInt(heure[1]))>0){
+            return (parseInt(heureMTN[1]) - parseInt(heure[1]))+ 'minute(s)'
+        }else if((parseInt(heureMTN[2]) - parseInt(heure[2]))>0){
+            return (parseInt(heureMTN[2]) - parseInt(heure[2]))+ 'seconde(s)'
+        }
+        return 'maintenant'
+    }
 
     function ShowGasPrices() {
         let prices = [];
@@ -93,7 +128,7 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
             if (station[2] === props.nameStation) {
                 if (station[7]) {
                     Array.prototype.forEach.call(station[7], gas => {
-                        prices.push(gas["@nom"] + " :   " + gas["@valeur"] + " (Dernière mise à jour : " + gas["@maj"] + ")");
+                        prices.push(gas["@nom"] + " :   " + gas["@valeur"] + " (Il y a : " + getMaj(gas["@maj"]) + ")");
                     })
                 }
             }

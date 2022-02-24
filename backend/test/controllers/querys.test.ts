@@ -3,7 +3,7 @@ import app from '../../src/app.js';
 
 
 describe('POST /querys/askStation', () => {
-    
+    /*
     test('reponse avec code 200', async ()  => {
         const res = await request(app)
             .post('/querys/askStation')
@@ -22,7 +22,7 @@ describe('POST /querys/askStation', () => {
         expect(res.body.status).toBe("200");
        
 
-    })
+    })*/
     
     test('reponse avec code 401 car il manque des informations', async ()  => {
         const res = await request(app)

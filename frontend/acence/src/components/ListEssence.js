@@ -146,7 +146,6 @@ const ListEssence = (props) => {
         var table, rows, switching, i, x, y, shouldSwitch;
         table = document.querySelector(".styled-table");
         if(table){
-            console.log(table);
         switching = true;
         while (switching) {
           switching = false;

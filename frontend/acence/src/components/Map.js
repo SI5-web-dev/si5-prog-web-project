@@ -52,19 +52,16 @@ function getIcon(prix){
     iconAnchor: [0, 24],
     labelAnchor: [-6, 0],
     popupAnchor: [0, -36],
-    html: `<span style="${markerHtmlStyles}" />`
+    html: `<span style="${markerHtmlStyles}"></span>`
   })
   return defaultIcon
 }
   
 
   function createColorIcon(prix){
-    console.log(prix)
      let min = document.getElementById("minimum").innerHTML
      let max = document.getElementById("maximum").innerHTML
-     console.log(min , max);
       let percentFade  =  (parseFloat(prix)-parseFloat(min))/(parseFloat(max)-parseFloat(min));
-      console.log(percentFade)
       let rouge ; 
       let bleu ;
       let vert;
