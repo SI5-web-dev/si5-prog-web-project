@@ -107,17 +107,17 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
         let jourMTN = formatDate(Date()).split("-");
         let heureMTN = [maintenant.getHours(), maintenant.getMinutes(),maintenant.getSeconds()]
         if((parseInt(jourMTN[0]) - parseInt(jour[0]))>0){
-            return (parseInt(jourMTN[0]) - parseInt(jour[0]))+ 'an(s)'
+            return (parseInt(jourMTN[0]) - parseInt(jour[0]))+ ' an(s)'
         }else if((parseInt(jourMTN[1]) - parseInt(jour[1]))>0){
-            return (parseInt(jourMTN[1]) - parseInt(jour[1]))+ 'mois'
+            return (parseInt(jourMTN[1]) - parseInt(jour[1]))+ ' mois'
         }else if((parseInt(jourMTN[2]) - parseInt(jour[2]))>0){
-            return (parseInt(jourMTN[2]) - parseInt(jour[2]))+ 'jour(s)'
+            return (parseInt(jourMTN[2]) - parseInt(jour[2]))+ ' jour(s)'
         }else if((parseInt(heureMTN[0]) - parseInt(heure[0]))>0){
-            return (parseInt(heureMTN[0]) - parseInt(heure[0]))+ 'heure(s)'
+            return (parseInt(heureMTN[0]) - parseInt(heure[0]))+ ' heure(s)'
         }else if((parseInt(heureMTN[1]) - parseInt(heure[1]))>0){
-            return (parseInt(heureMTN[1]) - parseInt(heure[1]))+ 'minute(s)'
+            return (parseInt(heureMTN[1]) - parseInt(heure[1]))+ ' minute(s)'
         }else if((parseInt(heureMTN[2]) - parseInt(heure[2]))>0){
-            return (parseInt(heureMTN[2]) - parseInt(heure[2]))+ 'seconde(s)'
+            return (parseInt(heureMTN[2]) - parseInt(heure[2]))+ ' seconde(s)'
         }
         return 'maintenant'
     }
