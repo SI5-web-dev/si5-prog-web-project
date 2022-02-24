@@ -22,13 +22,64 @@ const Map = (props) => {
       <></>
     )
   }
-
-  let defaultIcon = L.icon({
+  
+  /*let defaultIcon = L.icon({
     iconUrl: require("../assets/gas-station.png"),
     iconAnchor: [25, 41],
     popupAnchor: [-12, -35],
     iconSize: new L.Point(25, 25),
-  });
+  });*/
+
+
+
+
+
+function getIcon(prix){
+  const markerHtmlStyles = `
+    background-color: ${createColorIcon(parseFloat(prix["@valeur"]))};
+    width: 3rem;
+    height: 3rem;
+    display: block;
+    left: -1.5rem;
+    top: -1.5rem;
+    position: relative;
+    border-radius: 3rem 3rem 0;
+    transform: rotate(45deg);
+    border: 1px solid #FFFFFF`
+
+  const defaultIcon = L.divIcon({
+    className: "my-custom-pin",
+    iconAnchor: [0, 24],
+    labelAnchor: [-6, 0],
+    popupAnchor: [0, -36],
+    html: `<span style="${markerHtmlStyles}" />`
+  })
+  return defaultIcon
+}
+  
+
+  function createColorIcon(prix){
+    console.log(prix)
+     let min = document.getElementById("minimum").innerHTML
+     let max = document.getElementById("maximum").innerHTML
+     console.log(min , max);
+      let percentFade  =  (parseFloat(prix)-parseFloat(min))/(parseFloat(max)-parseFloat(min));
+      console.log(percentFade)
+      let rouge ; 
+      let bleu ;
+      let vert;
+      if(percentFade<0.5){
+        rouge = 33 + (166*percentFade) ; 
+        bleu = 33;
+        vert = 196 ;
+      }else{
+        rouge = 196  ; 
+        bleu = 33;
+        vert = 196 - (166*percentFade);
+      }
+        
+      return "rgb("+rouge+","+vert+","+bleu+");"
+  }
 
   function displayPath(station) {
     let path = [];
@@ -72,7 +123,7 @@ const Map = (props) => {
   function PutMarkers() {
     return (
       props.list.map(station =>
-        <Marker position={[station[0], station[1]]} icon={defaultIcon} key={Math.random().toString(36).substring(2, 11)}>
+        <Marker position={[station[0], station[1]]} icon={getIcon(station[9])} key={Math.random().toString(36).substring(2, 11)}>
 
           <Popup maxHeight="190">
             {showPrices(station)}
