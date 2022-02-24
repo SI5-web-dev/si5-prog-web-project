@@ -11,7 +11,6 @@ import * as utils from "./utils.js";
 import { exec, spawn } from "child_process";
 const app = express();
 
-exec('pip install geopy', async (error:any, stdout:string, stderr:any) => {console.log(stdout)});
 exec('pip install xmltodict', async (error:any, stdout:string, stderr:any) => {console.log(stdout)});
 
 app.use((req, res, next) => {

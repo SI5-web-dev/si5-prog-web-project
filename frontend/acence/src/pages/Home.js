@@ -19,7 +19,10 @@ function Home() {
     let servicesChecked = [];
     let latitudeClient;
     let longitudeClient;
-    
+    let essenceChoosed="Gazole";
+    let prixMin = 10000;
+    let prixMax = 0;
+    let proximity=true;
 
     const [location,setLocation] = useState("");
 
@@ -41,6 +44,7 @@ function Home() {
     }
 
     function requestProximity() {
+        proximity=true;
         let location = document.getElementById("location").value;
         const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
         const url = `http://nominatim.openstreetmap.org/search?q=${location}&format=json&polygon=1&addressdetails=1&api_key=${apiKey}`;
@@ -58,15 +62,15 @@ function Home() {
             let GPLc = false;
             let E85 = false;
 
-            if (document.getElementById("Gazole").checked) { Gazole = true; }
-            if (document.getElementById("SP95-E10").checked) { SP95E10 = true; }
-            if (document.getElementById("SP98").checked) { SP98 = true; }
-            if (document.getElementById("SP95").checked) { SP95 = true; }
-            if (document.getElementById("GPLc").checked) { GPLc = true; }
-            if (document.getElementById("E85").checked) { E85 = true; }
+            if (document.getElementById("Gazole").checked) { Gazole = true; essenceChoosed="Gazole";}
+            else if (document.getElementById("SP95-E10").checked) { SP95E10 = true; essenceChoosed="SP95-E10";}
+            else if (document.getElementById("SP98").checked) { SP98 = true;essenceChoosed="SP98"; }
+            else if (document.getElementById("SP95").checked) { SP95 = true; essenceChoosed="SP95";}
+            else if (document.getElementById("GPLc").checked) { GPLc = true; essenceChoosed="GPLc";}
+            else if (document.getElementById("E85").checked) { E85 = true;essenceChoosed="E85"; }
             let request = JSON.stringify({ 'latitude': lat,'longitude':long, 'Gazole': Gazole, 'SP95E10': SP95E10, 'SP98': SP98, 'SP95': SP95, 'GPLc': GPLc, 'E85': E85 })
             
-            Utils.default.sendRequest('POST', '/querys/proximity', request, createSettings)
+            Utils.default.sendRequest('POST', '/querys/askStation', request, createSettings)
         });
             
         
@@ -75,25 +79,35 @@ function Home() {
     }
 
     function requestCheapest() {
+        proximity=false;
         let location = document.getElementById("location").value;
-        setLocation(location);
-        let Gazole = false;
-        let SP95E10 = false;
-        let SP98 = false;
-        let SP95 = false;
-        let GPLc = false;
-        let E85 = false;
+        const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
+        const url = `http://nominatim.openstreetmap.org/search?q=${location}&format=json&polygon=1&addressdetails=1&api_key=${apiKey}`;
+        axios.get(url).then((res) => {
+            let resultat = JSON.parse(res.request.response)[0]
+            let long = resultat.lon;
+            let lat = resultat.lat;
+            latitudeClient= lat;
+            longitudeClient=long;
+            setLocation(location);
+            let Gazole = false;
+            let SP95E10 = false;
+            let SP98 = false;
+            let SP95 = false;
+            let GPLc = false;
+            let E85 = false;
 
-        if (document.getElementById("Gazole").checked) { Gazole = true; }
-        if (document.getElementById("SP95-E10").checked) { SP95E10 = true; }
-        if (document.getElementById("SP98").checked) { SP98 = true; }
-        if (document.getElementById("SP95").checked) { SP95 = true; }
-        if (document.getElementById("GPLc").checked) { GPLc = true; }
-        if (document.getElementById("E85").checked) { E85 = true; }
-        let request = JSON.stringify({ 'location': location, 'Gazole': Gazole, 'SP95E10': SP95E10, 'SP98': SP98, 'SP95': SP95, 'GPLc': GPLc, 'E85': E85 })
+            if (document.getElementById("Gazole").checked) { Gazole = true; essenceChoosed="Gazole";}
+            else if (document.getElementById("SP95-E10").checked) { SP95E10 = true; essenceChoosed="SP95-E10";}
+            else if (document.getElementById("SP98").checked) { SP98 = true;essenceChoosed="SP98"; }
+            else if (document.getElementById("SP95").checked) { SP95 = true; essenceChoosed="SP95";}
+            else if (document.getElementById("GPLc").checked) { GPLc = true; essenceChoosed="GPLc";}
+            else if (document.getElementById("E85").checked) { E85 = true;essenceChoosed="E85"; }
+            let request = JSON.stringify({ 'latitude': lat,'longitude':long, 'Gazole': Gazole, 'SP95E10': SP95E10, 'SP98': SP98, 'SP95': SP95, 'GPLc': GPLc, 'E85': E85 })
+            
+            Utils.default.sendRequest('POST', '/querys/askStation', request, createSettingsCheapest)
 
-        Utils.default.sendRequest('POST', '/querys/cheapest', request, createSettings)
-
+        })
     }
 
     function getDistance(lat1,lon1,lat2,lon2){
@@ -118,9 +132,8 @@ function Home() {
         return d/1000;
     }
 
-
-    // callback de la requete au serveur
-    function createSettings(response) {
+    
+    function createSettingsCheapest(response) {
         if(JSON.parse(response).status !== "200"){
             alert(JSON.parse(response).message)
             return
@@ -159,12 +172,54 @@ function Home() {
         header.style.display = "block";
     }
 
+    // callback de la requete au serveur
+    function createSettings(response) {
+        if(JSON.parse(response).status !== "200"){
+            alert(JSON.parse(response).message)
+            return
+        }
+        response = JSON.parse(response).list
+        stationMap = response;
+        createServicesList();
+        //services
+        let services = document.getElementById('services');
+        services.innerHTML = "";
+        document.getElementById('ouverte').onchange = getServicesChecked;
+        for (let i = 0; i < listService.length; i++) {
+            let service = listService[i];
+            let nbOfThis = servicesOcurrence[i];
+            let checkbox = document.createElement('input');
+            let label = document.createElement('label');
+            checkbox.type = "checkbox";
+            checkbox.id = service;
+            checkbox.checked = true;
+            checkbox.name = service;
+            checkbox.onchange = getServicesChecked;
+            label.htmlFor = service;
+            label.innerHTML = '&nbsp;&nbsp;&nbsp;' + service + ' (' + nbOfThis + ')';
+            services.appendChild(checkbox)
+            services.appendChild(label)
+            let br = document.createElement('br');
+            services.appendChild(br)
+        }
+        document.getElementById("prix").onchange = getServicesChecked;
+        document.getElementById("checkAll").onclick = checkAll;
+        document.getElementById("unCheckAll").onclick = unCheckAll;
+        getServicesChecked();
+        createListPoint();
+
+        //Displaying the hidden table
+        let header = document.querySelector("#table");
+        header.style.display = "block";
+    }
+
     // creer la liste de points a afficher sur la map en fonction des services checkés
     function createListPoint() {
         let listPoints = [];
         let thisDay = getDay();
         let thisHour = getHour();
         let thisMinute = getMinutes();
+        let prixMaximumChoisit = document.getElementById("prix").value;
         stationMap.forEach(station => {
             if((document.getElementById('ouverte').checked && stationOuverte(station.horaires,thisDay,thisHour,thisMinute))|| !document.getElementById('ouverte').checked){
                 if ("object" === typeof station.services.service) {
@@ -180,7 +235,17 @@ function Home() {
                             const services = station["services"];
                             const horaires = station["horaires"];
                             const prix = station["prix"];
-                            listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix,distance]);
+                            let prixChosit;
+                            for(let i =0 ; i<station["prix"].length;i++){
+                                if(station["prix"][i]["@nom"]===essenceChoosed){
+                                    prixChosit = station["prix"][i];
+                                    
+                                    break;
+                                }
+                            }
+                            if(parseFloat(prixChosit["@valeur"])<=prixMaximumChoisit){
+                                listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix,distance,prixChosit]);
+                            }
                             break;
                         }
                     }
@@ -195,11 +260,23 @@ function Home() {
                         const services = station["services"];
                         const horaires = station["horaires"];
                         const prix = station["prix"];
-                        listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix,distance]);
+                        let prixChosit;
+                            for(let i =0 ; i<station["prix"].length;i++){
+                                if(station["prix"][i]["@nom"]===essenceChoosed){
+                                    prixChosit = station["prix"][i];
+                                    break;
+                                }
+                            }
+                            if(parseFloat(prixChosit["@valeur"])<=prixMaximumChoisit){
+                                listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix,distance,prixChosit]);
+                            }
+                        
                     }
                 }
             }
         });
+
+
         setListPoint(listPoints);
     }
     // vérifie si la station est ouverte selon les horaires
@@ -249,6 +326,20 @@ function Home() {
         listService = [];
         servicesOcurrence = [];
         stationMap.forEach(station => {
+            
+            for(let i =0 ; i<station["prix"].length;i++){
+                if(station["prix"][i]["@nom"]===essenceChoosed){
+                    let prixChosit = station["prix"][i];
+                    if(parseFloat(prixChosit["@valeur"])<prixMin) prixMin = parseFloat(prixChosit["@valeur"]);
+                    if(parseFloat(prixChosit["@valeur"])>prixMax) prixMax = parseFloat(prixChosit["@valeur"]);
+                    break;
+                }
+            }
+            document.getElementById("prix").min = prixMin;
+            document.getElementById("prix").max = prixMax;
+            document.getElementById("prix").value = prixMax;
+            document.getElementById("minimum").innerHTML = prixMin;
+            document.getElementById("maximum").innerHTML = prixMax;
             if (station.services === null) {
                 station.services = { service: ["Aucun service"] } ;
             }
@@ -271,6 +362,7 @@ function Home() {
         services.forEach(service => {
             servicesOcurrence[listService.indexOf(service)]++;
         })
+
     }
 
     // recupère la liste des services checkés
@@ -331,9 +423,9 @@ function Home() {
                         </Form>
 
                         <div>
-                            <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
+                            <ToggleButtonGroup type="radio" value={value} name="options" onChange={handleChange} defaultValue="Gazole">
                                 <ToggleButton id="Gazole" value="Gazole">
-                                    Gazole
+                                    Gazole 
                                 </ToggleButton>
                                 <ToggleButton id="SP95-E10" value="SP95-E10">
                                     SP95-E10
@@ -363,6 +455,10 @@ function Home() {
             <div className="researchSettings" id="researchSettings">
                 <input type="checkbox" id="ouverte" name="ouverte"  />
                 <label htmlFor="ouverte">&nbsp;&nbsp;&nbsp;Ouverte</label>
+                <br />
+                Prix : 
+                <br />
+                <span id="minimum"></span><input type="range" id="prix" min="0" max="100" step="0.001" ></input><span id="maximum"></span>
                 <br />
                 <button className="m-2" id="checkAll" >Tout cocher</button>
                 <button className="m-2" id="unCheckAll" >Tout décocher</button>

@@ -4,7 +4,7 @@ import Station from '../models/station.js';
 import * as utils from "../utils.js"
 import { exec, spawn } from "child_process";
 
-export const proximity : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
+export const askStation : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
     
         let latitiude = parseFloat(req.body.latitude)*100000
         let longitude = parseFloat(req.body.longitude)*100000

@@ -3,15 +3,7 @@ import * as queryCtrl from '../controllers/querys.js';
 
 const router = express.Router();
 
-/**
- * Route Signup
- */
- router.post("/proximity", queryCtrl.proximity);
+ router.post("/askStation", queryCtrl.askStation);
 
-
- /**
-  * Route Login
-  */
- router.post("/cheapest", queryCtrl.cheapest);
 
  export default router;
