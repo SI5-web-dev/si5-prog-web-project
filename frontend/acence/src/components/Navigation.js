@@ -26,7 +26,8 @@ const Navigation = () => {
 
     function deleteToken(){
         localStorage.removeItem("token");
-        
+        localStorage.removeItem("favoriteStations");
+
         window.location.href = "/";
     }
 

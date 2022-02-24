@@ -1,8 +1,11 @@
 import { Table, Button } from "react-bootstrap";
-import { useMap } from 'react-leaflet';
 import React, { useState } from "react";
 import { useRef } from "react";
 import CanvasInfosEssence from "./CanvasInfosEssence";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
+import * as Utils from "./../Utils";
 
 const ListEssence = (props) => {
 
@@ -11,6 +14,7 @@ const ListEssence = (props) => {
     const [nameStation, setNameStation] = useState(0);
     const [codePostal, setCodePostal] = useState(0);
     const [ville, setVille] = useState("");
+    const [favoriteStationList, setFavoriteStationList] = useState(JSON.parse(localStorage.getItem("favoriteStations")));
 
     function displayInfosStation(station, ville, codePostal) {
         setNameStation(station);
@@ -26,7 +30,7 @@ const ListEssence = (props) => {
                 if (jour.horaire) {
                     let heureOuverture = jour.horaire["@ouverture"];
                     let heurefermeture = jour.horaire["@fermeture"];
-                    
+
                     if(heureOuverture){
                         heureOuverture = heureOuverture.replace('.', ':');
                     }
@@ -71,6 +75,52 @@ const ListEssence = (props) => {
         )
     }
 
+    function addToFavoris(id){
+        if(!localStorage.getItem("token")){
+            alert("Connectez-vous avant d'ajouter une station à vos favoris")
+        }else {
+            if (id !== undefined) {
+                var storageStation = JSON.parse(localStorage.getItem("favoriteStations"));
+                storageStation.push(id);
+                setFavoriteStationList(storageStation);
+                Utils.default.sendRequest('POST', '/user/addFavorite', JSON.stringify({
+                    'idStation': id,
+                    'user': localStorage.getItem("token")
+                })).then(r => localStorage.setItem("favoriteStations", JSON.stringify(storageStation)))
+            } else {
+                alert("Impossible d'ajouter cette station aux favoris")
+            }
+        }
+    }
+
+    function removeToFavoris(id){
+        if(id!==undefined) {
+            let storageStation = JSON.parse(localStorage.getItem("favoriteStations"));
+            let index = storageStation.indexOf(id);
+            let firstPart = storageStation.splice(0,index);
+            storageStation.shift()
+            let secondPart = storageStation;
+            storageStation = firstPart.concat(secondPart);
+            setFavoriteStationList(storageStation);
+            Utils.default.sendRequest('POST', '/user/removeFavorite', JSON.stringify({ 'idStation': id, 'user': localStorage.getItem("token") }),()=>document.getElementById("favoriStar").visible = false).then(r => localStorage.setItem("favoriteStations", JSON.stringify(storageStation)))
+        }else{
+            alert("Impossible d'enlever cette station des favoris")
+        }
+    }
+
+    function DisplayStar(props) {
+        const idStation = props.coord1+","+props.coord2;
+        const favStationList = localStorage.getItem("favoriteStations");
+        if(favStationList !== null) {
+            if (favoriteStationList.includes(idStation)) {
+                return <div id="favoriStar" onClick={() => removeToFavoris(idStation)}><FontAwesomeIcon
+                    icon={faStarSolid}/></div>;
+            }
+        }
+        return <div id="favoriStar" onClick={()=> {addToFavoris(idStation)}}><FontAwesomeIcon icon={faStarRegular} /></div>;
+    }
+
+
     function CreateList() {
         return (
             props.list.map(station => {
@@ -83,7 +133,7 @@ const ListEssence = (props) => {
                         </td>
                         <td>{station[8]}</td>
                         {showOuvertFerme(station)}
-                        <td><img width="50" alt="" src="https://allfreepng.com/storage/images/star%20png%2012-thumbnail.png" /></td>
+                        <td><DisplayStar coord1={station[0]} coord2={station[1]}/></td>
                         <td><Button variant="secondary" size="sm" onClick={() => { displayInfosStation(station[2], station[3], station[4]) }}>Plus d'infos</Button></td>
                         {/* <td><Button variant="primary" onClick={() => { props.bam(station) }}>Voir sur la map</Button></td> */}
                     </tr>

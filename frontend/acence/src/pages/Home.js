@@ -12,7 +12,7 @@ function Home() {
     const [value, setValue] = useState();
     const [listPoint, setListPoint] = useState([]);
     const handleChange = (val) => setValue(val);
-    
+
     let listService = [];
     let servicesOcurrence = [];
     let stationMap = [];
@@ -35,7 +35,8 @@ function Home() {
         });
         
 
-        
+
+
         });
     }
 
@@ -69,6 +70,7 @@ function Home() {
         });
             
         
+
 
     }
 
@@ -196,7 +198,7 @@ function Home() {
                         listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix,distance]);
                     }
                 }
-            }                
+            }
         });
         setListPoint(listPoints);
     }
@@ -241,7 +243,7 @@ function Home() {
         let jourActuel = new Date();
         return jourActuel.getDay()
     }
-    // creer la liste des services et leurs occurences 
+    // creer la liste des services et leurs occurences
     function createServicesList() {
         let services = [];
         listService = [];
@@ -282,7 +284,7 @@ function Home() {
         createListPoint();
     }
 
-    
+
     function checkAll() {
         listService.forEach(service => {
             document.getElementById(service).checked = true;
@@ -316,7 +318,7 @@ function Home() {
                 <Container>
                     <Row className="justify-content-center text-center">
                         <h3>Trouver une station essence</h3>
-                        
+
                         <Form>
                             <FormControl
                                 type="search"
@@ -325,9 +327,9 @@ function Home() {
                                 aria-label="Search"
                                 id="location"
                             /><img className="target" alt="" src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-target-interface-kiranshastry-lineal-kiranshastry.png" onClick={getPostionForInput}/>
-                            
+
                         </Form>
-                        
+
                         <div>
                             <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
                                 <ToggleButton id="Gazole" value="Gazole">
@@ -352,7 +354,7 @@ function Home() {
                         </div>
                         <div>
                             <Button variant="secondary" className="m-2" id="buttonProximity" onClick={requestProximity}>Rechercher la plus proche</Button>
-                            
+
                             <Button variant="secondary" className="m-2" id="buttonCheapest" onClick={requestCheapest}>Rechercher la moins chère</Button>
                         </div>
                     </Row>
