@@ -1,8 +1,6 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import User from '../models/user.js';
-import HttpException from '../httpExeption';
-
-import jwt from 'jsonwebtoken';
+import {UserInfo} from "os";
 
 export const signup : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
     try {
@@ -28,7 +26,8 @@ export const signup : RequestHandler = async (req : Request, res : Response, nex
             email: req.body.email,
             password: req.body.password,
             name : req.body.name,
-            surname : req.body.surname
+            surname : req.body.surname,
+            favoriteStations : [],
         });
 
         user.save().then(async () => {
@@ -45,6 +44,7 @@ export const signup : RequestHandler = async (req : Request, res : Response, nex
         });
     }
     catch (err) {
+        res.send({"status":"500"});
         next(err);
     }
 };
@@ -62,10 +62,76 @@ export const login : RequestHandler = async (req : Request, res : Response, next
             res.send({ "message":  "Nom d'utilisateur ou mot de passe incorrect !"});
             return
         }
-        res.send({ "message":  "Vous êtes connecté !", 'uid':user._id});
+        res.send({ "message":  "Vous êtes connecté !", 'uid':user._id, "favoriteStations" : user.favoriteStations});
         return
     }
     catch (err) {
+        res.send({"status":"500"});
+        next(err);
+    }
+};
+
+export const addFavorite : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
+    try {
+        const user : any = await User.findOne({_id: req.body.user
+        }).lean();
+        console.log(user)
+        if (!user) {
+            res.send({ "message":  "Nom d'utilisateur ou mot de passe incorrect !"});
+            return
+        }
+        else{
+            user.favoriteStations.push(req.body.idStation);
+            await User.updateOne(
+            {
+                _id: req.body.user
+            },
+            {
+                $set :
+                {
+                    favoriteStations : user.favoriteStations,
+                }
+            })
+            res.send({"status":"200"});
+        }
+    }
+    catch (err) {
+        res.send({"status":"500"});
+        next(err);
+    }
+};
+
+export const removeFavorite : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
+    try {
+        const user : any = await User.findOne({_id: req.body.user
+        }).lean();
+        if (!user) {
+            res.send({ "message":  "Nom d'utilisateur ou mot de passe incorrect !"});
+            return
+        }
+        else {
+            if (user.favoriteStations.includes(req.body.idStation)) {
+                let index = user.favoriteStations.indexOf(req.body.idStation);
+                let firstPart = user.favoriteStations.splice(0,index);
+                user.favoriteStations.shift()
+                let secondPart = user.favoriteStations;
+                user.favoriteStations = firstPart.concat(secondPart);
+                await User.updateOne(
+                    {
+                        _id: req.body.user
+                    },
+                    {
+                        $set:
+                            {
+                                favoriteStations: user.favoriteStations,
+                            }
+                    })
+                res.send({"status":"200"});
+            }
+        }
+    }
+    catch (err) {
+        res.send({"status":"500"});
         next(err);
     }
 };

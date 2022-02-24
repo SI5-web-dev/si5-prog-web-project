@@ -12,35 +12,35 @@ function Home() {
     const [value, setValue] = useState();
     const [listPoint, setListPoint] = useState([]);
     const handleChange = (val) => setValue(val);
-    
+
     let listService = [];
     let servicesOcurrence = [];
     let stationMap = [];
     let servicesChecked = [];
-    
-    
+
+
 
     const [location,setLocation] = useState("");
 
     function getPostionForInput(){
         const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
         navigator.geolocation.getCurrentPosition((ta)=>{
-            
+
             const url = `http://nominatim.openstreetmap.org/reverse?format=json&lat=${ta.coords.latitude}&lon=${ta.coords.longitude}&api_key=${apiKey}`;
             axios.get(url).then((res) => {
             console.log(JSON.parse(res.request.response))
             let resultat = JSON.parse(res.request.response).address
             document.getElementById("location").value = resultat.road +" "+resultat.quarter+" "+resultat.postcode+" "+resultat.city;
         });
-       
 
-        
+
+
         });
     }
 
     function requestProximity() {
         let location = document.getElementById("location").value;
-        
+
         setLocation(location);
         let Gazole = false;
         let SP95E10 = false;
@@ -58,6 +58,7 @@ function Home() {
         let request = JSON.stringify({ 'location': location, 'Gazole': Gazole, 'SP95E10': SP95E10, 'SP98': SP98, 'SP95': SP95, 'GPLc': GPLc, 'E85': E85 })
 
         Utils.default.sendRequest('POST', '/querys/proximity', request, createSettings)
+
 
     }
 
@@ -159,7 +160,7 @@ function Home() {
                         listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix]);
                     }
                 }
-            }                
+            }
         });
         setListPoint(listPoints);
     }
@@ -211,7 +212,7 @@ function Home() {
         let jourActuel = new Date();
         return jourActuel.getDay()
     }
-    // creer la liste des services et leurs occurences 
+    // creer la liste des services et leurs occurences
     function createServicesList() {
         let services = [];
         listService = [];
@@ -252,7 +253,7 @@ function Home() {
         createListPoint();
     }
 
-    
+
     function checkAll() {
         listService.forEach(service => {
             document.getElementById(service).checked = true;
@@ -286,7 +287,7 @@ function Home() {
                 <Container>
                     <Row className="justify-content-center text-center">
                         <h3>Trouver une station essence</h3>
-                        
+
                         <Form>
                             <FormControl
                                 type="search"
@@ -295,9 +296,9 @@ function Home() {
                                 aria-label="Search"
                                 id="location"
                             /><img className="target" alt="" src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-target-interface-kiranshastry-lineal-kiranshastry.png" onClick={getPostionForInput}/>
-                            
+
                         </Form>
-                        
+
                         <div>
                             <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
                                 <ToggleButton id="Gazole" value="Gazole">
@@ -322,7 +323,7 @@ function Home() {
                         </div>
                         <div>
                             <Button variant="secondary" className="m-2" id="buttonProximity" onClick={requestProximity}>Rechercher la plus proche</Button>
-                            
+
                             <Button variant="secondary" className="m-2" id="buttonCheapest" onClick={requestCheapest}>Rechercher la moins chère</Button>
                         </div>
                     </Row>

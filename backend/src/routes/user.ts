@@ -14,4 +14,14 @@ const router = express.Router();
   */
  router.post("/login", userCtrl.login);
 
+/**
+ * Route AddFavorite
+ */
+router.post("/addFavorite", userCtrl.addFavorite);
+
+/**
+ * Route RemoveFavorite
+ */
+router.post("/removeFavorite", userCtrl.removeFavorite);
+
  export default router;

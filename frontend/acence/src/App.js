@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import {Spinner} from "react-bootstrap";
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -27,6 +28,7 @@ function App() {
         <Route path="/signup" element={<Signup/>}></Route>
         <Route path="*" element={<NotFoundPage/>}></Route>
       </Routes>
+        <div id="loading"><Spinner id="spinner" animation="border" /></div>
     </Router>
   );
 }

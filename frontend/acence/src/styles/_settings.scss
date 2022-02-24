@@ -6,3 +6,23 @@ $color_background : black;
 body{
     text-align: center;
 }
+
+#loading{
+    z-index: 1;
+    background: white;
+    opacity: 70%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    display: grid;
+    visibility: hidden;
+}
+
+#spinner{
+    margin: auto;
+    width: 5em;
+    height: 5em;
+}

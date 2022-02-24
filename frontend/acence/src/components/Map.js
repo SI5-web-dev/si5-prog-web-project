@@ -34,15 +34,19 @@ const Map = (props) => {
     let path = [];
     const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
     const start = `${currentPosition.lng}, ${currentPosition.lat}`;
-    const end = `${station[1]}, ${station[0]}`;
-    const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${start}&end=${end}`;
-    axios.get(url).then((res) => {
-      const temp = res.data.features[0].geometry.coordinates;
-      temp.forEach(coord => {
-        path.push([coord[1], coord[0]]);
-      })
-      setPathToStation(path);
-    });
+    if(currentPosition.lng === undefined){
+      alert("Vous devez acceptez l'autorisation de géolocalisation");
+    }else {
+      const end = `${station[1]}, ${station[0]}`;
+      const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${start}&end=${end}`;
+      axios.get(url).then((res) => {
+        const temp = res.data.features[0].geometry.coordinates;
+        temp.forEach(coord => {
+          path.push([coord[1], coord[0]]);
+        })
+        setPathToStation(path);
+      });
+    }
   }
 
   function showPrices(station) {

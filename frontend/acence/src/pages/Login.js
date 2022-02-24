@@ -1,7 +1,6 @@
-
 import { NavLink } from 'react-router-dom';
-import Navigation from '../components/Navigation';
 import * as utils from "../Utils";
+
 let pathUrl =  window.location
 let hostname = "";
 if(pathUrl.origin === "http://localhost:3000"){
@@ -26,6 +25,7 @@ const Login = () => {
         let res = JSON.parse(response).message
         if(res==="Vous êtes connecté !"){
             localStorage.setItem("token",JSON.parse(response).uid);
+            localStorage.setItem("favoriteStations",JSON.stringify(JSON.parse(response).favoriteStations));
             alert(res);
             window.location="/"
         }else{
@@ -44,7 +44,7 @@ const Login = () => {
             <div className="box2">
                 <div className="phTitle">Password</div>
                 <input type="password" id="mdp" className="ph" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"></input>
-            </div> 
+            </div>
             <button className="signin" onClick={login}>Log in</button>
             <div className="or">Or</div>
             <NavLink to="/signup"><button className="signup">Sign up</button></NavLink>
