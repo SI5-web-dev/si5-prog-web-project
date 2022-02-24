@@ -24,8 +24,16 @@ const ListEssence = (props) => {
         if (station[6]) {//station[6] : horaires
             Array.prototype.forEach.call(station[6].jour, jour => {
                 if (jour.horaire) {
-                    const heureOuverture = jour.horaire["@ouverture"];
-                    const heurefermeture = jour.horaire["@fermeture"];
+                    let heureOuverture = jour.horaire["@ouverture"];
+                    let heurefermeture = jour.horaire["@fermeture"];
+                    
+                    if(heureOuverture){
+                        heureOuverture = heureOuverture.replace('.', ':');
+                    }
+                    if(heurefermeture){
+                        heurefermeture = heurefermeture.replace('.', ':');
+                    }
+
                     if (heureOuverture === heurefermeture) {
                         ouvertFerme = "Ouvert 24h/24";
                     }
