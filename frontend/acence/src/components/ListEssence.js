@@ -131,7 +131,7 @@ const ListEssence = (props) => {
                             <br />
                             {showPrices(station)}
                         </td>
-                        <td>{station[8]}</td>
+                        <td><b>{Math.round((station[8] + Number.EPSILON) * 100) / 100} km </b></td>
                         {showOuvertFerme(station)}
                         <td><DisplayStar coord1={station[0]} coord2={station[1]}/></td>
                         <td><Button variant="secondary" size="sm" onClick={() => { displayInfosStation(station[2], station[3], station[4]) }}>Plus d'infos</Button></td>
