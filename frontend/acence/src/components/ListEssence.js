@@ -120,6 +120,25 @@ const ListEssence = (props) => {
         return <div id="favoriStar" onClick={()=> {addToFavoris(idStation)}}><FontAwesomeIcon icon={faStarRegular}/></div>;
     }
 
+    function createColorIcon(prix){
+        let min = document.getElementById("minimum").innerHTML
+        let max = document.getElementById("maximum").innerHTML
+         let percentFade  =  (parseFloat(prix)-parseFloat(min))/(parseFloat(max)-parseFloat(min));
+         let rouge ; 
+         let bleu ;
+         let vert;
+         if(percentFade<0.5){
+           rouge = 33 + (166*percentFade) ; 
+           bleu = 33;
+           vert = 196 ;
+         }else{
+           rouge = 196  ; 
+           bleu = 33;
+           vert = 196 - (166*percentFade);
+         }
+           
+         return "rgb("+rouge+","+vert+","+bleu+")"
+     }
 
     function CreateList() {
         return (
@@ -131,6 +150,7 @@ const ListEssence = (props) => {
                             <br />
                             {showPrices(station)}
                         </td>
+                        <td><b><span style={{color: createColorIcon(parseFloat(station[9]["@valeur"]))}}>{Math.round((parseFloat(station[9]["@valeur"]) + Number.EPSILON) * 100) / 100}</span></b></td>
                         <td><b>{Math.round((station[8] + Number.EPSILON) * 100) / 100} km </b></td>
                         {showOuvertFerme(station)}
                         <td><DisplayStar coord1={station[0]} coord2={station[1]}/></td>
@@ -178,6 +198,7 @@ const ListEssence = (props) => {
                     <thead >
                         <tr>
                             <td colSpan="1"><b>Stations d'essence</b></td>
+                            <td colSpan="1"><b>Prix €/L</b></td>
                             <td colSpan="1"><b>Distance</b></td>
                             <td colSpan="1"><b>Ouvert/fermé</b></td>
                             <td colSpan="1"><b>Ajout en favoris</b></td>
