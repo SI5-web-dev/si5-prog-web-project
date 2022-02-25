@@ -31,10 +31,10 @@ const ListEssence = (props) => {
                     let heureOuverture = jour.horaire["@ouverture"];
                     let heurefermeture = jour.horaire["@fermeture"];
 
-                    if(heureOuverture){
+                    if (heureOuverture) {
                         heureOuverture = heureOuverture.replace('.', ':');
                     }
-                    if(heurefermeture){
+                    if (heurefermeture) {
                         heurefermeture = heurefermeture.replace('.', ':');
                     }
 
@@ -75,10 +75,10 @@ const ListEssence = (props) => {
         )
     }
 
-    function addToFavoris(id){
-        if(!localStorage.getItem("token")){
+    function addToFavoris(id) {
+        if (!localStorage.getItem("token")) {
             alert("Connectez-vous avant d'ajouter une station à vos favoris")
-        }else {
+        } else {
             if (id !== undefined) {
                 var storageStation = JSON.parse(localStorage.getItem("favoriteStations"));
                 storageStation.push(id);
@@ -93,52 +93,52 @@ const ListEssence = (props) => {
         }
     }
 
-    function removeToFavoris(id){
-        if(id!==undefined) {
+    function removeToFavoris(id) {
+        if (id !== undefined) {
             let storageStation = JSON.parse(localStorage.getItem("favoriteStations"));
             let index = storageStation.indexOf(id);
-            let firstPart = storageStation.splice(0,index);
+            let firstPart = storageStation.splice(0, index);
             storageStation.shift()
             let secondPart = storageStation;
             storageStation = firstPart.concat(secondPart);
             setFavoriteStationList(storageStation);
-            Utils.default.sendRequest('POST', '/user/removeFavorite', JSON.stringify({ 'idStation': id, 'user': localStorage.getItem("token") }),()=>document.getElementById("favoriStar").visible = false).then(r => localStorage.setItem("favoriteStations", JSON.stringify(storageStation)))
-        }else{
+            Utils.default.sendRequest('POST', '/user/removeFavorite', JSON.stringify({ 'idStation': id, 'user': localStorage.getItem("token") }), () => document.getElementById("favoriStar").visible = false).then(r => localStorage.setItem("favoriteStations", JSON.stringify(storageStation)))
+        } else {
             alert("Impossible d'enlever cette station des favoris")
         }
     }
 
     function DisplayStar(props) {
-        const idStation = props.coord1+","+props.coord2;
+        const idStation = props.coord1 + "," + props.coord2;
         const favStationList = localStorage.getItem("favoriteStations");
-        if(favStationList !== null) {
+        if (favStationList !== null) {
             if (favoriteStationList.includes(idStation)) {
                 return <div id="favoriStar" onClick={() => removeToFavoris(idStation)}><FontAwesomeIcon
-                    icon={faStarSolid}/></div>;
+                    icon={faStarSolid} /></div>;
             }
         }
-        return <div id="favoriStar" onClick={()=> {addToFavoris(idStation)}}><FontAwesomeIcon icon={faStarRegular}/></div>;
+        return <div id="favoriStar" onClick={() => { addToFavoris(idStation) }}><FontAwesomeIcon icon={faStarRegular} /></div>;
     }
 
-    function createColorIcon(prix){
+    function createColorIcon(prix) {
         let min = document.getElementById("minimum").innerHTML
         let max = document.getElementById("maximum").innerHTML
-         let percentFade  =  (parseFloat(prix)-parseFloat(min))/(parseFloat(max)-parseFloat(min));
-         let rouge ; 
-         let bleu ;
-         let vert;
-         if(percentFade<0.5){
-           rouge = 33 + (166*percentFade) ; 
-           bleu = 33;
-           vert = 196 ;
-         }else{
-           rouge = 196  ; 
-           bleu = 33;
-           vert = 196 - (166*percentFade);
-         }
-           
-         return "rgb("+rouge+","+vert+","+bleu+")"
-     }
+        let percentFade = (parseFloat(prix) - parseFloat(min)) / (parseFloat(max) - parseFloat(min));
+        let rouge;
+        let bleu;
+        let vert;
+        if (percentFade < 0.5) {
+            rouge = 33 + (166 * percentFade);
+            bleu = 33;
+            vert = 196;
+        } else {
+            rouge = 196;
+            bleu = 33;
+            vert = 196 - (166 * percentFade);
+        }
+
+        return "rgb(" + rouge + "," + vert + "," + bleu + ")"
+    }
 
     function CreateList() {
         return (
@@ -150,10 +150,10 @@ const ListEssence = (props) => {
                             <br />
                             {showPrices(station)}
                         </td>
-                        <td><b><span style={{color: createColorIcon(parseFloat(station[9]["@valeur"]))}}>{Math.round((parseFloat(station[9]["@valeur"]) + Number.EPSILON) * 100) / 100}</span></b></td>
+                        <td><b><span style={{ color: createColorIcon(parseFloat(station[9]["@valeur"])) }}>{Math.round((parseFloat(station[9]["@valeur"]) + Number.EPSILON) * 100) / 100}</span></b></td>
                         <td><b>{Math.round((station[8] + Number.EPSILON) * 100) / 100} km </b></td>
                         {showOuvertFerme(station)}
-                        <td><DisplayStar coord1={station[0]} coord2={station[1]}/></td>
+                        <td><DisplayStar coord1={station[0]} coord2={station[1]} /></td>
                         <td><Button variant="secondary" size="sm" onClick={() => { displayInfosStation(station[2], station[3], station[4]) }}>Plus d'infos</Button></td>
                         {/* <td><Button variant="primary" onClick={() => { props.bam(station) }}>Voir sur la map</Button></td> */}
                     </tr>
@@ -165,47 +165,49 @@ const ListEssence = (props) => {
     function sortTable() {
         var table, rows, switching, i, x, y, shouldSwitch;
         table = document.querySelector(".styled-table");
-        if(table){
-        switching = true;
-        while (switching) {
-          switching = false;
-          rows = table.rows;
-          if(props.search){
-            for (i = 1; i < (rows.length - 1); i++) {
-                shouldSwitch = false;
-                x = rows[i].getElementsByTagName("TD")[2];
-                y = rows[i + 1].getElementsByTagName("TD")[2];
-
-                x = parseFloat(x.innerHTML.split(' km')[0].split('<b>')[1]);
-                y = parseFloat(y.innerHTML.split(' km')[0].split('<b>')[1]);
-                if (x > y) {
-                  shouldSwitch = true;
-                  break;
-                }
-              }
-             
-          }else{
-            for (i = 1; i < (rows.length - 1); i++) {
-                shouldSwitch = false;
-                x = rows[i].getElementsByTagName("TD")[1];
-                y = rows[i + 1].getElementsByTagName("TD")[1];
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                  shouldSwitch = true;
-                  break;
-                }
-              }
-             
-          }
-          if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        if (table) {
             switching = true;
-          }
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                if (props.search) {
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByTagName("TD")[2];
+                        y = rows[i + 1].getElementsByTagName("TD")[2];
+
+                        x = parseFloat(x.innerHTML.split(' km')[0].split('<b>')[1]);
+                        y = parseFloat(y.innerHTML.split(' km')[0].split('<b>')[1]);
+                        if (x > y) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+
+                } else {
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByTagName("TD")[1];
+                        y = rows[i + 1].getElementsByTagName("TD")[1];
+
+                        x = parseFloat(x.innerHTML.split(';">')[1].split("</span>")[0])
+                        y = parseFloat(y.innerHTML.split(';">')[1].split("</span>")[0])
+                        if (x > y) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
         }
-      }
     }
-      useEffect( () => {
-          sortTable();
-      })
+    useEffect(() => {
+        sortTable();
+    })
 
     return (
         <div className="listEssence">
