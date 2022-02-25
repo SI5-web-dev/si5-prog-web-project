@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import {Spinner} from "react-bootstrap";
-import React from "react";
+import { Spinner } from "react-bootstrap";
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -15,23 +15,39 @@ import Signup from "./pages/Signup";
 import NotFoundPage from './pages/NotFoundPage';
 import Favoris from './pages/Favoris';
 
-function App() {
-  return (
+import useLocalStorage from './lib/useLocalStorage';
+import { ThemeContext } from './context/ThemeContext';
 
-    <Router>
-      <Navigation />
-      {/* A <Switch> looks through its children <Route>s and
+function App() {
+  const [theme, setTheme] = useState();
+  const [storageMode, setStorageMode] = useLocalStorage('darkmode');
+
+  const changeThemeContext = useCallback((newTheme) => {
+    setTheme(newTheme);
+    setStorageMode(newTheme);
+  }, [setStorageMode]);
+
+  useEffect(() => {
+    setTheme(storageMode || 'light');
+  }, [storageMode]);
+
+  return (
+    <ThemeContext.Provider value={{ theme, changeThemeContext }}>
+      <Router>
+        <Navigation />
+        {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-      <Routes>
-        <Route path="/" element={<Home/>}></Route>
-        <Route path="/home" element={<Home/>}></Route>
-        <Route path="/login" element={<Login/>}></Route>
-        <Route path="/signup" element={<Signup/>}></Route>
-        <Route path="/favoris" element={<Favoris/>}></Route>
-        <Route path="*" element={<NotFoundPage/>}></Route>
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/home" element={<Home />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/signup" element={<Signup />}></Route>
+          <Route path="/favoris" element={<Favoris />}></Route>
+          <Route path="*" element={<NotFoundPage />}></Route>
+        </Routes>
         <div id="loading"><Spinner id="spinner" animation="border" /></div>
-    </Router>
+      </Router>
+    </ThemeContext.Provider>
   );
 }
 

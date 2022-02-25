@@ -1,17 +1,21 @@
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react';
+import React, { useState , useContext} from 'react';
 import * as Utils from "./../Utils";
 import axios from 'axios';
 import { Button, ToggleButton, ToggleButtonGroup, Form, FormControl } from 'react-bootstrap';
 import { Container, Row } from "reactstrap";
 import Map from "../components/Map";
 import ListEssence from "../components/ListEssence";
+import {ThemeContext} from "../context/ThemeContext";
+
 function Home() {
 
     const [proximity, setProximity] = useState(true);
     const [value, setValue] = useState();
     const [listPoint, setListPoint] = useState([]);
     const handleChange = (val) => setValue(val);
+
+    const { theme } = useContext(ThemeContext);
 
     let listService = [];
     let servicesOcurrence = [];
@@ -408,7 +412,7 @@ function Home() {
 
 
     return (
-        <div className="Home">
+        <div className={`Home ${theme}`}>
             <div>
                 <Container>
                     <Row className="justify-content-center text-center">
