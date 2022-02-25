@@ -170,13 +170,15 @@ const ListEssence = (props) => {
         while (switching) {
           switching = false;
           rows = table.rows;
-          console.log(props.search)
           if(props.search){
             for (i = 1; i < (rows.length - 1); i++) {
                 shouldSwitch = false;
                 x = rows[i].getElementsByTagName("TD")[2];
                 y = rows[i + 1].getElementsByTagName("TD")[2];
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+
+                x = parseFloat(x.innerHTML.split(' km')[0].split('<b>')[1]);
+                y = parseFloat(y.innerHTML.split(' km')[0].split('<b>')[1]);
+                if (x > y) {
                   shouldSwitch = true;
                   break;
                 }
