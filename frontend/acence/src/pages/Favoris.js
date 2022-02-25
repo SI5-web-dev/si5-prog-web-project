@@ -1,6 +1,6 @@
-import ListEssence from "../components/ListEssence";
 import React, {useEffect, useState} from "react";
 import * as Utils from "../Utils";
+import ListEssenceFav from "../components/ListEssenceFav";
 
 function Favoris() {
     const [listStation, setListStation] = useState([]);
@@ -8,6 +8,7 @@ function Favoris() {
     let arrayFormatListStations = [];
 
     useEffect(() => {
+        console.log("heheh")
        createListStations()
     },[]);
 
@@ -36,8 +37,6 @@ function Favoris() {
                 arrayFormatListStations.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix]);
         });
             setListStation(arrayFormatListStations)
-            let header = document.querySelector("#table");
-            header.style.display = "block";
         }
     }
 
@@ -45,7 +44,7 @@ function Favoris() {
         <div className="Favoris">
             <h3>Vos stations essence favorites</h3>
             <div id="listFavoris">
-                <ListEssence list={listStation} />
+                <ListEssenceFav list={listStation} nbStation={listStation.length} />
             </div>
         </div>
     )

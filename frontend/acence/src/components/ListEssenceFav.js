@@ -1,5 +1,5 @@
 import { Table, Button } from "react-bootstrap";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRef } from "react";
 import CanvasInfosEssence from "./CanvasInfosEssence";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -120,115 +120,58 @@ const ListEssence = (props) => {
         return <div id="favoriStar" onClick={() => { addToFavoris(idStation) }}><FontAwesomeIcon icon={faStarRegular} /></div>;
     }
 
-    function createColorIcon(prix) {
-        let min = document.getElementById("minimum").innerHTML
-        let max = document.getElementById("maximum").innerHTML
-        let percentFade = (parseFloat(prix) - parseFloat(min)) / (parseFloat(max) - parseFloat(min));
-        let rouge;
-        let bleu;
-        let vert;
-        if (percentFade < 0.5) {
-            rouge = 33 + (166 * percentFade);
-            bleu = 33;
-            vert = 196;
-        } else {
-            rouge = 196;
-            bleu = 33;
-            vert = 196 - (166 * percentFade);
+    function CreateListIfFav(){
+        if(props.nbStation === 0){
+            return <div><h5>Vous n'avez pas encore de stations essence favorites</h5></div>
+        }else{
+            return <CreateList/>
         }
-
-        return "rgb(" + rouge + "," + vert + "," + bleu + ")"
     }
 
-    function CreateList() {
+    function CreateListFav() {
         return (
             props.list.map(station => {
-                return (
-                    <tr key={Math.random().toString(36).substring(2, 11)}>
-                        <td>
-                            <b>{station[2]} - {station[4]} {station[3]}</b>
-                            <br />
-                            {showPrices(station)}
-                        </td>
-                        <td><b><span style={{ color: createColorIcon(parseFloat(station[9]["@valeur"])) }}>{Math.round((parseFloat(station[9]["@valeur"]) + Number.EPSILON) * 100) / 100}</span></b></td>
-                        <td><b>{Math.round((station[8] + Number.EPSILON) * 100) / 100} km </b></td>
-                        {showOuvertFerme(station)}
-                        <td><DisplayStar coord1={station[0]} coord2={station[1]} /></td>
-                        <td><Button variant="secondary" size="sm" onClick={() => { displayInfosStation(station[2], station[3], station[4]) }}>Plus d'infos</Button></td>
-                        {/* <td><Button variant="primary" onClick={() => { props.bam(station) }}>Voir sur la map</Button></td> */}
-                    </tr>
-                )
-            },
+                    return (
+                        <tr key={Math.random().toString(36).substring(2, 11)}>
+                            <td>
+                                <b>{station[2]} - {station[4]} {station[3]}</b>
+                                <br />
+                                {showPrices(station)}
+                            </td>
+                            {showOuvertFerme(station)}
+                            <td><DisplayStar coord1={station[0]} coord2={station[1]} /></td>
+                            <td><Button variant="secondary" size="sm" onClick={() => { displayInfosStation(station[2], station[3], station[4]) }}>Plus d'infos</Button></td>
+                            {/* <td><Button variant="primary" onClick={() => { props.bam(station) }}>Voir sur la map</Button></td> */}
+                        </tr>
+                    )
+                },
             )
         )
     }
 
-    function sortTable() {
-        var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.querySelector(".styled-table");
-        if (table) {
-            switching = true;
-            while (switching) {
-                switching = false;
-                rows = table.rows;
-                if (props.search) {
-                    for (i = 1; i < (rows.length - 1); i++) {
-                        shouldSwitch = false;
-                        x = rows[i].getElementsByTagName("TD")[2];
-                        y = rows[i + 1].getElementsByTagName("TD")[2];
-
-                        x = parseFloat(x.innerHTML.split(' km')[0].split('<b>')[1]);
-                        y = parseFloat(y.innerHTML.split(' km')[0].split('<b>')[1]);
-                        if (x > y) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-
-                } else {
-                    for (i = 1; i < (rows.length - 1); i++) {
-                        shouldSwitch = false;
-                        x = rows[i].getElementsByTagName("TD")[1];
-                        y = rows[i + 1].getElementsByTagName("TD")[1];
-
-                        x = parseFloat(x.innerHTML.split(';">')[1].split("</span>")[0])
-                        y = parseFloat(y.innerHTML.split(';">')[1].split("</span>")[0])
-                        if (x > y) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-                }
-                if (shouldSwitch) {
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                }
-            }
-        }
-    }
-    useEffect(() => {
-        sortTable();
-    })
-
-    return (
-        <div className="listEssence">
-            <div id="table">
-                <Table className="styled-table" responsive="sm">
-                    <thead >
+    function CreateList() {
+        return (
+                <div id="table">
+                    <Table className="styled-table" responsive="sm">
+                        <thead >
                         <tr>
                             <td colSpan="1"><b>Stations d'essence</b></td>
-                            <td colSpan="1"><b>Prix €/L</b></td>
-                            <td colSpan="1"><b>Distance</b></td>
                             <td colSpan="1"><b>Ouvert/fermé</b></td>
                             <td colSpan="1"><b>Ajout en favoris</b></td>
                             <td colSpan="1"><b>Plus d'info</b></td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <CreateList />
-                    </tbody>
-                </Table>
-            </div>
+                        </thead>
+                        <tbody>
+                        <CreateListFav />
+                        </tbody>
+                    </Table>
+                </div>
+        )
+    }
+
+    return (
+        <div className="listEssenceFav">
+        <CreateListIfFav/>
             <CanvasInfosEssence
                 ref={childRef}
                 nameStation={nameStation}

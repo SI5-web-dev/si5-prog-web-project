@@ -19,7 +19,7 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
     function ShowServices() {
         let services = [];
         props.list.map(station => {
-            if (station[2] === props.nameStation) {
+            if (station[2] === props.nameStation && station[5] !== null) {
                 Array.prototype.forEach.call(station[5].service, service => {
                     services.push(service);
                 })
@@ -91,12 +91,12 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
             month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
             year = d.getFullYear();
-    
-        if (month.length < 2) 
+
+        if (month.length < 2)
             month = '0' + month;
-        if (day.length < 2) 
+        if (day.length < 2)
             day = '0' + day;
-    
+
         return [year, month, day].join('-');
     }
 
