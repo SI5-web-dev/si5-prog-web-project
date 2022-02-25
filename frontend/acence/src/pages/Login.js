@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import * as utils from "../Utils";
+import React, { useState , useContext} from 'react';
+import {ThemeContext} from "../context/ThemeContext";
 
 let pathUrl =  window.location
 let hostname = "";
@@ -8,6 +10,7 @@ if(pathUrl.origin === "http://localhost:3000"){
 }
 
 const Login = () => {
+    const { theme } = useContext(ThemeContext);
 
     function login(){
         let mail  = document.getElementById('mail').value;
@@ -33,7 +36,7 @@ const Login = () => {
         }
     }
     return (
-        <div id="login" className="login">
+        <div id="login" className={`login ${theme}`}>
             <div className="blurLogin">
             <h1>Welcome !</h1>
             <h2>Log in to your account</h2>
