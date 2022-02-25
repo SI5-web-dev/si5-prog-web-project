@@ -1,4 +1,5 @@
 import {Navbar, Nav} from "react-bootstrap";
+import {ToggleModeNight} from "./ToggleModeNight";
 const Navigation = () => {
 
     function UserNav() {
@@ -38,6 +39,7 @@ const Navigation = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Tab/>
+                    <ToggleModeNight/>
                 </Navbar.Collapse>
             </Navbar>
     );
