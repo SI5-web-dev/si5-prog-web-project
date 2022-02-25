@@ -106,5 +106,8 @@
     &.dark {
 		background-color: #282c35;
 		color: #fff;
+        .ph::placeholder{
+            color: white
+        }
 	}
 }

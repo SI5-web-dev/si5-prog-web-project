@@ -1,6 +1,7 @@
 .signup{
-    position: relative;
+    position: absolute;
     width: 100%;
+    height: 100%;
     text-align: center;
 
     .box1{
@@ -131,4 +132,11 @@
         margin-top: 0%;
         margin-bottom: 0%;
     }
+    &.dark {
+		background-color: #282c35;
+		color: #fff;
+        .ph::placeholder{
+            color: white
+        }
+	}
 }

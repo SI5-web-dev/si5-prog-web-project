@@ -1,19 +1,15 @@
-import Navigation from '../components/Navigation';
-
+import React, { useState, useContext } from 'react';
+import { ThemeContext } from "../context/ThemeContext";
 import * as utils from "../Utils";
-let pathUrl =  window.location
+
+let pathUrl = window.location
 let hostname = "";
 if (pathUrl.origin === "http://localhost:3000") {
-    hostname =  "http://localhost:4000";
-} 
-
-
-
+    hostname = "http://localhost:4000";
+}
 
 const Signup = () => {
-
-    
-
+    const { theme } = useContext(ThemeContext);
 
     function createAccount() {
         let mail = document.getElementById('mail').value;
@@ -22,33 +18,32 @@ const Signup = () => {
         let surname = document.getElementById('surname').value;
         let name = document.getElementById('name').value;
 
-        if (mdp1 === mdp2) { 
-            sendRequestSignUp(mail ,mdp1, name, surname);
+        if (mdp1 === mdp2) {
+            sendRequestSignUp(mail, mdp1, name, surname);
             console.log("c bon")
         }
         else {
             alert("Les mots de passes ne correspondent pas");
-            
         }
     }
 
-    function sendRequestSignUp(mail, mdp, name , surname) {
-        let data = JSON.stringify({"email": mail, "password": mdp, "name": name, "surname": surname})
+    function sendRequestSignUp(mail, mdp, name, surname) {
+        let data = JSON.stringify({ "email": mail, "password": mdp, "name": name, "surname": surname })
         console.log(data)
-        utils.default.sendRequest('POST',"/user/signup",data,callbackSignup);
+        utils.default.sendRequest('POST', "/user/signup", data, callbackSignup);
     }
 
-    function callbackSignup(response){
+    function callbackSignup(response) {
         let res = JSON.parse(response).message
-        if(res==="Votre compte a bien été créé !"){
+        if (res === "Votre compte a bien été créé !") {
             alert(res);
-            window.location="/login"
-        }else{
+            window.location = "/login"
+        } else {
             alert(res)
         }
     }
     return (
-        <div className="signup">
+        <div className={`signup ${theme}`}>
             <div className="blurSignup">
                 <h1>Bienvenue !</h1>
                 <h2>Enregistrez-vous pour créer une compte</h2>
@@ -72,10 +67,10 @@ const Signup = () => {
                     <div className="phTitle">Confirmation mot de passe</div>
                     <input type="password" id="mpd2" className="ph" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"></input>
                 </div>
-                <br/>
+                <br />
                 <p className="msg" id="msg"></p>
-                <button className="signup" onClick={createAccount}>S'enregistrer</button>  
-             </div>
+                <button className="signup" onClick={createAccount}>S'enregistrer</button>
+            </div>
         </div>
     );
 };
