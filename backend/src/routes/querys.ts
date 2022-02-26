@@ -5,5 +5,7 @@ const router = express.Router();
 
  router.post("/askStation", queryCtrl.askStation);
 
+ router.post("/historyStation", queryCtrl.historyStation);
+
 
  export default router;

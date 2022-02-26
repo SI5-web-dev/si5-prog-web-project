@@ -13,14 +13,17 @@ const ListEssence = (props) => {
     const childRef = useRef();
 
     const [nameStation, setNameStation] = useState(0);
+    const [station, setStation] = useState(0);
     const [codePostal, setCodePostal] = useState(0);
     const [ville, setVille] = useState("");
     const [favoriteStationList, setFavoriteStationList] = useState(JSON.parse(localStorage.getItem("favoriteStations")));
 
     const { theme } = useContext(ThemeContext);
 
-    function displayInfosStation(station, ville, codePostal) {
-        setNameStation(station);
+
+    function displayInfosStation(station, stationName, ville, codePostal) {
+        setStation(station);
+        setNameStation(stationName);
         setCodePostal(codePostal);
         setVille(ville);
         childRef.current.getAlert();
@@ -143,7 +146,7 @@ const ListEssence = (props) => {
                             </td>
                             {showOuvertFerme(station)}
                             <td><DisplayStar coord1={station[0]} coord2={station[1]} /></td>
-                            <td><Button variant="secondary" size="sm" onClick={() => { displayInfosStation(station[2], station[3], station[4]) }}>Plus d'infos</Button></td>
+                            <td><Button variant="secondary" size="sm" onClick={() => { displayInfosStation(station, station[2], station[3], station[4]) }}>Plus d'infos</Button></td>
                             {/* <td><Button variant="primary" onClick={() => { props.bam(station) }}>Voir sur la map</Button></td> */}
                         </tr>
                     )
@@ -180,7 +183,8 @@ const ListEssence = (props) => {
                 nameStation={nameStation}
                 codePostal={codePostal}
                 ville={ville}
-                list={props.list} />
+                list={props.list}
+                station={station}/>
         </div>
     );
 };

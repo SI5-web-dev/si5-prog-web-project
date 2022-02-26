@@ -11,7 +11,6 @@ function Favoris() {
     let arrayFormatListStations = [];
 
     useEffect(() => {
-        console.log("heheh")
        createListStations()
     },[]);
 

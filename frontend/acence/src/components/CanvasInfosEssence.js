@@ -1,10 +1,12 @@
 import { Offcanvas } from "react-bootstrap";
 import React, { useImperativeHandle, useState , useContext } from "react";
-import "../styles/components/_canvasInfosEssence.scss"
+import "../styles/components/_canvasInfosEssence.scss";
 import {ThemeContext} from "../context/ThemeContext";
+import GraphPrice from "./GraphPrice";
 
 const CanvasInfosEssence = React.forwardRef((props, ref) => {
     const [show, setShow] = useState(false);
+    const [listPrices, setListPrices] = useState([]);
 
     const { theme } = useContext(ThemeContext);
 
@@ -21,14 +23,11 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
 
     function ShowServices() {
         let services = [];
-        props.list.map(station => {
-            if (station[2] === props.nameStation && station[5] !== null) {
-                Array.prototype.forEach.call(station[5].service, service => {
+            if (props.station[5] !== null) {
+                Array.prototype.forEach.call(props.station[5].service, service => {
                     services.push(service);
                 })
-            }
-        })
-
+        }
         return (
             <>
                 <div>
@@ -42,25 +41,20 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
     function ShowHoraires() {
         let horaires = [];
         let automate = false;
-        props.list.map(station => {
-            if (station[2] === props.nameStation) {
-                if (station[6]) {//station[6] : horaires
-                    Array.prototype.forEach.call(station[6].jour, jour => {
-                        if (jour.horaire) {
+                if (props.station[6]) {//station[6] : horaires
+                    Array.prototype.forEach.call(props.station[6].jour, jour => {
+                        if (props.station[6].jour.horaire) {
                             horaires.push(jour["@nom"] + " : " + jour.horaire["@ouverture"] + "-" + jour.horaire["@fermeture"])
                         }
                         else {
                             horaires.push(jour["@nom"] + " : Horaires indisponible");
                         }
                     })
-                    station[6]["@automate-24-24"] === "1" ? automate = true : automate = false
+                    props.station[6]["@automate-24-24"] === "1" ? automate = true : automate = false
                 }
                 else {
                     horaires.push("Horaires indisponible");
                 }
-            }
-        })
-
         return (
             <>
                 <div>
@@ -127,16 +121,11 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
 
     function ShowGasPrices() {
         let prices = [];
-        props.list.map(station => {
-            if (station[2] === props.nameStation) {
-                if (station[7]) {
-                    Array.prototype.forEach.call(station[7], gas => {
+                if (props.station[7]) {
+                    Array.prototype.forEach.call(props.station[7], gas => {
                         prices.push(gas["@nom"] + " :   " + gas["@valeur"] + " (Il y a : " + getMaj(gas["@maj"]) + ")");
                     })
                 }
-            }
-        })
-
         return (
             <div>
                 <b>Prix :</b>
@@ -155,6 +144,8 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
                     <ShowServices />
                     <ShowHoraires />
                     <ShowGasPrices />
+                    <h3>Historique des prix pour la station essence</h3>
+                    <GraphPrice latitude={props.station[0]} longitude={props.station[1]}/>
                 </Offcanvas.Body>
             </Offcanvas>
         </div>
