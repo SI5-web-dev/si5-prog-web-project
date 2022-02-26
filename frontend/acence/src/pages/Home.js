@@ -45,8 +45,9 @@ function Home() {
     }
     window.onload = function(e){ 
         document.getElementById("location").addEventListener("keydown", function(event) {
-            event.preventDefault();
+            
             if (event.keyCode === 13) {
+                event.preventDefault();
                 requestProximity();
             }
         });
@@ -60,6 +61,10 @@ function Home() {
         const url = `http://nominatim.openstreetmap.org/search?q=${location}&format=json&polygon=1&addressdetails=1&api_key=${apiKey}`;
         axios.get(url).then((res) => {
             let resultat = JSON.parse(res.request.response)[0]
+            if(resultat===undefined){
+                alert("Lieu non trouvé")
+                return
+            }
             let long = resultat.lon;
             let lat = resultat.lat;
             //latitudeClient= lat;
