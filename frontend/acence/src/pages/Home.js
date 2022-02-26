@@ -480,8 +480,8 @@ function Home() {
                 <br />
                 <span id="minimum"></span><input type="range" id="prix" min="0" max="100" step="0.001" ></input><span id="maximum"></span>
                 <br />
-                <button className="m-2" id="checkAll" >Tout cocher</button>
-                <button className="m-2" id="unCheckAll" >Tout décocher</button>
+                <Button variant="secondary" className="m-1 p-1" id="checkAll" >Tout cocher</Button>
+                <Button variant="secondary" className="m-1 p-1" id="unCheckAll" >Tout décocher</Button>
                 <div id="services">
 
                 </div>

@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import * as utils from "../Utils";
 import React, { useState , useContext} from 'react';
 import {ThemeContext} from "../context/ThemeContext";
-
+import { Button, ToggleButton, ToggleButtonGroup, Form, FormControl } from 'react-bootstrap';
 let pathUrl =  window.location
 let hostname = "";
 if(pathUrl.origin === "http://localhost:3000"){
@@ -48,9 +48,10 @@ const Login = () => {
                 <div className="phTitle">Password</div>
                 <input type="password" id="mdp" className="ph" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"></input>
             </div>
-            <button className="signin" onClick={login}>Log in</button>
+            <Button variant="secondary" className="signin"  onClick={login}>Log in</Button>
+        
             <div className="or">Or</div>
-            <NavLink to="/signup"><button className="signup">Sign up</button></NavLink>
+            <NavLink to="/signup"><Button variant="secondary" className="signup" >Sign up</Button></NavLink>
             </div>
         </div>
     );

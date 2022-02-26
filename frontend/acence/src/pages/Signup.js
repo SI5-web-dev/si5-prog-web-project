@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { ThemeContext } from "../context/ThemeContext";
 import * as utils from "../Utils";
-
+import { Button, ToggleButton, ToggleButtonGroup, Form, FormControl } from 'react-bootstrap';
 let pathUrl = window.location
 let hostname = "";
 if (pathUrl.origin === "http://localhost:3000") {
@@ -69,7 +69,8 @@ const Signup = () => {
                 </div>
                 <br />
                 <p className="msg" id="msg"></p>
-                <button className="signup" onClick={createAccount}>S'enregistrer</button>
+                <Button variant="secondary" className="signup" onClick={createAccount}>S'enregistrer</Button>
+                
             </div>
         </div>
     );
