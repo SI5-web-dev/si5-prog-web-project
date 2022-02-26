@@ -80,22 +80,40 @@ export const addFavorite : RequestHandler = async (req : Request, res : Response
             return
         }
         else{
-            user.favoriteStations.push(req.body.idStation);
-            await User.updateOne(
-            {
-                _id: req.body.user
-            },
-            {
-                $set :
-                {
-                    favoriteStations : user.favoriteStations,
+            try{
+                let geocode : any;
+                geocode = req.body.idStation.replace("(","").replace(")","").replace(/\r\n/g,"");
+                geocode = geocode.split(",")
+                let latitude = parseFloat(geocode[0])*100000;
+                let longitude = parseFloat(geocode[1])*100000;
+                const station : any = await Station.findOne({"@latitude": latitude,
+                "@longitude": longitude }).lean();
+                if(station["@longitude"]==longitude &&station["@latitude"]==latitude){
+                    console.log(station)
+                    user.favoriteStations.push(req.body.idStation);
+                    await User.updateOne(
+                    {
+                        _id: req.body.user
+                    },
+                    {
+                        $set :
+                        {
+                            favoriteStations : user.favoriteStations,
+                        }
+                    })
+                    res.send({"status":"200","message":"Station correctement ajoutée aux favoris"});
+                }else{
+                    res.send({"status":"500","message":"Cette station n'existe pas."});
                 }
-            })
-            res.send({"status":"200"});
+                
+            }catch(err){
+                res.send({"status":"500","message":"Cette station n'existe pas."});
+            }
+            
         }
     }
     catch (err) {
-        res.send({"status":"500"});
+        res.send({ "status":'500',"message":  "Utilisateur inconnu."});
         next(err);
     }
 };
@@ -115,6 +133,7 @@ export const removeFavorite : RequestHandler = async (req : Request, res : Respo
                 user.favoriteStations.shift()
                 let secondPart = user.favoriteStations;
                 user.favoriteStations = firstPart.concat(secondPart);
+                
                 await User.updateOne(
                     {
                         _id: req.body.user
@@ -125,12 +144,14 @@ export const removeFavorite : RequestHandler = async (req : Request, res : Respo
                                 favoriteStations: user.favoriteStations,
                             }
                     })
-                res.send({"status":"200"});
+                res.send({"status":"200","message":"Station supprimée des favoris."});
+            }else{
+                res.send({ "message":  "Cette station n'est pas dans votre liste de favoris."})
             }
         }
     }
     catch (err) {
-        res.send({"status":"500"});
+        res.send({ "status":'500',"message":  "Utilisateur inconnu."});
         next(err);
     }
 };
@@ -147,15 +168,19 @@ export const getListStationFav : RequestHandler = async (req : Request, res : Re
             geocode = geocode.split(",")
             let latitude = parseFloat(geocode[0])*100000;
             let longitude = parseFloat(geocode[1])*100000;
-            const station : any = await Station.findOne({"@latitude": latitude,
-                "@longitude": longitude
-            }).lean();
-            listStations.push(station)
+            try{
+                const station : any = await Station.findOne({"@latitude": latitude,
+                "@longitude": longitude }).lean();
+                listStations.push(station)
+            }catch(err){
+                
+            }
+            
         }
         res.send({"status":"200","listStations":listStations});
     }
     catch (err) {
-        res.send({"status":"500"});
+        res.send({ "status":'500',"message":  "Utilisateur inconnu."});
         next(err);
     }
 };

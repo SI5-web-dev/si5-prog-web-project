@@ -4,7 +4,7 @@ import {startServer} from '../../src/app.js';
 describe('POST /querys/askStation', () => {
     let app: any;
     beforeAll(async (): Promise<void> => {
-        app = await startServer(4001);
+        app = await startServer(4001,true);
     });
     afterAll((): void => {
         app.close();

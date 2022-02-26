@@ -10,7 +10,7 @@ import "dotenv/config";
 import {loadAndUpdateEssenceStationsAutomatically} from "./loadStations.js";
 import * as utils from "./utils.js";
 import { exec, spawn } from "child_process";
-export const startServer = async (PORT:number) => {
+export const startServer = async (PORT:number,test:boolean) => {
     const app = express();
 
     exec('pip install xmltodict', async (error:any, stdout:string, stderr:any) => {console.log(stdout)});
@@ -38,7 +38,9 @@ export const startServer = async (PORT:number) => {
         .then(() => console.log('Connexion à MongoDB réussie !'))
         .catch((err) => console.log('Connexion à MongoDB échouée !' + err));
 
-    //loadAndUpdateEssenceStationsAutomatically();
+    if(!test){
+        loadAndUpdateEssenceStationsAutomatically();
+    }
     utils.default.getVilles();
 
     //const port = process.env.PORT;

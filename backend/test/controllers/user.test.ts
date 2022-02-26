@@ -1,10 +1,10 @@
 import request from "supertest";
 import {startServer} from '../../src/app.js';
 
-describe('POST /user/signup', () => {
+describe('POST /user/*', () => {
     let app: any;
     beforeAll(async (): Promise<void> => {
-        app = await startServer(4002);
+        app = await startServer(4002,true);
     });
     afterAll((): void => {
         app.close();
@@ -100,5 +100,107 @@ describe('POST /user/signup', () => {
         expect(res.body.message).toBe("Vous êtes connecté !");
         expect(res.body.uid).toBe("61fecd01ef9b83ccbf97acef");
         expect(res.body.favoriteStations).toBeDefined();
+    });
+
+    test('mauvais utilisateur id', async () => {
+        const res = await request(app)
+            .post('/user/addFavorite')
+            .set('Accept', 'application/json')
+            .send({
+                user: "61fecd01ef9b83c"
+            });
+
+        expect(res.type).toBe('application/json');
+        expect(res.body.message).toBe("Utilisateur inconnu.");
+        
+    });
+
+    test('mauvais station id', async () => {
+        const res = await request(app)
+            .post('/user/addFavorite')
+            .set('Accept', 'application/json')
+            .send({
+                user: "61fecd01ef9b83ccbf97acef",
+                idStation : "13131313131313,113131313131134"
+            });
+
+        expect(res.type).toBe('application/json');
+        expect(res.body.message).toBe("Cette station n'existe pas.");
+    });
+
+    test('ajout correct', async () => {
+        const res = await request(app)
+            .post('/user/addFavorite')
+            .set('Accept', 'application/json')
+            .send({
+                user: "61fecd01ef9b83ccbf97acef",
+                idStation : "43.7666750087,7.20105991068"
+            });
+
+        expect(res.type).toBe('application/json');
+        expect(res.body.message).toBe("Station correctement ajoutée aux favoris");
+    });
+
+    test('idStation incorrect', async () => {
+        const res = await request(app)
+            .post('/user/removeFavorite')
+            .set('Accept', 'application/json')
+            .send({
+                user: "61fecd01ef9b83ccbf97acef",
+                idStation:"13244"
+            });
+
+        expect(res.type).toBe('application/json');
+        expect(res.body.message).toBe("Cette station n'est pas dans votre liste de favoris.");
+    });
+
+    test("Suppression réalisée", async () => {
+        const res = await request(app)
+            .post('/user/removeFavorite')
+            .set('Accept', 'application/json')
+            .send({
+                user: "61fecd01ef9b83ccbf97acef",
+                idStation:"43.7666750087,7.20105991068"
+            });
+
+        expect(res.type).toBe('application/json');
+        expect(res.body.message).toBe("Station supprimée des favoris.");
+    });
+
+    test('mauvais utilisateur id', async () => {
+        const res = await request(app)
+            .post('/user/removeFavorite')
+            .set('Accept', 'application/json')
+            .send({
+                user: "61fecd01ef9b83c"
+            });
+
+        expect(res.type).toBe('application/json');
+        expect(res.body.message).toBe("Utilisateur inconnu.");
+    });
+
+    test('mauvais utilisateur id', async () => {
+        const res = await request(app)
+            .post('/user/listStationFav')
+            .set('Accept', 'application/json')
+            .send({
+                user: "61fecd01ef9b83c"
+            });
+
+        expect(res.type).toBe('application/json');
+        expect(res.body.message).toBe("Utilisateur inconnu.");
+    });
+
+    test('bonne request mais mauvaise station id', async () => {
+
+        const res = await request(app)
+            .post('/user/listStationFav')
+            .set('Accept', 'application/json')
+            .send({
+                user: "61fecd01ef9b83ccbf97acef"
+            });
+
+        expect(res.type).toBe('application/json');
+        expect(res.body.listStations).toBeDefined();
     });
 });
