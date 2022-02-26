@@ -27,12 +27,17 @@ export const startServer = async (PORT:number,test:boolean) => {
 
     const __Dirname = dirname(fileURLToPath(import.meta.url));
     // Demande a node de servir les fichiers react
-    app.use(express.static(path.resolve(__Dirname, '../../frontend/acence/build')));
+    app.use(express.static(path.resolve(__Dirname, '../../../frontend/acence/build')));
 
     app.use('/user', userRoutes);
 
     app.use('/querys', querysRoutes);
 
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__Dirname, '../../../frontend/acence/build', 'index.html'));
+    
+    });
     // Connexion avec la base de donnée Mongo
     mongoose.connect(`${process.env.DB_CONN_STRING}`)
         .then(() => console.log('Connexion à MongoDB réussie !'))
