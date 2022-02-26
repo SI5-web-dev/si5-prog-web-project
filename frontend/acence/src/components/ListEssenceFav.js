@@ -1,10 +1,11 @@
 import { Table, Button } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useState , useContext} from "react";
 import { useRef } from "react";
 import CanvasInfosEssence from "./CanvasInfosEssence";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
+import {ThemeContext} from "../context/ThemeContext";
 import * as Utils from "./../Utils";
 
 const ListEssence = (props) => {
@@ -15,6 +16,8 @@ const ListEssence = (props) => {
     const [codePostal, setCodePostal] = useState(0);
     const [ville, setVille] = useState("");
     const [favoriteStationList, setFavoriteStationList] = useState(JSON.parse(localStorage.getItem("favoriteStations")));
+
+    const { theme } = useContext(ThemeContext);
 
     function displayInfosStation(station, ville, codePostal) {
         setNameStation(station);
@@ -170,7 +173,7 @@ const ListEssence = (props) => {
     }
 
     return (
-        <div className="listEssenceFav">
+        <div className={`listEssenceFav ${theme}`}>
         <CreateListIfFav/>
             <CanvasInfosEssence
                 ref={childRef}

@@ -26,7 +26,9 @@
         border-bottom: 1px solid #dddddd;
     }
 
-
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
 
     .styled-table tbody tr:last-of-type {
         border-bottom: 2px solid #009879;
@@ -34,6 +36,17 @@
 
     #favoriStar:hover {
         cursor: pointer;
+    }
+
+    &.dark{
+        background-color: #282c35;
+        color: #fff;
+        td{
+            color: white;
+          }
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #5d677e;
+        }
     }
 }
 

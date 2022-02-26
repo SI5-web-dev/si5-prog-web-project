@@ -1,9 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState , useContext} from "react";
 import * as Utils from "../Utils";
 import ListEssenceFav from "../components/ListEssenceFav";
+import {ThemeContext} from "../context/ThemeContext";
 
 function Favoris() {
     const [listStation, setListStation] = useState([]);
+
+    const { theme } = useContext(ThemeContext);
 
     let arrayFormatListStations = [];
 
@@ -41,7 +44,7 @@ function Favoris() {
     }
 
     return (
-        <div className="Favoris">
+        <div className={`Favoris ${theme}`}>
             <h3>Vos stations essence favorites</h3>
             <div id="listFavoris">
                 <ListEssenceFav list={listStation} nbStation={listStation.length} />
