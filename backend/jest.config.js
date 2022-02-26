@@ -1,8 +1,10 @@
 export default {
     preset: 'ts-jest',
     testEnvironment: 'node',
-
-    globals: { 'ts-jest': { "__DEV__": true } },
+    testRunner: "jest-circus/runner",
+    globals: { "__DEV__": true },
     transform: {},
-    extensionsToTreatAsEsm: [".ts"]
+    extensionsToTreatAsEsm: [".ts"],
+    
+    
   };

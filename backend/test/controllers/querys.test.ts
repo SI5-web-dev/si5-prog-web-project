@@ -1,9 +1,14 @@
 import request from "supertest";
-import app from '../../src/app.js';
-
+import {startServer} from '../../src/app.js';
 
 describe('POST /querys/askStation', () => {
-    /*
+    let app: any;
+    beforeAll(async (): Promise<void> => {
+        app = await startServer(4001);
+    });
+    afterAll((): void => {
+        app.close();
+    });
     test('reponse avec code 200', async ()  => {
         const res = await request(app)
             .post('/querys/askStation')
@@ -22,7 +27,7 @@ describe('POST /querys/askStation', () => {
         expect(res.body.status).toBe("200");
        
 
-    })*/
+    })
     
     test('reponse avec code 401 car il manque des informations', async ()  => {
         const res = await request(app)

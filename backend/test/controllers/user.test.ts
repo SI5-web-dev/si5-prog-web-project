@@ -1,18 +1,23 @@
 import request from "supertest";
-import app from '../../src/app.js';
+import {startServer} from '../../src/app.js';
 
-
-describe('POST /auth/signup', () => {
-    test('reponse il manque des informations', async () => {
+describe('POST /user/signup', () => {
+    let app: any;
+    beforeAll(async (): Promise<void> => {
+        app = await startServer(4002);
+    });
+    afterAll((): void => {
+        app.close();
+    });
+    test('reponse il manque des informations', async ()  => {
         const res = await request(app)
             .post('/user/signup')
             .set('Accept', 'application/json')
             .send({
                 email: "test@essence.com"
             });
-
-        expect(res.type).toBe('application/json');
-        expect(res.body.message).toBe("Il manque des informations..");
+        await expect(res.type).toBe('application/json');
+        await expect(res.body.message).toBe("Il manque des informations..");
     });
 
     test('reponse  l\'adresse email n\'est pas valide', async () => {
@@ -43,5 +48,57 @@ describe('POST /auth/signup', () => {
 
         expect(res.type).toBe('application/json');
         expect(res.body.message).toBe("Le mot de passe n'est pas assez complexe.");
+    });
+
+    test('il manque le mot de passe', async () => {
+        const res = await request(app)
+            .post('/user/login')
+            .set('Accept', 'application/json')
+            .send({
+                email: "ralph.elchalfoun@hotmail.fr"
+            });
+
+        expect(res.type).toBe('application/json');
+        expect(res.body.message).toBe("Nom d'utilisateur ou mot de passe incorrect !");
+    });
+
+    test('il manque le mail', async () => {
+        const res = await request(app)
+            .post('/user/login')
+            .set('Accept', 'application/json')
+            .send({
+                password: "ralph.elchalfoun@hotmail.fr"
+            });
+
+        expect(res.type).toBe('application/json');
+        expect(res.body.message).toBe("Nom d'utilisateur ou mot de passe incorrect !");
+    });
+
+    test('mot de passe incorrect', async () => {
+        const res = await request(app)
+            .post('/user/login')
+            .set('Accept', 'application/json')
+            .send({
+                email: "ralph.elchalfoun@hotmail.fr",
+                password: "1234567TREZ"
+            });
+
+        expect(res.type).toBe('application/json');
+        expect(res.body.message).toBe("Nom d'utilisateur ou mot de passe incorrect !");
+    });
+
+    test('identification réussie', async () => {
+        const res = await request(app)
+            .post('/user/login')
+            .set('Accept', 'application/json')
+            .send({
+                email: "ralph.elchalfoun@hotmail.fr",
+                password: "Azerty&1234"
+            });
+
+        expect(res.type).toBe('application/json');
+        expect(res.body.message).toBe("Vous êtes connecté !");
+        expect(res.body.uid).toBe("61fecd01ef9b83ccbf97acef");
+        expect(res.body.favoriteStations).toBeDefined();
     });
 });
