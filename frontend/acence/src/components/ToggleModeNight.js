@@ -5,8 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ThemeContext } from '../context/ThemeContext';
 
 import 'react-toggle/style.css';
-import './ToggleModeNight.scss';
-//import "../styles/components/ToggleModeNight.scss";
 
 export const ToggleModeNight = () => {
 	const { theme, changeThemeContext } = useContext(ThemeContext);
