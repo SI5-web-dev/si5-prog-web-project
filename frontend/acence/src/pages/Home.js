@@ -30,21 +30,28 @@ function Home() {
     const [location,setLocation] = useState("");
 
     function getPostionForInput(){
+        
         const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
         navigator.geolocation.getCurrentPosition((ta)=>{
             latitudeClient = ta.coords.latitude;
             longitudeClient = ta.coords.longitude;
             const url = `http://nominatim.openstreetmap.org/reverse?format=json&lat=${ta.coords.latitude}&lon=${ta.coords.longitude}&api_key=${apiKey}`;
             axios.get(url).then((res) => {
-            let resultat = JSON.parse(res.request.response).address
-            document.getElementById("location").value = resultat.road +" "+resultat.quarter+" "+resultat.postcode+" "+resultat.city;
-        });
+                let resultat = JSON.parse(res.request.response).address
+                document.getElementById("location").value = resultat.road +" "+resultat.quarter+" "+resultat.postcode+" "+resultat.city;
+            });
         
-
-
-
         });
     }
+    window.onload = function(e){ 
+        document.getElementById("location").addEventListener("keydown", function(event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                requestProximity();
+            }
+        });
+    }
+
 
     function requestProximity() {
         setProximity(true);
@@ -399,6 +406,7 @@ function Home() {
     }
 
     function enableButtons() {
+        
         if (document.getElementById("location").value !== "") {
             document.getElementById('buttonProximity').disabled = false;
             document.getElementById('buttonProximity').onclick = requestProximity;
