@@ -37,13 +37,13 @@ const Map = (props) => {
 function getIcon(prix){
   const markerHtmlStyles = `
     background-color: ${createColorIcon(parseFloat(prix["@valeur"]))};
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
     display: block;
-    left: -1.5rem;
-    top: -1.5rem;
+    left: -1rem;
+    top: -1rem;
     position: relative;
-    border-radius: 3rem 3rem 0;
+    border-radius: 2rem 2rem 0;
     transform: rotate(45deg);
     border: 1px solid #FFFFFF`
 
