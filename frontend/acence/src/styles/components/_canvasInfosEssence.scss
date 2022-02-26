@@ -1,5 +1,18 @@
-.offcanvas{
-        height: 85%;
+.canvas{
+        height: 85%;   
+        .styled-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+        } 
+        &.dark{
+                background-color: #282c35;
+                color: #fff;
+                td{
+                        color: white;
+                }
+                .tableHoraires tbody tr:nth-of-type(even) {
+                        background-color: #5d677e;
+                }
+        }
 }
 
 #tableHoraires{
@@ -19,7 +32,7 @@
 .tableHoraires tbody tr {
         border-bottom: 1px solid #dddddd;
 }
-    
+
 .tableHoraires tbody tr:nth-of-type(even) {
         background-color: #f3f3f3;
 }

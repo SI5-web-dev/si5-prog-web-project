@@ -1,9 +1,12 @@
 import { Offcanvas } from "react-bootstrap";
-import React, { useImperativeHandle, useState } from "react";
+import React, { useImperativeHandle, useState , useContext } from "react";
 import "../styles/components/_canvasInfosEssence.scss"
+import {ThemeContext} from "../context/ThemeContext";
 
 const CanvasInfosEssence = React.forwardRef((props, ref) => {
     const [show, setShow] = useState(false);
+
+    const { theme } = useContext(ThemeContext);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -143,8 +146,8 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
     }
 
     return (
-        <div className="canvasInfos">
-            <Offcanvas show={show} onHide={handleClose} placement="bottom">
+        <div className={`canvasInfos ${theme}`}>
+            <Offcanvas show={show} onHide={handleClose} placement="bottom" className={`canvas ${theme}`}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>{props.nameStation} , {props.codePostal} {props.ville}</Offcanvas.Title>
                 </Offcanvas.Header>
