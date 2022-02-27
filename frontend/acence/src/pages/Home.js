@@ -15,6 +15,8 @@ function Home() {
     const [listPoint, setListPoint] = useState([]);
     const handleChange = (val) => setValue(val);
 
+    const [longLat , setLongLat] = useState([48.866667,2.333333]);//Paris coordinates
+
     const { theme } = useContext(ThemeContext);
 
     let listService = [];
@@ -71,6 +73,9 @@ function Home() {
             }
             let long = resultat.lon;
             let lat = resultat.lat;
+
+            setLongLat([lat,long]);
+            
             //latitudeClient= lat;
             //longitudeClient=long;
             navigator.geolocation.getCurrentPosition((ta)=>{
@@ -412,7 +417,7 @@ function Home() {
 
                 </div>
             </div>
-            <Map list={listPoint} location={location} />
+            <Map list={listPoint} location={location} coordinates={longLat}/>
             <ListEssence list={listPoint} search={proximity}/>
         </div>
 

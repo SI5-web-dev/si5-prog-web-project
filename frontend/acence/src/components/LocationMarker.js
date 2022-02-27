@@ -7,8 +7,8 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import * as L from "leaflet";
 
 let defaultIcon = L.icon({
-    iconSize: [25, 41],
-    iconAnchor: [10, 41],
+    iconSize: [35, 50],
+    iconAnchor: [17.5, 50],
     popupAnchor: [2, -40],
     iconUrl: icon,
     shadowUrl: iconShadow

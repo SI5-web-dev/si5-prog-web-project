@@ -15,9 +15,7 @@ const Map = (props) => {
   function FlyToSearchedCity() {
     const map = useMap();
 
-    if (props.list[0]) { //props.list[0][0]:lat et props.list[0][1]:lng
-      map.flyTo([props.list[0][0], props.list[0][1]], map.getZoom());
-    }
+    map.flyTo([props.coordinates[0] , props.coordinates[1] , map.getZoom()]);
     return (
       <></>
     )
