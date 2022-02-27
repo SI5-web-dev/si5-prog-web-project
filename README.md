@@ -1,60 +1,60 @@
 # si5-prog-web-project (by ACE)
 
-Vous pouvez accèder à notre application ici : https://acence.herokuapp.com/
+You can access our application here: https://acence.herokuapp.com/ /!\On the deployed version, station data are not updated
 ### Sommaire
 
-* [Les différents répertoires](#les-différents-répertoires)
-* [Les commandes à exécuter](#les-commandes-à-exécuter)
-* [Auteurs](#auteurs)
+* [The different directories](#les-différents-répertoires)
+* [The commands to be executed](#les-commandes-à-exécuter)
+* [Authors](#auteurs)
 
 
 -----------------
 
-### Les différents répertoires
-* La partie __front-end__ : [_front-end_](https://github.com/SI5-web-dev/si5-prog-web-project/tree/main/frontend/acence)
-* La partie __back-end__ : [_back-end_](https://github.com/SI5-web-dev/si5-prog-web-project/tree/main/backend)
+### The different directories
+* __front-end__ : [_front-end_](https://github.com/SI5-web-dev/si5-prog-web-project/tree/main/frontend/acence)
+* __back-end__ : [_back-end_](https://github.com/SI5-web-dev/si5-prog-web-project/tree/main/backend)
 
 -----------------
 
-### Les commandes à exécuter
-Tout d'abord, on clone le projet et on se rend dans le répertoire nouvellement crée :
+###  The commands to be executed
+First, we clone the project and go to the newly created directory :
 ```bash
 git clone https://github.com/SI5-web-dev/si5-prog-web-project.git
 cd si5-prog-web-project
 ```
 
-* Pour la partie __front-end__ <sup>[1]</sup> :
+* For the __front-end__ part <sup>[1]</sup> :
     ```bash
     cd frontend/acence
     npm install
     ```
-    Une fois que l'installation est finie, il suffit d'exécuter la commande suivante pour build le client:
+    Once the installation is finished, just execute the following command to build the client:
     ```bash
     npm run build
     ```
-    Enfin on revient à la racine du projet :
+    Finally we return to the root of the project:
     ```
     cd ../..
     ```
- * Pour la partie __back-end__ <sup>[1]</sup> :
+ * For the __back-end__ part <sup>[1]</sup> :
      ```bash
      cd backend
      npm install
      ```
-     Une fois que l'installation est finie, il suffit d'exécuter la commande suivante pour build et lancer le serveur:
+     Once the installation is finished, just execute the following command to build and launch the server:
      ```bash
      npm run dev
      ```
      
-  * L'application est ensuite accessible depuis http://localhost:4000
+  * The application is then accessible from http://localhost:4000
 <br>
 
 
-[1] : Si l'installation ne fonctionne pas, c'est que vous n'avez pas installé [NodeJS](https://nodejs.org/en/download/). Installez-le avant d'exécuter à nouveau les commandes précédentes.
+[1] : If the installation does not work, it means that you have not installed [NodeJS](https://nodejs.org/en/download/). Install it before running the above commands again.
 
 -----------------
 
-## Auteurs
+## Authors
 - [Élise Chamberlin](https://github.com/Elise-Chamberlin)
 - [Ralph El Chalfoun](https://github.com/iBananos)
 - [Ossama Ashraf](https://github.com/Ossama98)
