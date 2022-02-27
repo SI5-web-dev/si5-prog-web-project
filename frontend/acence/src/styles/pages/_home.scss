@@ -3,7 +3,9 @@
     width: 100%;
     height: 100%;
     .researchSettings{
-        height: 500px;
+        
+        max-height: 500px;
+        overflow: scroll;
         float: left;
         overflow: auto;
         margin-left: 10px;
