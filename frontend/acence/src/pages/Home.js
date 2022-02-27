@@ -38,7 +38,13 @@ function Home() {
             const url = `http://nominatim.openstreetmap.org/reverse?format=json&lat=${ta.coords.latitude}&lon=${ta.coords.longitude}&api_key=${apiKey}`;
             axios.get(url).then((res) => {
                 let resultat = JSON.parse(res.request.response).address
-                document.getElementById("location").value = resultat.road +" "+resultat.quarter+" "+resultat.postcode+" "+resultat.city;
+                let adresse = "";
+                if(resultat.road!==undefined){ adresse += resultat.road + " "; }
+                if(resultat.quarter!==undefined){ adresse += resultat.quarter+ " "; }
+                if(resultat.postcode!==undefined){ adresse += resultat.postcode+ " "; }
+                if(resultat.city!==undefined){ adresse += resultat.city + " ";; }
+
+                document.getElementById("location").value = adresse;
             });
 
         });
@@ -408,19 +414,6 @@ function Home() {
             document.getElementById(service).checked = false;
         })
         getServicesChecked();
-    }
-
-    function enableButtons() {
-
-        if (document.getElementById("location").value !== "") {
-            document.getElementById('buttonProximity').disabled = false;
-            document.getElementById('buttonProximity').onclick = requestProximity;
-            document.getElementById('buttonCheapest').disabled = false;
-            document.getElementById('buttonCheapest').onclick = requestCheapest;
-        } else {
-            document.getElementById('buttonProximity').disabled = true;
-            document.getElementById('buttonCheapest').disabled = true;
-        }
     }
 
 

@@ -38,20 +38,20 @@ const Login = () => {
     return (
         <div id="login" className={`login ${theme}`}>
             <div className="blurLogin">
-            <h1>Welcome !</h1>
-            <h2>Log in to your account</h2>
+            <h1>Bienvenue !</h1>
+            <h2>Connectez-vous à votre compte</h2>
             <div className="box1">
-                <div className="phTitle" >Email address</div>
+                <div className="phTitle" >Adresse mail</div>
                 <input className="ph" id="mail" placeholder="example@mail.com"></input>
             </div>
             <div className="box2">
-                <div className="phTitle">Password</div>
+                <div className="phTitle">Mot de passe</div>
                 <input type="password" id="mdp" className="ph" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"></input>
             </div>
-            <Button variant="secondary" className="signin"  onClick={login}>Log in</Button>
+            <Button variant="secondary" className="signin"  onClick={login}>Se connecter</Button>
         
-            <div className="or">Or</div>
-            <NavLink to="/signup"><Button variant="secondary" className="signup" >Sign up</Button></NavLink>
+            <div className="or">ou</div>
+            <NavLink to="/signup"><Button variant="secondary" className="signup" >S'inscrire</Button></NavLink>
             </div>
         </div>
     );
