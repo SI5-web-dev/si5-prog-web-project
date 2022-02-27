@@ -1,9 +1,9 @@
 # si5-prog-web-project (by ACE)
 
-You can access our application here: https://acence.herokuapp.com/ /!\On the deployed version, station data are not updated
-### Sommaire
+Our web application is hosted in Heroku at: https://acence.herokuapp.com/ /!\On the deployed version, station data are not updated
+### Table of Contents
 
-* [The different directories](#les-différents-répertoires)
+* [Directories](#les-différents-répertoires)
 * [The commands to be executed](#les-commandes-à-exécuter)
 * [Authors](#auteurs)
 
@@ -46,7 +46,7 @@ cd si5-prog-web-project
      npm run dev
      ```
      
-  * The application is then accessible from http://localhost:4000
+  * The application is then accessible at http://localhost:4000
 <br>
 
 
