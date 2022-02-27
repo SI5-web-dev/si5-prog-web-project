@@ -6,7 +6,6 @@ import GraphPrice from "./GraphPrice";
 
 const CanvasInfosEssence = React.forwardRef((props, ref) => {
     const [show, setShow] = useState(false);
-    const [listPrices, setListPrices] = useState([]);
 
     const { theme } = useContext(ThemeContext);
 
@@ -43,8 +42,16 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
         let automate = false;
                 if (props.station[6]) {//station[6] : horaires
                     Array.prototype.forEach.call(props.station[6].jour, jour => {
-                        if (props.station[6].jour.horaire) {
-                            horaires.push(jour["@nom"] + " : " + jour.horaire["@ouverture"] + "-" + jour.horaire["@fermeture"])
+                        if (jour.horaire) {
+                            if(jour.horaire["@ouverture"] !== undefined) {
+                                horaires.push(jour["@nom"] + " : " + jour.horaire["@ouverture"] + "-" + jour.horaire["@fermeture"])
+                            }else{
+                                let horairesString = jour["@nom"] + " : ";
+                                Array.prototype.forEach.call(jour.horaire, creneau => {
+                                    horairesString += creneau["@ouverture"] + "-" + creneau["@fermeture"] + " ";
+                                })
+                                horaires.push(horairesString);
+                            }
                         }
                         else {
                             horaires.push(jour["@nom"] + " : Horaires indisponible");

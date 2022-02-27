@@ -92,7 +92,7 @@ const ListEssence = (props) => {
                 Utils.default.sendRequest('POST', '/user/addFavorite', JSON.stringify({
                     'idStation': id,
                     'user': localStorage.getItem("token")
-                })).then(r => localStorage.setItem("favoriteStations", JSON.stringify(storageStation)))
+                }), ()=>{}).then(r => localStorage.setItem("favoriteStations", JSON.stringify(storageStation)))
             } else {
                 alert("Impossible d'ajouter cette station aux favoris")
             }
@@ -108,7 +108,8 @@ const ListEssence = (props) => {
             let secondPart = storageStation;
             storageStation = firstPart.concat(secondPart);
             setFavoriteStationList(storageStation);
-            Utils.default.sendRequest('POST', '/user/removeFavorite', JSON.stringify({ 'idStation': id, 'user': localStorage.getItem("token") }), () => document.getElementById("favoriStar").visible = false).then(r => localStorage.setItem("favoriteStations", JSON.stringify(storageStation)))
+            Utils.default.sendRequest('POST', '/user/removeFavorite', JSON.stringify({ 'idStation': id, 'user': localStorage.getItem("token") }), () => {
+            }).then(r => localStorage.setItem("favoriteStations", JSON.stringify(storageStation)))
         } else {
             alert("Impossible d'enlever cette station des favoris")
         }

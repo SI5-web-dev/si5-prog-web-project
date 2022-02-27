@@ -15,13 +15,13 @@ class Utils {
     static async sendRequest(methode , url , data , callback) {
         document.getElementById("loading").style.visibility = "visible";
         var xhr = new XMLHttpRequest()
-        console.log(hostname+url)
+        //console.log(hostname+url)
         xhr.open(methode, hostname+url, true);
         xhr.setRequestHeader("Content-Type", "application/json");
 
         xhr.addEventListener('readystatechange', function(e) {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(JSON.parse(this.response))
+                //console.log(JSON.parse(this.response))
                 if(JSON.parse(this.response).status ==="500"){
                     alert(JSON.parse(this.response).message)
                 }else{

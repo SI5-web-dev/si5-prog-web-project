@@ -162,7 +162,7 @@ export function loadEssenceStationsHistory(year: String) {
 
                                         yearStation.deleteMany({}).then(() => {
                                                 console.log("Old documents deleted successfully");
-                                                yearStation.insertMany(json).then(() => console.log("Data inserted"));
+                                                //yearStation.insertMany(json).then(() => console.log("Data inserted"));
                                             },
                                             (err: any) => {
                                                 console.log(err);
