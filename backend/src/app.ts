@@ -28,7 +28,7 @@ export const startServer = async (PORT:number,test:boolean) => {
 
     const __Dirname = dirname(fileURLToPath(import.meta.url));
     // Demande a node de servir les fichiers react
-    app.use(express.static(path.resolve(__Dirname, '../../../frontend/acence/build')));
+    app.use(express.static(path.resolve(__Dirname, '../../buildReact')));
 
     app.use('/user', userRoutes);
 
@@ -36,7 +36,7 @@ export const startServer = async (PORT:number,test:boolean) => {
 
 
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__Dirname, '../../../frontend/acence/build', 'index.html'));
+        res.sendFile(path.resolve(__Dirname, '../../buildReact', 'index.html'));
     
     });
     // Connexion avec la base de donnée Mongo
