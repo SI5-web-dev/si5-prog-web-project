@@ -5,11 +5,10 @@ import userRoutes from './routes/user.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from "mongoose";
-import * as http from 'http';
 import "dotenv/config";
 import {loadAndUpdateEssenceStationsAutomatically, loadEssenceStationsHistory} from "./loadStations.js";
 import * as utils from "./utils.js";
-import { exec, spawn } from "child_process";
+import { exec} from "child_process";
 
 export const startServer = async (PORT:number,test:boolean) => {
     const app = express();
@@ -49,12 +48,13 @@ export const startServer = async (PORT:number,test:boolean) => {
     }
     utils.default.getVilles();
 
-//loadEssenceStationsHistory("2007");
-//loadEssenceStationsHistory("2018");
-//loadEssenceStationsHistory("2019");
-//loadEssenceStationsHistory("2020");
-//loadEssenceStationsHistory("2021");
-//loadEssenceStationsHistory("2022");
+    // pour charger l'historique des données des stations
+    //loadEssenceStationsHistory("2007");
+    //loadEssenceStationsHistory("2018");
+    //loadEssenceStationsHistory("2019");
+    //loadEssenceStationsHistory("2020");
+    //loadEssenceStationsHistory("2021");
+    //loadEssenceStationsHistory("2022");
     //const port = process.env.PORT;
     app.set('port', PORT);
     var serverHttp = app.listen(PORT, () => {

@@ -5,15 +5,11 @@ import * as Utils from "../Utils";
 const GraphPrice = (props) => {
     const [listPrices, setListPrices] = useState([]);
     useEffect(() => {
-        createListStationsPrices()
-    },[]);
-
-    function createListStationsPrices() {
         let request = JSON.stringify({ 'latitude': props.latitude,'longitude': props.longitude})
         Utils.default.sendRequest('POST', '/querys/historyStation', request, (res)=> {
             setListPrices(JSON.parse(res).listPrices)
         });
-    }
+    },[props.latitude, props.longitude]);
 
     function CreateChart() {
        if(listPrices.length>4){

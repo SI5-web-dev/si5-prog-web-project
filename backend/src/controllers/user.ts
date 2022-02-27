@@ -32,8 +32,6 @@ export const signup : RequestHandler = async (req : Request, res : Response, nex
 
         user.save().then(async () => {
             // Vérification avec l'email
-            //let jwtTokenEmailVerify = jwt.sign({ email: req.body.email }, `${process.env.TOKEN_SECRET}`);
-
             res.send({"status" : "200", "message": "Votre compte a bien été créé !" });
             return
         })

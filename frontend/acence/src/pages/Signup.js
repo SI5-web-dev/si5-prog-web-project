@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { ThemeContext } from "../context/ThemeContext";
 import * as utils from "../Utils";
-import { Button, ToggleButton, ToggleButtonGroup, Form, FormControl } from 'react-bootstrap';
+import { Button} from 'react-bootstrap';
 
 const Signup = () => {
     const { theme } = useContext(ThemeContext);
@@ -65,7 +65,7 @@ const Signup = () => {
                 <br />
                 <p className="msg" id="msg"></p>
                 <Button variant="secondary" className="signup" onClick={createAccount}>S'enregistrer</Button>
-                
+
             </div>
         </div>
     );

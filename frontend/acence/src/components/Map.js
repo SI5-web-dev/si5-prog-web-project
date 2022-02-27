@@ -16,21 +16,11 @@ const Map = (props) => {
     const map = useMap();
 
     map.flyTo([props.coordinates[0] , props.coordinates[1] , map.getZoom()]);
+
     return (
       <></>
     )
   }
-
-  /*let defaultIcon = L.icon({
-    iconUrl: require("../assets/gas-station.png"),
-    iconAnchor: [25, 41],
-    popupAnchor: [-12, -35],
-    iconSize: new L.Point(25, 25),
-  });*/
-
-
-
-
 
 function getIcon(prix){
   const markerHtmlStyles = `

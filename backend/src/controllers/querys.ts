@@ -5,7 +5,6 @@ export const askStation : RequestHandler = async (req : Request, res : Response,
     
         let latitiude = parseFloat(req.body.latitude)*100000
         let longitude = parseFloat(req.body.longitude)*100000
-        console.log(latitiude , longitude);
         if(!checkParameter(req.body)){
             res.send({"status" : "401","message" : "Des informations sont manquantes"});
             return
@@ -49,7 +48,6 @@ export const askStation : RequestHandler = async (req : Request, res : Response,
                 }
             });
         }
-        //console.log(list)
     });
     res.send({"status":"200","list":list});
    
@@ -57,8 +55,6 @@ export const askStation : RequestHandler = async (req : Request, res : Response,
 }
 
 function checkParameter(body : any){
-    console.log(typeof parseFloat(body.latitude))
-    
     if(typeof parseFloat(body.latitude) !== "number") return false;
     if(typeof parseFloat(body.longitude) !== "number") return false;
     if(typeof body.Gazole !== "boolean" ) return false;

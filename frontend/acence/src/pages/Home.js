@@ -75,7 +75,7 @@ function Home() {
             let lat = resultat.lat;
 
             setLongLat([lat,long]);
-            
+
             //latitudeClient= lat;
             //longitudeClient=long;
             navigator.geolocation.getCurrentPosition((ta)=>{
@@ -247,7 +247,6 @@ function Home() {
         if(horaires!==undefined){
             for(let i = 0; i<horaires.jour.length;i++){
                 if(horaires.jour[i]["@id"]===day.toString()){
-                    //if(horaires.jour[i]["@ferme"]!=="1"){
                         if(typeof horaires.jour[i]["horaire"] === "object"){
                             let ouverture = horaires.jour[i]["horaire"]["@ouverture"];
                             let fermeture = horaires.jour[i]["horaire"]["@fermeture"];
@@ -261,8 +260,6 @@ function Home() {
                             return true;
                         }
                         return false;
-                    //}
-                    //return false;
                 }
             }
         }

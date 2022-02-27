@@ -24,9 +24,6 @@ function LocationMarker(props) {
         map.locate().on("locationfound", function (e) {
             props.setCurrentPosition(e.latlng);
             map.flyTo(e.latlng, map.getZoom());
-            // const radius = e.accuracy;
-            // const circle = L.circle(e.latlng, radius);
-            // circle.addTo(map);
             setBbox(e.bounds.toBBoxString().split(","));
         });
     }, [map]);

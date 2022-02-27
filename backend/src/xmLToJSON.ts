@@ -6,16 +6,10 @@ function convertXMLToJSON(xmlFile: string) {
 
         pythonProcess.stdout.on('data', (data) => {
             // Do something with the data returned from python script
-            //console.log("bammmmmmmmmmm")
-            //console.log(data.toString());
             let json = data.toString();
             json = json.slice(22);
             json = json.slice(0 , json.length - 2 );
-            //console.log("typee : " + typeof json)
             json = JSON.parse(JSON.stringify(json));
-            //console.log("typooo : "  + typeof json)
-            //fs.createWriteStream("./mido.json").write(json);
-
             resolve(json);
         });
 
@@ -32,13 +26,3 @@ function convertXMLToJSON(xmlFile: string) {
 }
 
 export default convertXMLToJSON;
-
-
-/*let writeStream = fs.createWriteStream(jsonFile);
-            writeStream.write(util.inspect(result, false, null));
-            writeStream.on('finish', function () {
-                console.log('file has been written');
-            });
-            writeStream.on('end', function () {
-                console.log('Enddddddd');
-            });*/

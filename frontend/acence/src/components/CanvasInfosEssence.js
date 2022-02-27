@@ -85,7 +85,6 @@ const CanvasInfosEssence = React.forwardRef((props, ref) => {
                             }
                         </tbody>
                     </table>
-                    {/* <ul> {horaires.map(horaire => <li key={Math.random().toString(36).substring(2, 11)}>{horaire}</li>)} </ul> */}
                 </div>
             </>
         )

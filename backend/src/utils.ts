@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import Stations from './models/station.js';
-import { exec, spawn } from "child_process";
+import { exec } from "child_process";
 class Utils {
     
     static async getVilles() {
@@ -11,8 +11,6 @@ class Utils {
                 listVille.push(station.ville.toString().toLowerCase())
             }
         });
-        //console.log(listVille)
-        // A finir
 
     }
 
