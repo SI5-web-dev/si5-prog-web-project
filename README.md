@@ -47,12 +47,12 @@ cd si5-prog-web-project
      ```
      
   * The application is then accessible at http://localhost:4000
-<br>
+
   * To connect to our application you can create an account or directly use this : 
-     
-     - email : alex.dubois@example.fr
-     - password : AZ534&rzegz34f4gfe
-     
+     ```txt
+      email : alex.dubois@example.fr
+      password : AZ534&rzegz34f4gfe
+     ```
 
 [1] : If the installation does not work, it means that you have not installed [NodeJS](https://nodejs.org/en/download/). Install it before running the above commands again.
 
