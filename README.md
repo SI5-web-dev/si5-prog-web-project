@@ -25,7 +25,7 @@ cd si5-prog-web-project
 
 * Pour la partie __front-end__ <sup>[1]</sup> :
     ```bash
-    cd frontend
+    cd frontend/acence
     npm install
     ```
     Une fois que l'installation est finie, il suffit d'exécuter la commande suivante :
@@ -40,7 +40,7 @@ cd si5-prog-web-project
      ```
      Une fois que l'installation est finie, il suffit d'exécuter la commande suivante :
      ```bash
-     npm start
+     npm run dev
      ```
 <br>
 
