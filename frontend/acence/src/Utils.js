@@ -29,7 +29,7 @@ class Utils {
                 }
             }
             else if (xhr.readyState === 4 && xhr.status !== 200) {
-                alert(JSON.parse(this.response).message);
+                alert("Une erreur est survenue. Veuillez rafraîchir la page");
             }
             document.getElementById("loading").style.visibility = "hidden";
         });

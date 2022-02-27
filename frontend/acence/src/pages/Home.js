@@ -59,9 +59,7 @@ function Home() {
         });
     }
 
-
-    function requestProximity() {
-        setProximity(true);
+    function requestStations(){
         let location = document.getElementById("location").value;
         const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
         const url = `http://nominatim.openstreetmap.org/search?q=${location}&format=json&polygon=1&addressdetails=1&api_key=${apiKey}`;
@@ -97,42 +95,17 @@ function Home() {
 
             Utils.default.sendRequest('POST', '/querys/askStation', request, createSettings)
         });
+    }
 
-
-
+    function requestProximity() {
+        setProximity(true);
+        requestStations();
 
     }
 
     function requestCheapest() {
         setProximity(false);
-        let location = document.getElementById("location").value;
-        const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
-        const url = `http://nominatim.openstreetmap.org/search?q=${location}&format=json&polygon=1&addressdetails=1&api_key=${apiKey}`;
-        axios.get(url).then((res) => {
-            let resultat = JSON.parse(res.request.response)[0]
-            let long = resultat.lon;
-            let lat = resultat.lat;
-            latitudeClient= lat;
-            longitudeClient=long;
-            setLocation(location);
-            let Gazole = false;
-            let SP95E10 = false;
-            let SP98 = false;
-            let SP95 = false;
-            let GPLc = false;
-            let E85 = false;
-
-            if (document.getElementById("Gazole").checked) { Gazole = true; essenceChoosed="Gazole";}
-            else if (document.getElementById("SP95-E10").checked) { SP95E10 = true; essenceChoosed="SP95-E10";}
-            else if (document.getElementById("SP98").checked) { SP98 = true;essenceChoosed="SP98"; }
-            else if (document.getElementById("SP95").checked) { SP95 = true; essenceChoosed="SP95";}
-            else if (document.getElementById("GPLc").checked) { GPLc = true; essenceChoosed="GPLc";}
-            else if (document.getElementById("E85").checked) { E85 = true;essenceChoosed="E85"; }
-            let request = JSON.stringify({ 'latitude': lat,'longitude':long, 'Gazole': Gazole, 'SP95E10': SP95E10, 'SP98': SP98, 'SP95': SP95, 'GPLc': GPLc, 'E85': E85 })
-
-            Utils.default.sendRequest('POST', '/querys/askStation', request, createSettingsCheapest)
-
-        })
+        requestStations();
     }
 
     function getDistance(lat1,lon1,lat2,lon2){
@@ -155,46 +128,6 @@ function Home() {
 
         const d = R * c; // in metres
         return d/1000;
-    }
-
-
-    function createSettingsCheapest(response) {
-        if(JSON.parse(response).status !== "200"){
-            alert(JSON.parse(response).message)
-            return
-        }
-        response = JSON.parse(response).list
-        stationMap = response;
-        createServicesList();
-        //services
-        let services = document.getElementById('services');
-        services.innerHTML = "";
-        document.getElementById('ouverte').onchange = getServicesChecked;
-        for (let i = 0; i < listService.length; i++) {
-            let service = listService[i];
-            let nbOfThis = servicesOcurrence[i];
-            let checkbox = document.createElement('input');
-            let label = document.createElement('label');
-            checkbox.type = "checkbox";
-            checkbox.id = service;
-            checkbox.checked = true;
-            checkbox.name = service;
-            checkbox.onchange = getServicesChecked;
-            label.htmlFor = service;
-            label.innerHTML = '&nbsp;&nbsp;&nbsp;' + service + ' (' + nbOfThis + ')';
-            services.appendChild(checkbox)
-            services.appendChild(label)
-            let br = document.createElement('br');
-            services.appendChild(br)
-        }
-        document.getElementById("checkAll").onclick = checkAll;
-        document.getElementById("unCheckAll").onclick = unCheckAll;
-        getServicesChecked();
-        createListPoint();
-
-        //Displaying the hidden table
-        let header = document.querySelector("#table");
-        header.style.display = "block";
     }
 
     // callback de la requete au serveur
