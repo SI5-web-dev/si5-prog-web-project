@@ -1,7 +1,10 @@
 import gsap from "gsap/all";
 import {Linear} from 'gsap';
+import { useContext} from 'react';
+import {ThemeContext} from "../context/ThemeContext";
 
 function NotFoundPage() {
+    const { theme } = useContext(ThemeContext);
     function animate() {
         let t1 = gsap.timeline();
         let t2 = gsap.timeline();
@@ -41,7 +44,7 @@ function NotFoundPage() {
     window.onload = animate ;
 
     return (
-        <div className="notFoundPage">
+        <div className={`notFoundPage ${theme}`}>
             <div id="container404">
                 <h1 id="first-four">4</h1>
                 <div id="cog-wheel1">
