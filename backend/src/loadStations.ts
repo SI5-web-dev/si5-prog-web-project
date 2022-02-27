@@ -41,21 +41,21 @@ export function loadEssenceStations() {
                             }
                             await fs.promises.unlink(xmlFile);
 
-                            // try{
-                            //     await Station.deleteMany({});
-                            //     console.log("Old documents deleted successfully");
-                            // }
-                            // catch (error){
-                            //     console.log(error);
-                            // }
-                            //
-                            // try {
-                            //     await Station.insertMany(json);
-                            //     console.log("Data inserted");
-                            // }
-                            // catch (error){
-                            //     console.log(error);
-                            // }
+                            /*try{
+                                 await Stations.Station.deleteMany({});
+                                 console.log("Old documents deleted successfully");
+                             }
+                             catch (error){
+                                 console.log(error);
+                             }
+
+                             try {
+                                 await Stations.Station.insertMany(json);
+                                 console.log("Data inserted");
+                             }
+                             catch (error){
+                                 console.log(error);
+                             }*/
                         });
                 });
         });
