@@ -11,6 +11,12 @@ export const ToggleModeNight = () => {
 	const handleChangeMode = (e) => {
 		const themeValue = e.target.checked ? 'dark' : 'light';
 		changeThemeContext(themeValue);
+		let themeDark = localStorage.getItem("token")
+		if(themeDark !== "dark"){
+            document.body.style.backgroundColor = "#282c35"
+        }else{
+            document.body.style.backgroundColor = "white"
+        }
 	};
 	return (
 		<div className="ToggleModeNight">

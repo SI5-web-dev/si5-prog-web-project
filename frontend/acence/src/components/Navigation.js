@@ -1,6 +1,16 @@
 import {Navbar, Nav} from "react-bootstrap";
 import {ToggleModeNight} from "./ToggleModeNight";
 const Navigation = () => {
+    window.onload = () => {
+        let theme = localStorage.getItem("token")
+        console.log(theme)
+        if(theme !== "dark"){
+            document.body.style.backgroundColor = "#282c35"
+        }else{
+            document.body.style.backgroundColor = "white"
+        }
+        
+    }
 
     function UserNav() {
         return <Nav className="me-auto">
