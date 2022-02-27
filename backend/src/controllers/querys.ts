@@ -74,57 +74,82 @@ function checkParameter(body : any){
 export const historyStation : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
         let latitude = parseFloat(req.body.latitude)*100000;
         let longitude = parseFloat(req.body.longitude)*100000;
-        const station : any = await Stations.Station2021.findOne({"@latitude": latitude,
-            "@longitude": longitude
-        }).lean();
-        let data = [];
-        let date = station.prix[0]["@maj"].slice(0,10);
 
-        let indexStartE10 = 0;
+        let listPrice :any = [];
+        let dataFinal :any = [];
 
-
-        for(let i = 0 ; i < station.prix.length ; i ++ ){
-            if(indexStartE10 === 0 && station.prix[i]["@nom"] === 'E10'){
-                indexStartE10 = i;
-            }
-            if(date !== station.prix[i]["@maj"].slice(0,10) && station.prix[i]["@nom"] === 'Gazole'){
-                let prixGazole: {[key: string]: any} = {
-                    "date" : "",
-                    "Gazole" : 0,
+        await loadPricesStation("2021",latitude,longitude, listPrice);
+        await loadPricesStation("2022",latitude,longitude, listPrice);
+                let echantillon = 1;
+                if (listPrice.length > 50) {
+                    echantillon = parseInt(String(listPrice.length / 20));
                 }
-                data.push(prixGazole)
-                date = station.prix[i]["@maj"].slice(0,10);
-                prixGazole.date = station.prix[i]["@maj"].slice(0,10);
-                prixGazole.Gazole = station.prix[i]["@valeur"]/1000;
-            }
-        }
-    for(let i = indexStartE10 ; i < station.prix.length ; i ++ ) {
-        if(station.prix[i]["@nom"] === 'E10'){
-            for(let z = 0 ; z < data.length ; z ++){
-                if(data[z].date === station.prix[i]["@maj"].slice(0,10)){
-                    data[z]["E10"] = station.prix[i]["@valeur"]/1000;
-                }
-            }
-        }
-        else if(station.prix[i]["@nom"] === 'SP98'){
-            for(let p = 0 ; p < data.length ;  p++){
-                if(data[p].date === station.prix[i]["@maj"].slice(0,10)){
-                    data[p]["SP98"] = station.prix[i]["@valeur"]/1000;
-                }
-            }
-        }
-    }
-    let dataFinal = [];
-    let echantillon = 1;
-    if(data.length > 50){
-        echantillon =  parseInt(String(data.length / 20));
-    }
 
-    for(let i = 0 ; i <data.length ; i = i+echantillon){
-        dataFinal.push(data[i]);
-    }
-    res.send({"status":"200", "listPrices" : dataFinal});
+                for (let i = 0; i < listPrice.length; i = i + echantillon) {
+                    dataFinal.push(listPrice[i]);
+                }
+                res.send({"status":"200", "listPrices" : dataFinal});
+
 };
+
+async function loadPricesStation(year: string, latitude: number, longitude: number, listPrice:any) {
+    let stationsModel: any;
+    switch (year) {
+        case "2020":
+            stationsModel = Stations.Station2020;
+            break;
+        case "2021":
+            stationsModel = Stations.Station2021;
+            break;
+        case "2022":
+            stationsModel = Stations.Station2022;
+            break;
+        default:
+            break;
+    }
+    const station: any = await stationsModel.findOne({
+        "@latitude": latitude,
+        "@longitude": longitude
+    }).lean()
+        if (station) {
+            if (station.prix) {
+                let date = station.prix[0]["@maj"].slice(0, 10);
+
+                let indexStartE10 = 0;
+
+
+                for (let i = 0; i < station.prix.length; i++) {
+                    if (indexStartE10 === 0 && station.prix[i]["@nom"] === 'E10') {
+                        indexStartE10 = i;
+                    }
+                    if (date !== station.prix[i]["@maj"].slice(0, 10) && station.prix[i]["@nom"] === 'Gazole') {
+                        let prixGazole: { [key: string]: any } = {
+                            "date": "",
+                            "Gazole": 0,
+                        }
+                        listPrice.push(prixGazole)
+                        date = station.prix[i]["@maj"].slice(0, 10);
+                        prixGazole.date = station.prix[i]["@maj"].slice(0, 10);
+                        prixGazole.Gazole = station.prix[i]["@valeur"] / 1000;
+                    }
+                    if (station.prix[i]["@nom"] === 'E10') {
+                        for (let z = 0; z < listPrice.length; z++) {
+                            if (listPrice[z].date === station.prix[i]["@maj"].slice(0, 10)) {
+                                listPrice[z]["E10"] = station.prix[i]["@valeur"] / 1000;
+                            }
+                        }
+                    } else if (station.prix[i]["@nom"] === 'SP98') {
+                        for (let p = 0; p < listPrice.length; p++) {
+                            if (listPrice[p].date === station.prix[i]["@maj"].slice(0, 10)) {
+                                listPrice[p]["SP98"] = station.prix[i]["@valeur"] / 1000;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return listPrice;
+}
 
 export const cheapest : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
     res.send("ok");

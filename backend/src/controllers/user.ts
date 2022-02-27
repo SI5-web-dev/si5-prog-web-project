@@ -89,7 +89,6 @@ export const addFavorite : RequestHandler = async (req : Request, res : Response
                 const station : any = await Stations.Station.findOne({"@latitude": latitude,
                 "@longitude": longitude }).lean();
                 if(station["@longitude"]==longitude &&station["@latitude"]==latitude){
-                    console.log(station)
                     user.favoriteStations.push(req.body.idStation);
                     await User.updateOne(
                     {

@@ -49,7 +49,7 @@ export const startServer = async (PORT:number,test:boolean) => {
     }
     utils.default.getVilles();
 
-//loadEssenceStationsHistory("2017");
+loadEssenceStationsHistory("2007");
 //loadEssenceStationsHistory("2018");
 //loadEssenceStationsHistory("2019");
 //loadEssenceStationsHistory("2020");

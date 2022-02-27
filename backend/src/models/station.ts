@@ -43,4 +43,5 @@ export default {Station: mongoose.model('Station', stationSchema, "stations"),
     Station2019 : mongoose.model('Station2019', stationHistorySchema, "stations2019"),
     Station2020 : mongoose.model('Station2020', stationHistorySchema, "stations2020"),
     Station2021 : mongoose.model('Station2021', stationHistorySchema, "stations2021"),
+    Station2022 : mongoose.model('Station2022', stationHistorySchema, "stations2022"),
 };
