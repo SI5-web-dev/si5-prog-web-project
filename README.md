@@ -48,7 +48,7 @@ cd si5-prog-web-project
      
   * The application is then accessible at http://localhost:4000
 
-  * To connect to our application you can create an account or directly use this : 
+  * To connect to our application you can create an account or directly use this credentials : 
      ```txt
       email : alex.dubois@example.fr
       password : AZ534&rzegz34f4gfe
