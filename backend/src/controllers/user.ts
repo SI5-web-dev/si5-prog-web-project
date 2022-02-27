@@ -1,6 +1,6 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import User from '../models/user.js';
-import Station from '../models/station.js';
+import Stations from '../models/station.js';
 
 export const signup : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
     try {
@@ -86,10 +86,9 @@ export const addFavorite : RequestHandler = async (req : Request, res : Response
                 geocode = geocode.split(",")
                 let latitude = parseFloat(geocode[0])*100000;
                 let longitude = parseFloat(geocode[1])*100000;
-                const station : any = await Station.findOne({"@latitude": latitude,
+                const station : any = await Stations.Station.findOne({"@latitude": latitude,
                 "@longitude": longitude }).lean();
                 if(station["@longitude"]==longitude &&station["@latitude"]==latitude){
-                    console.log(station)
                     user.favoriteStations.push(req.body.idStation);
                     await User.updateOne(
                     {
@@ -169,13 +168,12 @@ export const getListStationFav : RequestHandler = async (req : Request, res : Re
             let latitude = parseFloat(geocode[0])*100000;
             let longitude = parseFloat(geocode[1])*100000;
             try{
-                const station : any = await Station.findOne({"@latitude": latitude,
+                const station : any = await Stations.Station.findOne({"@latitude": latitude,
                 "@longitude": longitude }).lean();
                 listStations.push(station)
             }catch(err){
                 
             }
-            
         }
         res.send({"status":"200","listStations":listStations});
     }

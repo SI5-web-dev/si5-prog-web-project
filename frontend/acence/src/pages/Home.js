@@ -30,7 +30,7 @@ function Home() {
     const [location,setLocation] = useState("");
 
     function getPostionForInput(){
-        
+
         const apiKey = '5b3ce3597851110001cf62481afd335205604f6f82b586bc039f1b78';
         navigator.geolocation.getCurrentPosition((ta)=>{
             latitudeClient = ta.coords.latitude;
@@ -40,12 +40,12 @@ function Home() {
                 let resultat = JSON.parse(res.request.response).address
                 document.getElementById("location").value = resultat.road +" "+resultat.quarter+" "+resultat.postcode+" "+resultat.city;
             });
-        
+
         });
     }
-    window.onload = function(e){ 
+    window.onload = function(e){
         document.getElementById("location").addEventListener("keydown", function(event) {
-            
+
             if (event.keyCode === 13) {
                 event.preventDefault();
                 requestProximity();
@@ -88,11 +88,11 @@ function Home() {
             else if (document.getElementById("GPLc").checked) { GPLc = true; essenceChoosed="GPLc";}
             else if (document.getElementById("E85").checked) { E85 = true;essenceChoosed="E85"; }
             let request = JSON.stringify({ 'latitude': lat,'longitude':long, 'Gazole': Gazole, 'SP95E10': SP95E10, 'SP98': SP98, 'SP95': SP95, 'GPLc': GPLc, 'E85': E85 })
-            
+
             Utils.default.sendRequest('POST', '/querys/askStation', request, createSettings)
         });
-            
-        
+
+
 
 
     }
@@ -123,7 +123,7 @@ function Home() {
             else if (document.getElementById("GPLc").checked) { GPLc = true; essenceChoosed="GPLc";}
             else if (document.getElementById("E85").checked) { E85 = true;essenceChoosed="E85"; }
             let request = JSON.stringify({ 'latitude': lat,'longitude':long, 'Gazole': Gazole, 'SP95E10': SP95E10, 'SP98': SP98, 'SP95': SP95, 'GPLc': GPLc, 'E85': E85 })
-            
+
             Utils.default.sendRequest('POST', '/querys/askStation', request, createSettingsCheapest)
 
         })
@@ -137,7 +137,7 @@ function Home() {
 
         const R = 6371e3; // metres
         const φ1 = lat1 * Math.PI/180; // φ, λ in radians
-        
+
         const φ2 = lat2 * Math.PI/180;
         const Δφ = (lat2-lat1) * Math.PI/180;
         const Δλ = (lon2-lon1) * Math.PI/180;
@@ -151,7 +151,7 @@ function Home() {
         return d/1000;
     }
 
-    
+
     function createSettingsCheapest(response) {
         if(JSON.parse(response).status !== "200"){
             alert(JSON.parse(response).message)
@@ -258,7 +258,7 @@ function Home() {
                             for(let i =0 ; i<station["prix"].length;i++){
                                 if(station["prix"][i]["@nom"]===essenceChoosed){
                                     prixChosit = station["prix"][i];
-                                    
+
                                     break;
                                 }
                             }
@@ -289,7 +289,7 @@ function Home() {
                             if(parseFloat(prixChosit["@valeur"])<=prixMaximumChoisit){
                                 listPoints.push([latitude, longitude, adresse, ville, codePostal, services, horaires , prix,distance,prixChosit]);
                             }
-                        
+
                     }
                 }
             }
@@ -345,7 +345,7 @@ function Home() {
         listService = [];
         servicesOcurrence = [];
         stationMap.forEach(station => {
-            
+
             for(let i =0 ; i<station["prix"].length;i++){
                 if(station["prix"][i]["@nom"]===essenceChoosed){
                     let prixChosit = station["prix"][i];
@@ -411,7 +411,7 @@ function Home() {
     }
 
     function enableButtons() {
-        
+
         if (document.getElementById("location").value !== "") {
             document.getElementById('buttonProximity').disabled = false;
             document.getElementById('buttonProximity').onclick = requestProximity;
@@ -444,22 +444,22 @@ function Home() {
 
                         <div>
                             <ToggleButtonGroup type="radio" value={value} name="options" onChange={handleChange} defaultValue="Gazole">
-                                <ToggleButton id="Gazole" value="Gazole">
-                                    Gazole 
+                                <ToggleButton id="Gazole" value="Gazole" variant="outline-primary">
+                                    Gazole
                                 </ToggleButton>
-                                <ToggleButton id="SP95-E10" value="SP95-E10">
+                                <ToggleButton id="SP95-E10" value="SP95-E10" variant="outline-primary">
                                     SP95-E10
                                 </ToggleButton>
-                                <ToggleButton id="SP98" value="SP98">
+                                <ToggleButton id="SP98" value="SP98" variant="outline-primary">
                                     SP98
                                 </ToggleButton>
-                                <ToggleButton id="SP95" value="SP95">
+                                <ToggleButton id="SP95" value="SP95" variant="outline-primary">
                                     SP95
                                 </ToggleButton>
-                                <ToggleButton id="GPLc" value="GPLc">
+                                <ToggleButton id="GPLc" value="GPLc" variant="outline-primary">
                                     GPLc
                                 </ToggleButton>
-                                <ToggleButton id="E85" value="E85">
+                                <ToggleButton id="E85" value="E85" variant="outline-primary">
                                     E85
                                 </ToggleButton>
                             </ToggleButtonGroup>
@@ -476,7 +476,7 @@ function Home() {
                 <input type="checkbox" id="ouverte" name="ouverte"  />
                 <label htmlFor="ouverte">&nbsp;&nbsp;&nbsp;Ouverte</label>
                 <br />
-                Prix : 
+                Prix :
                 <br />
                 <span id="minimum"></span><input type="range" id="prix" min="0" max="100" step="0.001" ></input><span id="maximum"></span>
                 <br />

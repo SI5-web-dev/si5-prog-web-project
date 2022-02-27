@@ -22,7 +22,7 @@ const Map = (props) => {
       <></>
     )
   }
-  
+
   /*let defaultIcon = L.icon({
     iconUrl: require("../assets/gas-station.png"),
     iconAnchor: [25, 41],
@@ -56,25 +56,25 @@ function getIcon(prix){
   })
   return defaultIcon
 }
-  
+
 
   function createColorIcon(prix){
      let min = document.getElementById("minimum").innerHTML
      let max = document.getElementById("maximum").innerHTML
       let percentFade  =  (parseFloat(prix)-parseFloat(min))/(parseFloat(max)-parseFloat(min));
-      let rouge ; 
+      let rouge ;
       let bleu ;
       let vert;
       if(percentFade<0.5){
-        rouge = 33 + (166*percentFade) ; 
+        rouge = 33 + (166*percentFade) ;
         bleu = 33;
         vert = 196 ;
       }else{
-        rouge = 196  ; 
+        rouge = 196  ;
         bleu = 33;
         vert = 196 - (166*percentFade);
       }
-        
+
       return "rgb("+rouge+","+vert+","+bleu+");"
   }
 
@@ -124,7 +124,7 @@ function getIcon(prix){
 
           <Popup maxHeight="190">
             {showPrices(station)}
-            <Button onClick={() => displayPath(station)}>Voir le chemin</Button>
+            <Button id="buttonPath" onClick={() => displayPath(station)}>Voir le chemin</Button>
           </Popup>
         </Marker>
       )

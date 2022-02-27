@@ -5,8 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ThemeContext } from '../context/ThemeContext';
 
 import 'react-toggle/style.css';
-import './ToggleModeNight.scss';
-//import "../styles/components/ToggleModeNight.scss";
 
 export const ToggleModeNight = () => {
 	const { theme, changeThemeContext } = useContext(ThemeContext);
@@ -16,6 +14,7 @@ export const ToggleModeNight = () => {
 	};
 	return (
 		<div className="ToggleModeNight">
+			<div>Mode sombre</div>
 			{/*
 				here We have to prevent render Toggle
 				on the first render theme is undefined, so we do not want to

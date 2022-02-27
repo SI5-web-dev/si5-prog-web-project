@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
-import Station from './models/station.js';
+import Stations from './models/station.js';
 import { exec, spawn } from "child_process";
 class Utils {
     
     static async getVilles() {
         let listVille:any[]=[];
-        const stationsVille : any = await Station.find().lean();
+        const stationsVille : any = await Stations.Station.find().lean();
         stationsVille.forEach((station:any) => {
             if(!listVille.includes(station.ville)){
                 listVille.push(station.ville.toString().toLowerCase())

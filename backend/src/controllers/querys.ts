@@ -1,8 +1,5 @@
-import { RequestHandler, Request, Response, NextFunction, json } from "express";
-import mongoose from 'mongoose';
-import Station from '../models/station.js';
-import * as utils from "../utils.js"
-import { exec, spawn } from "child_process";
+import { RequestHandler, Request, Response, NextFunction } from "express";
+import Stations from '../models/station.js';
 
 export const askStation : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
     
@@ -15,7 +12,7 @@ export const askStation : RequestHandler = async (req : Request, res : Response,
         }
         let list : JSON[] = [];
 
-        const stations : any = await Station.find({$and:[
+        const stations : any = await Stations.Station.find({$and:[
                                                     {$and:[
                                                         {'@latitude': {$lt : latitiude +7000}} , 
                                                         {'@latitude': {$gt : latitiude-7000}}
@@ -72,6 +69,86 @@ function checkParameter(body : any){
     if(typeof body.E85 !== "boolean"  ) return false;
     return true;
 
+}
+
+export const historyStation : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {
+        let latitude = parseFloat(req.body.latitude)*100000;
+        let longitude = parseFloat(req.body.longitude)*100000;
+
+        let listPrice :any = [];
+        let dataFinal :any = [];
+
+        await loadPricesStation("2021",latitude,longitude, listPrice);
+        await loadPricesStation("2022",latitude,longitude, listPrice);
+                let echantillon = 1;
+                if (listPrice.length > 50) {
+                    echantillon = parseInt(String(listPrice.length / 20));
+                }
+
+                for (let i = 0; i < listPrice.length; i = i + echantillon) {
+                    dataFinal.push(listPrice[i]);
+                }
+                res.send({"status":"200", "listPrices" : dataFinal});
+
+};
+
+async function loadPricesStation(year: string, latitude: number, longitude: number, listPrice:any) {
+    let stationsModel: any;
+    switch (year) {
+        case "2020":
+            stationsModel = Stations.Station2020;
+            break;
+        case "2021":
+            stationsModel = Stations.Station2021;
+            break;
+        case "2022":
+            stationsModel = Stations.Station2022;
+            break;
+        default:
+            break;
+    }
+    const station: any = await stationsModel.findOne({
+        "@latitude": latitude,
+        "@longitude": longitude
+    }).lean()
+        if (station) {
+            if (station.prix) {
+                let date = station.prix[0]["@maj"].slice(0, 10);
+
+                let indexStartE10 = 0;
+
+
+                for (let i = 0; i < station.prix.length; i++) {
+                    if (indexStartE10 === 0 && station.prix[i]["@nom"] === 'E10') {
+                        indexStartE10 = i;
+                    }
+                    if (date !== station.prix[i]["@maj"].slice(0, 10) && station.prix[i]["@nom"] === 'Gazole') {
+                        let prixGazole: { [key: string]: any } = {
+                            "date": "",
+                            "Gazole": 0,
+                        }
+                        listPrice.push(prixGazole)
+                        date = station.prix[i]["@maj"].slice(0, 10);
+                        prixGazole.date = station.prix[i]["@maj"].slice(0, 10);
+                        prixGazole.Gazole = station.prix[i]["@valeur"] / 1000;
+                    }
+                    if (station.prix[i]["@nom"] === 'E10') {
+                        for (let z = 0; z < listPrice.length; z++) {
+                            if (listPrice[z].date === station.prix[i]["@maj"].slice(0, 10)) {
+                                listPrice[z]["E10"] = station.prix[i]["@valeur"] / 1000;
+                            }
+                        }
+                    } else if (station.prix[i]["@nom"] === 'SP98') {
+                        for (let p = 0; p < listPrice.length; p++) {
+                            if (listPrice[p].date === station.prix[i]["@maj"].slice(0, 10)) {
+                                listPrice[p]["SP98"] = station.prix[i]["@valeur"] / 1000;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return listPrice;
 }
 
 export const cheapest : RequestHandler = async (req : Request, res : Response, next : NextFunction) => {

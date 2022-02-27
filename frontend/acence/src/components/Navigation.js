@@ -34,7 +34,7 @@ const Navigation = () => {
 
 
     return (
-            <Navbar bg="dark" className="navigation" variant="dark" expand="lg">
+            <Navbar bg="secondary" className="navigation" variant="dark" expand="lg">
                     <Navbar.Brand href="/" className="m-1">ACEnce.com</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">

@@ -13,10 +13,11 @@
 
     #table {
         display: none;
+        margin : 5px;
     }
 
     .styled-table thead tr {
-        background-color: #009879;
+        background-color: $secondary;
         color: #ffffff;
         text-align: left;
     }
@@ -79,7 +80,7 @@
     .tableHoraires tbody tr {
             border-bottom: 1px solid #dddddd;
     }
-        
+
     .tableHoraires tbody tr:nth-of-type(even) {
             background-color: #f3f3f3;
     }
