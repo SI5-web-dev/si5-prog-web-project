@@ -44,10 +44,11 @@ export function loadEssenceStations() {
                             for(const theStation of json)
                                 {
                                     try {
+                                        const options = { upsert: true };
                                         await Stations.Station.updateOne({
                                             "@latitude": theStation["@latitude"],
                                             "@longitude": theStation["@longitude"]
-                                        }, theStation).then();
+                                        }, theStation , options).then();
                                     }catch (error){
                                         console.log(error);
                                     }
