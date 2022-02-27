@@ -2,11 +2,6 @@ import React, { useState, useContext } from 'react';
 import { ThemeContext } from "../context/ThemeContext";
 import * as utils from "../Utils";
 import { Button, ToggleButton, ToggleButtonGroup, Form, FormControl } from 'react-bootstrap';
-let pathUrl = window.location
-let hostname = "";
-if (pathUrl.origin === "http://localhost:3000") {
-    hostname = "http://localhost:4000";
-}
 
 const Signup = () => {
     const { theme } = useContext(ThemeContext);
@@ -57,15 +52,15 @@ const Signup = () => {
                 </div>
                 <div className="box1">
                     <div className="phTitle" >Addresse mail</div>
-                    <input className="ph" id="mail" placeholder="example@mail.com"></input>
+                    <input className={`ph ${theme}`} id="mail" placeholder="example@mail.com"></input>
                 </div>
                 <div className="box2">
                     <div className="phTitle">Mot de passe</div>
-                    <input type="password" id="mpd1" className="ph" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"></input>
+                    <input type="password" id="mpd1" className={`ph ${theme}`} placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"></input>
                 </div>
                 <div className="box3">
                     <div className="phTitle">Confirmation mot de passe</div>
-                    <input type="password" id="mpd2" className="ph" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"></input>
+                    <input type="password" id="mpd2" className={`ph ${theme}`} placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"></input>
                 </div>
                 <br />
                 <p className="msg" id="msg"></p>

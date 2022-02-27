@@ -107,9 +107,12 @@
         height: 20.00px;
         left: 7%;
         top: 33.00px;
+        &.dark {
+            color: rgb(255, 255, 255);
+        }
     }
     .ph::placeholder{
-        color: rgb(51, 51, 51);
+        color: rgb(150, 150, 150)
     }
 
     .signup{
@@ -134,9 +137,19 @@
     }
     &.dark {
 		background-color: #282c35;
-		color: #fff;
+		color: rgb(255, 255, 255);
         .ph::placeholder{
-            color: white
+            color: rgb(168, 168, 168)
+        }
+        input, select, textarea{
+            color: #ffffff;
+        }
+        input:-webkit-autofill {
+            -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */
+            -webkit-text-fill-color: rgb(255, 255, 255);
+        }
+        input:-webkit-autofill:focus {
+            -webkit-text-fill-color: rgb(255, 255, 255);
         }
 	}
 }

@@ -21,13 +21,15 @@ class Utils {
 
         xhr.addEventListener('readystatechange', function(e) {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                callback(this.response);
+                console.log(JSON.parse(this.response))
+                if(JSON.parse(this.response).status ==="500"){
+                    alert(JSON.parse(this.response).message)
+                }else{
+                    callback(this.response);
+                }
             }
             else if (xhr.readyState === 4 && xhr.status !== 200) {
-                JSON.parse(this.response);
-            }
-            else if(xhr.readyState === 4 && xhr.status !== 500){
-              alert("erreur");
+                alert(JSON.parse(this.response).message);
             }
             document.getElementById("loading").style.visibility = "hidden";
         });

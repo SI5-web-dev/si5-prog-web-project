@@ -3,11 +3,7 @@ import * as utils from "../Utils";
 import React, { useState , useContext} from 'react';
 import {ThemeContext} from "../context/ThemeContext";
 import { Button, ToggleButton, ToggleButtonGroup, Form, FormControl } from 'react-bootstrap';
-let pathUrl =  window.location
-let hostname = "";
-if(pathUrl.origin === "http://localhost:3000"){
-    hostname =  "http://localhost:4000";
-}
+
 
 const Login = () => {
     const { theme } = useContext(ThemeContext);
@@ -42,11 +38,11 @@ const Login = () => {
             <h2>Connectez-vous à votre compte</h2>
             <div className="box1">
                 <div className="phTitle" >Adresse mail</div>
-                <input className="ph" id="mail" placeholder="example@mail.com"></input>
+                <input className={`ph ${theme}`} id="mail" placeholder="example@mail.com"></input>
             </div>
             <div className="box2">
                 <div className="phTitle">Mot de passe</div>
-                <input type="password" id="mdp" className="ph" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"></input>
+                <input type="password" id="mdp" className={`ph ${theme}`} placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"></input>
             </div>
             <Button variant="secondary" className="signin"  onClick={login}>Se connecter</Button>
         
