@@ -428,14 +428,14 @@ function Home() {
                             <FormControl
                                 type="search"
                                 placeholder="Dans quelle ville voulez-vous trouver votre station essence?"
-                                className="me-2"
+                                className=""
                                 aria-label="Search"
                                 id="location"
                             /><img className="target" alt="" src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-target-interface-kiranshastry-lineal-kiranshastry.png" onClick={getPostionForInput}/>
 
                         </Form>
 
-                        <div>
+                        <div className="BoutonsRadios">
                             <ToggleButtonGroup type="radio" value={value} name="options" onChange={handleChange} defaultValue="Gazole">
                                 <ToggleButton id="Gazole" value="Gazole" variant="outline-primary">
                                     Gazole
