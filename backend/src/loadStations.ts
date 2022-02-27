@@ -41,21 +41,34 @@ export function loadEssenceStations() {
                             }
                             await fs.promises.unlink(xmlFile);
 
+                            for(const theStation of json)
+                                {
+                                    try {
+                                        await Stations.Station.updateOne({
+                                            "@latitude": theStation["@latitude"],
+                                            "@longitude": theStation["@longitude"]
+                                        }, theStation).then();
+                                    }catch (error){
+                                        console.log(error);
+                                    }
+                            }
+                            console.log("data updated")
                             /*try{
-                                 await Stations.Station.deleteMany({});
-                                 console.log("Old documents deleted successfully");
-                             }
-                             catch (error){
-                                 console.log(error);
-                             }
+                                await Stations.Station.deleteMany({});
+                                console.log("Old documents deleted successfully");
+                            }
+                            catch (error){
+                                console.log(error);
+                            }
 
-                             try {
-                                 await Stations.Station.insertMany(json);
-                                 console.log("Data inserted");
-                             }
-                             catch (error){
-                                 console.log(error);
-                             }*/
+                            try {
+                                await Stations.Station.insertMany(json);
+                                console.log("Data inserted");
+                            }
+                            catch (error){
+                                console.log(error);
+                            }*/
+
                         });
                 });
         });
