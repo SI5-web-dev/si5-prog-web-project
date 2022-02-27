@@ -11,11 +11,10 @@ export const ToggleModeNight = () => {
 	const handleChangeMode = (e) => {
 		const themeValue = e.target.checked ? 'dark' : 'light';
 		changeThemeContext(themeValue);
-		let themeDark = localStorage.getItem("token")
-		if(themeDark !== "dark"){
+		if(themeValue === "dark"){
             document.body.style.backgroundColor = "#282c35"
         }else{
-            document.body.style.backgroundColor = "white"
+            document.body.style.backgroundColor = "#fff"
         }
 	};
 	return (
