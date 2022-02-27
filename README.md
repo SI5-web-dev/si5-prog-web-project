@@ -11,8 +11,8 @@ Vous pouvez accèder à notre application ici : https://acence.herokuapp.com/
 -----------------
 
 ### Les différents répertoires
-* La partie __front-end__ : [_front-end_](https://github.com/SI5-web-dev/si5-prog-web-project/tree/main/backend)
-* La partie __back-end__ : [_back-end_](https://github.com/SI5-web-dev/si5-prog-web-project/tree/main/frontend/acence)
+* La partie __front-end__ : [_front-end_](https://github.com/SI5-web-dev/si5-prog-web-project/tree/main/frontend/acence)
+* La partie __back-end__ : [_back-end_](https://github.com/SI5-web-dev/si5-prog-web-project/tree/main/backend)
 
 -----------------
 
