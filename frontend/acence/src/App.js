@@ -32,7 +32,9 @@ function App() {
   }, [storageMode]);
 
   return (
+    
     <ThemeContext.Provider value={{ theme, changeThemeContext }}>
+      <div className={`app ${theme}`}></div>
       <Router>
         <Navigation />
         {/* A <Switch> looks through its children <Route>s and
