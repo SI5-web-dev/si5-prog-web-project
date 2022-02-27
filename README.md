@@ -28,21 +28,27 @@ cd si5-prog-web-project
     cd frontend/acence
     npm install
     ```
-    Une fois que l'installation est finie, il suffit d'exécuter la commande suivante :
+    Une fois que l'installation est finie, il suffit d'exécuter la commande suivante pour build le client:
     ```bash
-    npm start
+    npm run build
     ```
-  
+    Enfin on revient à la racine du projet :
+    ```
+    cd ../..
+    ```
  * Pour la partie __back-end__ <sup>[1]</sup> :
      ```bash
      cd backend
      npm install
      ```
-     Une fois que l'installation est finie, il suffit d'exécuter la commande suivante :
+     Une fois que l'installation est finie, il suffit d'exécuter la commande suivante pour build et lancer le serveur:
      ```bash
      npm run dev
      ```
+     
+  * L'application est ensuite accessible depuis http://localhost:4000
 <br>
+
 
 [1] : Si l'installation ne fonctionne pas, c'est que vous n'avez pas installé [NodeJS](https://nodejs.org/en/download/). Installez-le avant d'exécuter à nouveau les commandes précédentes.
 
